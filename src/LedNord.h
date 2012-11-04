@@ -13,6 +13,8 @@ class LedNord
 public:
     int index;
     ofPoint pos;
+    ofVec3f vec3;
+    ofColor color;
     LedNord(int _index, ofPoint _pos)
     {
         index = _index;

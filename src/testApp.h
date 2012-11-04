@@ -2,6 +2,14 @@
 
 #include "ofMain.h"
 #include "Location.h"
+#include "ofxStateMachine.h"
+#include "SharedData.h"
+#include "BaseState.h"
+#include "ParseState.h"
+#include "TextureDevState.h"
+#include "SingleColorWave.h"
+#include "MultiColorWave.h"
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -9,6 +17,7 @@ class testApp : public ofBaseApp{
 		void update();
 		void draw();
 
+        void eventListener( FarmEventData& data);
 		void keyPressed  (int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -19,5 +28,9 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    Location location;
+        itg::ofxStateMachine<SharedData> stateMachine;
+        SharedData *sharedData;
+    
+    ofFbo fbo;
+    ofImage img;
 };
