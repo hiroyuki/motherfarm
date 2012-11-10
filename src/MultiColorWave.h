@@ -78,6 +78,7 @@ public:
         
         ofPushMatrix();
         ofTranslate(longestLen/2, longestLen/2);
+        cout << sharedData->angle << endl;
         ofRotate(sharedData->angle, 0, 0, 1);
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         for( int j = 0; j < waves.size(); j++)

@@ -10,8 +10,12 @@ void testApp::setup(){
     stateMachine.addState(new TextureDevState());
     stateMachine.addState(new SingleColorWave());
     stateMachine.addState(new MultiColorWave());
+    stateMachine.addState(new CircleColorState());
+    stateMachine.addState(new CircleToCenterState());
+    stateMachine.addState(new CircleToOutState());
+    stateMachine.addState(new ScaleCircleState());
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    stateMachine.getSharedData().changeState("TextureDevState");
+    stateMachine.getSharedData().changeState("ScaleCircleState");
     
     map<string, shared_ptr< itg::ofxState<SharedData> > > states = stateMachine.getStates();
     map<string, shared_ptr< itg::ofxState<SharedData> > >::iterator itr = states.begin();

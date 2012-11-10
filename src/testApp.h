@@ -9,6 +9,10 @@
 #include "TextureDevState.h"
 #include "SingleColorWave.h"
 #include "MultiColorWave.h"
+#include "CircleColorState.h"
+#include "CircleToCenterState.h"
+#include "CircleToOutState.h"
+#include "ScaleCircleState.h"
 
 class testApp : public ofBaseApp{
 
@@ -30,7 +34,6 @@ class testApp : public ofBaseApp{
     
         itg::ofxStateMachine<SharedData> stateMachine;
         SharedData *sharedData;
-    
-    ofFbo fbo;
+
     ofImage img;
 };

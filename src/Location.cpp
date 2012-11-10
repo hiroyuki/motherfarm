@@ -25,7 +25,7 @@ void Location::setup(ofTexture * colorTex, ofPixels * pix)
     light.setAmbientColor(ofFloatColor(0.2,0.2,0.2));
 //    light.setDiffuseColor(ofFloatColor(0.1, 0.1, 0.1));
     light.setPosition(0, 0, 0);
-    cam.setCursorDraw(true);
+//    cam.setCursorDraw(true);
     cam.setFarClip(100);
     cam.setNearClip(0);
     placeLedOnWorld();
