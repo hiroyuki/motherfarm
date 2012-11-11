@@ -14,6 +14,7 @@ void testApp::setup(){
     stateMachine.addState(new CircleToCenterState());
     stateMachine.addState(new CircleToOutState());
     stateMachine.addState(new ScaleCircleState());
+    stateMachine.addState(new VineLineBranchingState());
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
     stateMachine.getSharedData().changeState("ScaleCircleState");
     

@@ -13,6 +13,7 @@
 #include "CircleToCenterState.h"
 #include "CircleToOutState.h"
 #include "ScaleCircleState.h"
+#include "VineLineBranchingState.h"
 
 class testApp : public ofBaseApp{
 
