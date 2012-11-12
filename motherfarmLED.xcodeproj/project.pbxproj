@@ -306,6 +306,9 @@
 		E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		E7E077E715D3B6510020DFD4 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		E99A504D16505D2800C0B289 /* GalaxyOfStarState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalaxyOfStarState.h; sourceTree = "<group>"; };
+		E99A508816507F8300C0B289 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
+		E99A508916507F8300C0B289 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		E9B8E6DE164F79790058AC69 /* VineLineBranchingState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VineLineBranchingState.h; sourceTree = "<group>"; };
 		a0399084868e7cafb7e3d8e975d55095 /* retina.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = retina.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp; sourceTree = SOURCE_ROOT; };
 		a15e0125b8c9b7f01ded56958ff73de8 /* matrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matrix.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/matrix.h; sourceTree = SOURCE_ROOT; };
@@ -793,6 +796,7 @@
 				64F2CCDA1647570C00D69DA3 /* CircleToOutState.h */,
 				64FF5AC8164758660016F17D /* ScaleCircleState.h */,
 				E9B8E6DE164F79790058AC69 /* VineLineBranchingState.h */,
+				E99A504D16505D2800C0B289 /* GalaxyOfStarState.h */,
 			);
 			name = state;
 			sourceTree = "<group>";
@@ -938,6 +942,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				E99A508716507F8300C0B289 /* ofxTweenLite */,
 				64413BD8164E15A1007B5B28 /* ofxGrabCam */,
 				64413BF6164E15A1007B5B28 /* ofxStateMachine */,
 				64413C0C164E15A1007B5B28 /* ofxSVGTiny */,
@@ -1031,6 +1036,16 @@
 				E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */,
 			);
 			name = openFrameworks;
+			sourceTree = "<group>";
+		};
+		E99A508716507F8300C0B289 /* ofxTweenLite */ = {
+			isa = PBXGroup;
+			children = (
+				E99A508816507F8300C0B289 /* ofxTweenLite.h */,
+				E99A508916507F8300C0B289 /* README */,
+			);
+			name = ofxTweenLite;
+			path = ../../../addons/ofxTweenLite;
 			sourceTree = "<group>";
 		};
 		a0b90d3b0adb9c1716816714bf7f212b /* ofxOpenCv */ = {

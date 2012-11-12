@@ -14,6 +14,7 @@
 #include "CircleToOutState.h"
 #include "ScaleCircleState.h"
 #include "VineLineBranchingState.h"
+#include "GalaxyOfStarState.h"
 
 class testApp : public ofBaseApp{
 
