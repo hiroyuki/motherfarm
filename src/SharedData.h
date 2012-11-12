@@ -8,10 +8,15 @@
 
 #ifndef motherfarmLED_SharedData_h
 #define motherfarmLED_SharedData_h
+
 #include "Location.h"
+#ifdef RISE
+#define SVG_WIDTH 590
+#define SVG_HEIGHT 580
+#else
 #define SVG_WIDTH 790
 #define SVG_HEIGHT 450
-
+#endif
 class FarmEventData
 {
 public:
@@ -30,7 +35,7 @@ public:
 class SharedData
 {
 public:
-    
+
     Location location;
     ofxOscReceiver recv;
     ofxOscSender sender;

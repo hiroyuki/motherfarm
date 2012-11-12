@@ -17,8 +17,10 @@ void Location::setup(ofTexture * colorTex, ofPixels * pix)
 {
     colorTexture = colorTex;
     colorPix = pix;
-    loadSVG("dmx_line.svg");
+    loadSVG("1109_rise.svg");
+#ifndef RISE
     mapHeight.setup("4_3.dae");
+#endif
 //    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     glEnable(GL_DEPTH_TEST);
     light.enable();
@@ -155,21 +157,26 @@ LocationLine* Location::getLine(int group, int lineIdInGroup, int dmxIndex)
 void Location::loadSVG(string filename)
 {
     svg.load(filename);
+    int totalNum = 0;
     for (int i = 0; i < svg.getNumPath(); i++)
     {
         ofPath &p = svg.getPathAt(i);
         
         vector<ofPolyline>& _lines = p.getOutline();
         {
+#ifdef RISE
+            RiseLocationLine line;
+#else
             LocationLine line;
+#endif
             vector<ofPoint>& points = _lines[0].getVertices();
             ofColor color = p.getStrokeColor();
             line.color = color;
             switch (i) {
                 default:
                     //createLine
-                    int red = color.r;
-                    int group = 9 - (255 - red)/20;
+                    
+                    int group = color.r;
                     for( int i = 0; i < points.size(); i++)
                     {
                         line.addNord(points[i]);
@@ -180,6 +187,7 @@ void Location::loadSVG(string filename)
                     lines.push_back(line);
                     break;
             }
+            totalNum += points.size();
         }
     }
     std::sort(lines.begin(), lines.end());

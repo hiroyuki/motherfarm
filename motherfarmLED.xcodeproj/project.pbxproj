@@ -194,6 +194,8 @@
 		6452E1D61638F32A008B86E4 /* ofxAssimpMeshHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpMeshHelper.h; sourceTree = "<group>"; };
 		6452E1D71638F32A008B86E4 /* ofxAssimpModelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAssimpModelLoader.cpp; sourceTree = "<group>"; };
 		6452E1D81638F32A008B86E4 /* ofxAssimpModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpModelLoader.h; sourceTree = "<group>"; };
+		64C7B1E2165116BD00D07ED1 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
+		64C7B1E3165116BD00D07ED1 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		64E40C691636707000FD0763 /* Location.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Location.cpp; sourceTree = "<group>"; };
 		64E40C6D1636718B00FD0763 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 		64E40C731636718B00FD0763 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		64E40CBC1636852B00FD0763 /* LocationLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationLine.h; sourceTree = "<group>"; };
 		64E40CBD163685DC00FD0763 /* LedNord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LedNord.h; sourceTree = "<group>"; };
+		64EF54B316512FF9001D9249 /* RiseLocationLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RiseLocationLine.h; sourceTree = "<group>"; };
 		64F2CCD216472EC000D69DA3 /* SingleColorWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleColorWave.h; sourceTree = "<group>"; };
 		64F2CCD316472F8900D69DA3 /* WaveSeed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WaveSeed.h; sourceTree = "<group>"; };
 		64F2CCD41647343E00D69DA3 /* MultiColorWave.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiColorWave.h; sourceTree = "<group>"; };
@@ -728,6 +731,16 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		64C7B1E1165116BD00D07ED1 /* ofxTweenLite */ = {
+			isa = PBXGroup;
+			children = (
+				64C7B1E2165116BD00D07ED1 /* ofxTweenLite.h */,
+				64C7B1E3165116BD00D07ED1 /* README */,
+			);
+			name = ofxTweenLite;
+			path = ../../../addons/ofxTweenLite;
+			sourceTree = "<group>";
+		};
 		64E40C671636702300FD0763 /* MODEL */ = {
 			isa = PBXGroup;
 			children = (
@@ -737,6 +750,7 @@
 				64E40CBD163685DC00FD0763 /* LedNord.h */,
 				6452E1A41638F133008B86E4 /* LocationHeight.h */,
 				6452E1A51638F1B7008B86E4 /* LocationHeight.cpp */,
+				64EF54B316512FF9001D9249 /* RiseLocationLine.h */,
 			);
 			name = MODEL;
 			sourceTree = "<group>";
@@ -942,6 +956,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				64C7B1E1165116BD00D07ED1 /* ofxTweenLite */,
 				E99A508716507F8300C0B289 /* ofxTweenLite */,
 				64413BD8164E15A1007B5B28 /* ofxGrabCam */,
 				64413BF6164E15A1007B5B28 /* ofxStateMachine */,

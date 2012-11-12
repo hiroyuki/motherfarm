@@ -24,13 +24,13 @@ public:
     float offsetScale;
     ofColor color;
     
-    void addNord(ofPoint p)
+    virtual void addNord(ofPoint p)
     {
         if ( isAddible(p))
             nords.push_back(LedNord(nords.size()+1, p));
     }
     
-    void debugDraw()
+    virtual void debugDraw()
     {
         for ( int i = 0; i < nords.size(); i++ )
         {
@@ -51,7 +51,7 @@ public:
         }
     }
     
-    void draw2D()
+    virtual void draw2D()
     {
         for ( int i = 0; i < nords.size(); i++ )
         {
@@ -63,19 +63,22 @@ public:
         }
     }
     
-    void updateColor( ofPixels * pix, ofPoint texOffset, int width, int height)
+    virtual void updateColor( ofPixels * pix, ofPoint texOffset, int width, int height)
     {
         for ( int i = 0; i < nords.size(); i++ )
         {
             int pointx = nords[ i ].pos.x + texOffset.x;
             int pointy = nords[ i ].pos.y + texOffset.y;
-            nords[ i ].color.r = pix->getPixels()[ ( pointy * width + pointx ) * 4];
-            nords[ i ].color.g = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
-            nords[ i ].color.b = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
+            if ( pointy * width + pointx < pix->getWidth() * pix->getHeight() )
+            {
+                nords[ i ].color.r = pix->getPixels()[ ( pointy * width + pointx ) * 4];
+                nords[ i ].color.g = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
+                nords[ i ].color.b = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
+            }
         }
     }
     
-    void checkPos(ofxGrabCam &cam)
+    virtual void checkPos(ofxGrabCam &cam)
     {
         for ( int i = 0; i < nords.size(); i++ )
         {
@@ -84,7 +87,7 @@ public:
         }
     }
     
-    bool isAddible(ofPoint p)
+    virtual bool isAddible(ofPoint p)
     {
         bool result = true;
         for ( int i = 0; i < nords.size() && result; i++ )
@@ -97,7 +100,7 @@ public:
         return result;
     }
     
-    int getNordsNum()
+    virtual int getNordsNum()
     {
         return nords.size();
     }

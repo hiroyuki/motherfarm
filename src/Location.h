@@ -9,14 +9,22 @@
 #ifndef motherfarmLED_Location_h
 #define motherfarmLED_Location_h
 #include "ofxSVGTiny.h"
+#define RISE
+#ifdef RISE
+#include "RiseLocationLine.h"
+#else
 #include "LocationLine.h"
+#endif
 #include "ofxGrabCam.h"
 #include "LocationHeight.h"
 #include "ofxOsc.h"
-
+#ifdef RISE
+#define TEX_OFFSET_X 0
+#define TEX_OFFSET_Y 0
+#else
 #define TEX_OFFSET_X -200
 #define TEX_OFFSET_Y -196
-
+#endif
 class Location
 {
 public:
@@ -40,7 +48,11 @@ public:
 //    void exportLocation();
     ofFbo depthBufferFbo;
     LocationLine* getLine(int group, int nordIdInGroup, int dmxIndex);
+#ifdef RISE
+    vector<RiseLocationLine> lines;
+#else
     vector<LocationLine> lines;
+#endif
     ofxSVGTiny svg;
     LocationHeight mapHeight;
     ofLight light;
