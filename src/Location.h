@@ -9,7 +9,7 @@
 #ifndef motherfarmLED_Location_h
 #define motherfarmLED_Location_h
 #include "ofxSVGTiny.h"
-#define RISE
+//#define RISE
 #ifdef RISE
 #include "RiseLocationLine.h"
 #else
@@ -18,11 +18,14 @@
 #include "ofxGrabCam.h"
 #include "LocationHeight.h"
 #include "ofxOsc.h"
+#include "Enttec.h"
+#include "ofxArtnet.h"
+
 #ifdef RISE
 #define TEX_OFFSET_X 0
 #define TEX_OFFSET_Y 0
 #else
-#define TEX_OFFSET_X -200
+#define TEX_OFFSET_X -193
 #define TEX_OFFSET_Y -196
 #endif
 class Location
@@ -30,6 +33,7 @@ class Location
 public:
     void setup(ofPixels * pix);
     void update();
+    void sendDmx(int enttecNo);
     void debugDraw();
     void drawLed();
     void exportXML();
@@ -57,6 +61,8 @@ public:
     LocationHeight mapHeight;
     ofLight light;
     ofxGrabCam cam;
+    vector<Enttec> dmxs;
+    ofxArtnet artnet;
 };
 
 

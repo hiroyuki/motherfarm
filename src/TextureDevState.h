@@ -44,46 +44,26 @@ public:
     void update()
     {
         BaseState::update();
-        for( int i = 0; i < circles.size(); i++)
-        {
-            circles[ i ].update();
-            if ( circles[ i ].status == STATUS_HIDE)
-            {
-                circles[ i ].init(SVG_WIDTH, SVG_HEIGHT);
-                if ( circles.size() < MAX_CIRCLE )
-                {
-                    circles.push_back(CircleStar());
-                    circles[ circles.size() - 1].init(SVG_WIDTH, SVG_HEIGHT);
-                }
-            }
-        }
         ofDisableLighting();
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
         
         fbo.begin();
-        if( doClear ) ofClear(0);
-        doClear = false;
-        ofSetColor(240, 240, 240, 240);
-        fbo.draw(0, 0);
-        ofSetColor(255, 255, 255);
-        //        glLineWidth(3);
-        glPointSize(2);
-        
-        ofPushMatrix();
-        ofTranslate(longestLen/2, longestLen/2);
-        ofRotate(sharedData->angle, 0, 0, 1);
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-        for( int j = 0; j < circles.size(); j++)
-        {
-            circles[j].draw(longestLen/2, longestLen/2);
-        }
-        ofPopMatrix();
-        ofDisableBlendMode();
-
+        ofClear(0);
+        int red = (sin( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
+        int green = (cos( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
+        int blue = (sin( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
+//        cout << "_ " << red << " " << green << " " << blue << endl;
+        ofSetColor(0, 0, 255);
+        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
         fbo.end();
         fbo.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        if ( sharedData->mode == TEST_ENTTEC)
+        {
+            Enttec *g = sharedData->getEnttec(sharedData->testEnttec);
+            g->setAllData(0xffffff);
+        }
     }
     
     void draw()

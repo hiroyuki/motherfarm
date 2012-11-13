@@ -27,6 +27,13 @@
 		6452E1D91638F32A008B86E4 /* assimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6452E1D31638F32A008B86E4 /* assimp.a */; };
 		6452E1DA1638F32B008B86E4 /* ofxAssimpModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6452E1D71638F32A008B86E4 /* ofxAssimpModelLoader.cpp */; };
 		64BE8ED61652018C00DE3674 /* ofxFadableBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8ECF1652018C00DE3674 /* ofxFadableBase.cpp */; };
+		64BE8F05165231D400DE3674 /* artnet.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EEE165231D400DE3674 /* artnet.c */; };
+		64BE8F06165231D400DE3674 /* misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EF1165231D400DE3674 /* misc.c */; };
+		64BE8F07165231D400DE3674 /* network.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EF3165231D400DE3674 /* network.c */; };
+		64BE8F08165231D400DE3674 /* receive.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EF6165231D400DE3674 /* receive.c */; };
+		64BE8F09165231D400DE3674 /* tod.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EF7165231D400DE3674 /* tod.c */; };
+		64BE8F0A165231D400DE3674 /* transmit.c in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EF9165231D400DE3674 /* transmit.c */; };
+		64BE8F0B165231D400DE3674 /* ofxArtnet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8EFC165231D400DE3674 /* ofxArtnet.cpp */; };
 		64E40C6A1636707000FD0763 /* Location.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C691636707000FD0763 /* Location.cpp */; };
 		64E40C741636718B00FD0763 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6D1636718B00FD0763 /* tinyxml.cpp */; };
 		64E40C751636718B00FD0763 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6F1636718B00FD0763 /* tinyxmlerror.cpp */; };
@@ -203,6 +210,21 @@
 		64BE8ED31652018C00DE3674 /* ofxFadableImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableImg.h; sourceTree = "<group>"; };
 		64BE8ED41652018C00DE3674 /* ofxFadableRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableRect.h; sourceTree = "<group>"; };
 		64BE8ED51652018C00DE3674 /* ofxFadableVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableVideo.h; sourceTree = "<group>"; };
+		64BE8EDC16522C3900DE3674 /* Enttec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enttec.h; sourceTree = "<group>"; };
+		64BE8EEE165231D400DE3674 /* artnet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = artnet.c; sourceTree = "<group>"; };
+		64BE8EEF165231D400DE3674 /* artnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = artnet.h; sourceTree = "<group>"; };
+		64BE8EF0165231D400DE3674 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		64BE8EF1165231D400DE3674 /* misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = misc.c; sourceTree = "<group>"; };
+		64BE8EF2165231D400DE3674 /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
+		64BE8EF3165231D400DE3674 /* network.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = network.c; sourceTree = "<group>"; };
+		64BE8EF4165231D400DE3674 /* packets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = packets.h; sourceTree = "<group>"; };
+		64BE8EF5165231D400DE3674 /* private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = private.h; sourceTree = "<group>"; };
+		64BE8EF6165231D400DE3674 /* receive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = receive.c; sourceTree = "<group>"; };
+		64BE8EF7165231D400DE3674 /* tod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tod.c; sourceTree = "<group>"; };
+		64BE8EF8165231D400DE3674 /* tod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tod.h; sourceTree = "<group>"; };
+		64BE8EF9165231D400DE3674 /* transmit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transmit.c; sourceTree = "<group>"; };
+		64BE8EFC165231D400DE3674 /* ofxArtnet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxArtnet.cpp; sourceTree = "<group>"; };
+		64BE8EFD165231D400DE3674 /* ofxArtnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxArtnet.h; sourceTree = "<group>"; };
 		64C7B1E2165116BD00D07ED1 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
 		64C7B1E3165116BD00D07ED1 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -764,6 +786,52 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		64BE8EDD165231D400DE3674 /* ofxArtnet */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8EEC165231D400DE3674 /* libs */,
+				64BE8EFB165231D400DE3674 /* src */,
+			);
+			name = ofxArtnet;
+			path = addons/ofxArtnet;
+			sourceTree = "<group>";
+		};
+		64BE8EEC165231D400DE3674 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8EED165231D400DE3674 /* artnet */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		64BE8EED165231D400DE3674 /* artnet */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8EEE165231D400DE3674 /* artnet.c */,
+				64BE8EEF165231D400DE3674 /* artnet.h */,
+				64BE8EF0165231D400DE3674 /* common.h */,
+				64BE8EF1165231D400DE3674 /* misc.c */,
+				64BE8EF2165231D400DE3674 /* misc.h */,
+				64BE8EF3165231D400DE3674 /* network.c */,
+				64BE8EF4165231D400DE3674 /* packets.h */,
+				64BE8EF5165231D400DE3674 /* private.h */,
+				64BE8EF6165231D400DE3674 /* receive.c */,
+				64BE8EF7165231D400DE3674 /* tod.c */,
+				64BE8EF8165231D400DE3674 /* tod.h */,
+				64BE8EF9165231D400DE3674 /* transmit.c */,
+			);
+			path = artnet;
+			sourceTree = "<group>";
+		};
+		64BE8EFB165231D400DE3674 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8EFC165231D400DE3674 /* ofxArtnet.cpp */,
+				64BE8EFD165231D400DE3674 /* ofxArtnet.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		64C7B1E1165116BD00D07ED1 /* ofxTweenLite */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +852,7 @@
 				6452E1A41638F133008B86E4 /* LocationHeight.h */,
 				6452E1A51638F1B7008B86E4 /* LocationHeight.cpp */,
 				64EF54B316512FF9001D9249 /* RiseLocationLine.h */,
+				64BE8EDC16522C3900DE3674 /* Enttec.h */,
 			);
 			name = MODEL;
 			sourceTree = "<group>";
@@ -989,6 +1058,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				64BE8EDD165231D400DE3674 /* ofxArtnet */,
 				64BE8ECC1652018C00DE3674 /* ofxFadable */,
 				64C7B1E1165116BD00D07ED1 /* ofxTweenLite */,
 				E99A508716507F8300C0B289 /* ofxTweenLite */,
@@ -1373,6 +1443,13 @@
 				64413C53164E15A1007B5B28 /* svgtiny_list.cpp in Sources */,
 				64413C54164E15A1007B5B28 /* ofxSVGTiny.cpp in Sources */,
 				64BE8ED61652018C00DE3674 /* ofxFadableBase.cpp in Sources */,
+				64BE8F05165231D400DE3674 /* artnet.c in Sources */,
+				64BE8F06165231D400DE3674 /* misc.c in Sources */,
+				64BE8F07165231D400DE3674 /* network.c in Sources */,
+				64BE8F08165231D400DE3674 /* receive.c in Sources */,
+				64BE8F09165231D400DE3674 /* tod.c in Sources */,
+				64BE8F0A165231D400DE3674 /* transmit.c in Sources */,
+				64BE8F0B165231D400DE3674 /* ofxArtnet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

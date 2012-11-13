@@ -40,13 +40,7 @@ void Location::setup(ofPixels * pix)
     cam.setFarClip(1000);
     cam.setNearClip(0);
     glDisable(GL_DEPTH_TEST);
-}
-void Location::update()
-{
-    for( int i = 0; i < lines.size(); i++)
-    {
-        lines[ i ].updateColor(colorPix, ofPoint(TEX_OFFSET_X, TEX_OFFSET_Y), SVG_WIDTH, SVG_HEIGHT);
-    }
+//    artnet.setup("192.168.11.100");
 }
 
 void Location::setCameraPos( float x, float y, float z)
@@ -131,7 +125,16 @@ void Location::draw2dLine()
     ofTranslate(TEX_OFFSET_X, TEX_OFFSET_Y);
     for( int i = 0; i < lines.size(); i++)
     {
-        lines[ i ].draw2D();
+        if ( lines[i].group == 19)
+        {
+            ofSetHexColor(0xff0000);
+            lines[ i ].draw2D();
+        }
+        else
+        {
+            ofSetHexColor(0xffffff);
+//            lines[ i ].draw2D();
+        }
     }
     ofPopMatrix();
 }
@@ -158,6 +161,47 @@ LocationLine* Location::getLine(int group, int lineIdInGroup, int dmxIndex)
     return line;
 }
 
+void Location::update()
+{
+    for( int i = 0; i < lines.size(); i++)
+    {
+        lines[ i ].updateColor(colorPix, ofPoint(TEX_OFFSET_X, TEX_OFFSET_Y), SVG_WIDTH, SVG_HEIGHT);
+    }
+}
+
+void Location::sendDmx(int showNo)
+{
+    for( int i = 0; i < dmxs.size(); i++)
+    {
+        {
+            if ( dmxs[i].totalDataSize > 510)
+            {
+                cout << "error" << dmxs[i].totalDataSize << " " << dmxs[i].no << endl;
+            }
+            else
+            {
+                dmxs[i].copyData();
+                if ( dmxs[i].no == showNo)
+                {
+                    Enttec enttec = dmxs[i];
+                    int num = enttec.totalDataSize;
+                    cout << num << endl;
+                    for( int i = 0; i < num; i++)
+                    {
+                        unsigned char * datas = (unsigned char *)enttec.getData();
+                        cout << (int)datas[i] << " ";
+                        if ( (i+1) % 150 == 0) cout << endl;
+                    }
+                    cout << endl;
+                }
+                if ( dmxs[ i ].no != -1){
+//                    artnet.sendDmx(dmxs[i].getIpAddress(), dmxs[ i ].getData(), dmxs[i].totalDataSize);
+                }
+            }
+        }
+    }
+}
+
 void Location::loadSVG(string filename)
 {
     svg.load(filename);
@@ -176,8 +220,8 @@ void Location::loadSVG(string filename)
             vector<ofPoint>& points = _lines[0].getVertices();
             ofColor color = p.getStrokeColor();
             line.color = color;
-            switch (i) {
-                default:
+//            switch (i) {
+//                default:
                     //createLine
                     
                     int group = color.r;
@@ -188,20 +232,96 @@ void Location::loadSVG(string filename)
 #ifdef RISE
                     line.group = group;
 #else
-                    line.group = (255 - group) / 10;
+                    switch (group) {
+                        case 235:
+                            line.group = 1;
+                            break;
+                        case 245:
+                            line.group = 2;
+                            break;
+                        case 195:
+                            line.group = 3;
+                            break;
+                        case 205:
+                            line.group = 4;
+                            break;
+                        case 145:
+                            line.group = 5;
+                            break;
+                        case 135:
+                            line.group = 19;
+                            break;
+                        case 225:
+                            line.group = 18;
+                            break;
+                        case 215:
+                            line.group = 17;
+                            break;
+                        case 185:
+                            line.group = 16;
+                            break;
+                        case 175:
+                            line.group = 15;
+                            break;
+                        case 165:
+                            line.group = 13;
+                            break;
+                        case 155:
+                            line.group = 14;
+                            break;
+                        case 125:
+                            line.group = 12;
+                            break;
+                        case 115:
+                            line.group = 11;
+                            break;
+                        case 105:
+                            line.group = 7;
+                            break;
+                        case 95:
+                            line.group = 8;
+                            break;
+                        case 75:
+                            line.group = 9;
+                            break;
+                        case 85:
+                            line.group = 10;
+                            break;
+                        default:
+                            line.group = -1;
+                            break;
+                    }
 #endif
                     line.lineIdInGroup = color.g == 127 ? BLUE : RED;
                     line.dmxindex = color.g == 127 ? color.b : color.g;
                     
                     lines.push_back(line);
-                    break;
-            }
+//                    break;
+//            }
             totalNum += points.size();
         }
     }
     std::sort(lines.begin(), lines.end());
+    int totalBufferSize = 0;
     for ( int i = 0; i < lines.size(); i++ )
     {
-        cout << lines[i].group << " " << lines[i].lineIdInGroup << " " << lines[i].dmxindex << endl;
+//        cout << lines[i].group << " " << lines[i].getNordsNum() << " " << lines[i].dmxindex << endl;
+        lines[i].allocateData();
+        totalBufferSize += lines[ i ].getDataSize();
+        if ( dmxs.size() > 0 && dmxs.back().no == lines[i].group)
+        {
+            //add line to DMX
+            dmxs.back().addLine(lines[i]);
+        }
+        else
+        {
+            //create DMX
+            dmxs.push_back(Enttec(lines[i].group));
+            dmxs.back().addLine(lines[i]);
+        }
+    }
+    for( int i = 0; i < dmxs.size(); i++ )
+    {
+        dmxs[i].allocateData();
     }
 }

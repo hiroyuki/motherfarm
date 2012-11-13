@@ -13,18 +13,7 @@
 class RiseLocationLine : public LocationLine
 {
 public:
-    vector<LedNord> nords;
-    int dmxindex, group, lineIdInGroup;
-    float offsetScale;
-    ofColor color;
 
-    void addNord(ofPoint p)
-    {
-        if ( isAddible(p))
-            nords.push_back(LedNord(nords.size()+1, p));
-    }
-    
-    
     void debugDraw()
     {
         
@@ -83,105 +72,11 @@ public:
         }
     }
     
-    bool isAddible(ofPoint p)
-    {
-        bool result = true;
-        for ( int i = 0; i < nords.size() && result; i++ )
-        {
-            if (p.distance(nords[i].pos) < 3)
-            {
-                result = false;
-            }
-        }
-        return result;
-    }
-    
-    int getNordsNum()
-    {
-        return nords.size();
-    }
-    
-    //sort
-    bool operator <(const LocationLine& m1) const
-    {
-        bool result;
-        if ( group == m1.group)
-        {
-            if( lineIdInGroup == m1.lineIdInGroup)
-            {
-                result = dmxindex < m1.dmxindex;
-            }
-            else
-            {
-                result = lineIdInGroup < m1.lineIdInGroup;
-            }
-        }
-        else
-        {
-            result = group < m1.group;
-        }
-        return result;
-    }
-    
-    bool operator >(const LocationLine& m1) const
-    {
-        bool result;
-        if ( group == m1.group)
-        {
-            if( lineIdInGroup == m1.lineIdInGroup)
-            {
-                result = dmxindex > m1.dmxindex;
-            }
-            else
-            {
-                result = lineIdInGroup > m1.lineIdInGroup;
-            }
-        }
-        else
-        {
-            result = group > m1.group;
-        }
-        return result;
-    }
-    
     string getString()
     {
         string lineIdStr = lineIdInGroup == BLUE ? "blue" : "red";
         string result = ofToString(group)+"["+lineIdStr+"]-"+ofToString(dmxindex);
         return result;
     };
-    
-    // http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20110221
-    
-    static inline void billboard()
-    {
-        GLfloat m[16];
-        glGetFloatv(GL_MODELVIEW_MATRIX, m);
-        
-        float inv_len;
-        
-        m[8] = -m[12];
-        m[9] = -m[13];
-        m[10] = -m[14];
-        inv_len = 1. / sqrt(m[8] * m[8] + m[9] * m[9] + m[10] * m[10]);
-        m[8] *= inv_len;
-        m[9] *= inv_len;
-        m[10] *= inv_len;
-        
-        m[0] = -m[14];
-        m[1] = 0.0;
-        m[2] = m[12];
-        inv_len = 1. / sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]);
-        m[0] *= inv_len;
-        m[1] *= inv_len;
-        m[2] *= inv_len;
-        
-        m[4] = m[9] * m[2] - m[10] * m[1];
-        m[5] = m[10] * m[0] - m[8] * m[2];
-        m[6] = m[8] * m[1] - m[9] * m[0];
-        
-        glLoadMatrixf(m);
-    }
-
 };
 #endif

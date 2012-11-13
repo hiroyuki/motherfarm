@@ -18,10 +18,12 @@
 #define SVG_OFFSET_Y 10
 class LocationLine
 {
-public:
+protected:
     vector<LedNord> nords;
+public:
     int dmxindex, group, lineIdInGroup;
     float offsetScale;
+    unsigned char * data;
     ofColor color;
     
     virtual void addNord(ofPoint p)
@@ -75,6 +77,9 @@ public:
                 nords[ i ].color.r = pix->getPixels()[ ( pointy * width + pointx ) * 4];
                 nords[ i ].color.g = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
                 nords[ i ].color.b = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
+                data[ i * 3 ] = pix->getPixels()[ ( pointy * width + pointx ) * 4];
+                data[ i * 3 + 1] = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
+                data[ i * 3 + 2] = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
             }
         }
     }
@@ -106,14 +111,19 @@ public:
         return nords.size();
     }
     
+    virtual void allocateData()
+    {
+        data = new unsigned char[nords.size() * 3];
+    }
+    
     virtual int getDataSize()
     {
         return nords.size() * 3;
     }
     
-    virtual unsigned char * getData()
+    virtual unsigned char* getData()
     {
-        
+        return data;
     }
     
     //sort

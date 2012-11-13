@@ -26,6 +26,14 @@ public:
     string movName;
 };
 
+enum TEST_MODE
+{
+    TEST_ENTTEC,
+    TEST_LED,
+    TEST_ECHODATA,
+    TEST_NONE
+};
+
 class MotherFarmEvent
 {
 public:
@@ -46,6 +54,11 @@ public:
     string curState;
     bool show2D, showTex, showParse;
     float angle;
+    int testEnttec;
+    int testLed;
+    int mode;
+    int dataManualEnntecNo = -1;
+    
     
     void setup()
     {
@@ -61,6 +74,7 @@ public:
         sender.sendMessage(message);
         show2D = false;
         showTex  = true;
+        mode = TEST_NONE;
     }
     
     void update()
@@ -108,7 +122,42 @@ public:
             {
                 angle = message.getArgAsFloat(0);
             }
+            if ( message.getAddress() == "/enttec" )
+            {
+                mode = TEST_ENTTEC;
+                dataManualEnntecNo = testEnttec = ofClamp(message.getArgAsInt32(0), 1, 19);
+            }
+            if ( message.getAddress() == "/led")
+            {
+                mode = TEST_LED;
+                testEnttec = ofClamp(message.getArgAsInt32(0), 1, 19);
+                testLed = ofClamp(message.getArgAsInt32(1), 1, 150);
+            }
+            if ( message.getAddress() == "/drawEnttec")
+            {
+                dataManualEnntecNo = ofClamp(message.getArgAsInt32(0), 1, 19);
+            }
         }
+    }
+
+    void sendDmx()
+    {
+        location.sendDmx(dataManualEnntecNo);
+        dataManualEnntecNo = -1;
+    }
+    
+    Enttec* getEnttec( int enttecNo )
+    {
+        Enttec *result = NULL;
+        for( int i = 0; i < location.dmxs.size(); i++ )
+        {
+            if ( location.dmxs[i].no == enttecNo )
+            {
+                result = &location.dmxs[i];
+                continue;
+            }
+        }
+        return result;
     }
     
     void sendStates( string stateName )
@@ -125,11 +174,6 @@ public:
         dt.eventName = "changeState";
         curState = dt.nextState = stateName;
         ofNotifyEvent(event.farmEvent, dt, this);
-    }
-    
-    void sendDmx()
-    {
-        
     }
 };
 #endif
