@@ -10,10 +10,8 @@
 #define motherfarmLED_VineLineBranchingState_h
 
 #include "BaseState.h"
-#include "ofxFadable.h"
 
 const static int MAX_CIRCLE_SIZE = 15;
-const float phaseDur = 10.0;
 const float fadeDur = 1.0;
 
 class VectorField
@@ -87,7 +85,6 @@ public:
         
         ofFill();
         ofSetColor(col, 20);
-        //        ofSetColor(ofColor::green, a);
         ofCircle(x, y, r);
         
         ofPopStyle();
@@ -136,8 +133,6 @@ public:
         {
             drawTime++;
             ofPushStyle();
-            ofEnableAlphaBlending();
-            ofEnableBlendMode(OF_BLENDMODE_ALPHA);
             ofPushMatrix();
             ofTranslate(0, 0, -10);
             for (int i = 0; i < poss.size(); i++)
@@ -147,7 +142,6 @@ public:
                 ofCircle(poss.at(i), rad);
             }
             ofPopMatrix();
-            ofDisableBlendMode();
             ofPopStyle();
             if (drawTime >= maxDraw)
             {
@@ -272,7 +266,72 @@ private:
     float growTime;
 };
 
-class VineLineBranchingState : public BaseState, ofxFadableBase
+class Screen
+{
+public:
+
+    void setup()
+    {
+        numBranches = 10;
+        numCircles = 1000;        
+        
+        reset();
+    }
+    
+    void update()
+    {
+        for (int i = 0; i < numBranches; i++)
+        {
+            branches.at(i).update();
+        }
+    }
+    
+    void draw()
+    {   
+        for (int i = 0; i < numBranches; i++)
+        {
+            branches.at(i).draw();
+        }
+    }
+    
+    void reset()
+    {
+        vector<ofColor> cols;
+        ofColor col1 = ofColor(0,250,154);
+        ofColor col2 = ofColor(50,205,50);
+        ofColor col3 = ofColor(173,255,47);
+        ofColor col4 = ofColor(0,255,127);
+        ofColor col5 = ofColor(60,179,113);
+        cols.push_back(col1);
+        cols.push_back(col2);
+        cols.push_back(col3);
+        cols.push_back(col4);
+        cols.push_back(col5);
+        
+        int colIdx = 0;
+        branches.clear();
+        for (int i = 0; i < numBranches; i++)
+        {
+            Branch branch;
+            branch.setup(numCircles, cols.at(colIdx));
+            branches.push_back(branch);
+            colIdx++;
+            if (colIdx >= cols.size()-1)
+                colIdx = 0;
+        }
+    }
+    
+    
+private:
+    
+    vector<Branch> branches;
+    ofColor baseCol;
+    
+    int numBranches;
+    int numCircles;
+};
+
+class VineLineBranchingState : public BaseState
 {
     
 public:
@@ -283,88 +342,43 @@ public:
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;        
         
-        numBranches = 50;
-        numCircles = 1000;
+        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         
-        scrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
-        fadeScrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
-        
-        reset();
-        
-        phaseBeginTime = ofGetElapsedTimef();
-        bFading = false;
-        init();
-        setAlpha(1.0);
+        for (int i = 0; i < 3; i++)
+        {
+            Screen* scrn = new Screen();
+            scrn->setup();
+            screens.push_back(scrn);
+        }
+        fbo.begin();
+        ofClear(0);
+        fbo.end();
     }
     
     void stateEnter()
     {
-        scrn.begin();
-        ofClear(0);
-        scrn.end();
-        
-        reset();
-        
-        phaseBeginTime = ofGetElapsedTimef();
-        bFading = false;
-        init();
-        setAlpha(1.0);
+        for (int i = 0; i < screens.size(); i++)
+        {
+            screens.at(i)->reset();
+        }
     }
     
     void update()
     {
-        scrn.begin();
-        ofEnableAlphaBlending();
-        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-        for (int i = 0; i < numBranches; i++)
+        fbo.begin();
+        ofSetColor(253, 253, 253);        
+        fbo.draw(0, 0);
+        fbo.draw(0, 0);
+        fbo.draw(0, 0);
+        for (int i = 0; i < screens.size(); i++)
         {
-            branches.at(i).update();
-            branches.at(i).draw();
+            screens.at(i)->update();
+            screens.at(i)->draw();
         }
-        ofDisableAlphaBlending();
-        scrn.end();
+        fbo.end();
         
-        float cur = ofGetElapsedTimef();
-        float diff = cur - phaseBeginTime;
-        if (diff > phaseDur && !bFading)
-        {
-            bFading = true;
-            setFadeSeconds(fadeDur);
-            fadeOut();
-        }
-        if (bFading)
-        {
-            if (getAlphaInt() <= 5)
-            {
-                reset();
-                phaseBeginTime = cur;
-                bFading = false;
-                init();
-                setAlpha(1.0);
-            }
-        }
-        
-        updateFade();
-        
-
-        if (bFading)
-        {
-            fadeScrn.begin();
-            ofClear(0);
-            ofEnableBlendMode(OF_BLENDMODE_ADD);
-            ofSetColor(255, getAlphaInt());
-            for (int i = 0; i < 6; i++)
-                scrn.draw(0, 0);
-            ofDisableBlendMode();
-            fadeScrn.end();
-            fadeScrn.readToPixels(*colorPixels);
-            tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
-        }
-        else
-        {
-            scrn.readToPixels(*colorPixels);
-            tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
-        }
+        fbo.readToPixels(*colorPixels);
+        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);        
     }
     
     void draw()
@@ -381,40 +395,9 @@ public:
     
 private:
     
-    void reset()
-    {
-        ofColor col1 = ofColor(ofColor::cyan);
-        ofColor col2 = ofColor(ofColor::green);
-        cols.push_back(col1);
-        cols.push_back(col2);
-        
-        branches.clear();
-        for (int i = 0; i < numBranches; i++)
-        {
-            float rdm = ofRandomf();
-            Branch branch;
-            if (rdm < 0)
-                branch.setup(numCircles, cols.at(0));
-            else
-                branch.setup(numCircles, cols.at(1));
-            branches.push_back(branch);
-        }
-        
-        scrn.begin();
-        ofClear(0);
-        scrn.end();
-    }
+    ofFbo fbo;
     
-    int numBranches;
-    int numCircles;
-    vector<Branch> branches;
-    
-    ofFbo scrn;
-    ofFbo fadeScrn;
-    vector<ofColor> cols;
-    float phaseBeginTime;
-    bool bFading;
-    
+    vector<Screen*> screens;
     ofTexture *tex;
     ofPixels * colorPixels;    
 };
