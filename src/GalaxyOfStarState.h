@@ -11,29 +11,30 @@
 
 #include "BaseState.h"
 #include "ofxTweenLite.h"
+#include "ofxFadable.h"
 
 const int numStars = 300;
 const float initialPositioningDur = 0.1;
-const float shootingDur = 5.0;
-const int numMaxTrail = 100;
+const float shootingDur = 4.0;
+const int numMaxTrail = 50;
 
-class Star
+class Star : public ofxFadableBase
 {
 public:
     
-    void setup()
+    void setup(ofColor _col)
     {
         initialdestPos = ofPoint(ofRandom(-SVG_WIDTH/2, SVG_WIDTH+SVG_WIDTH/2),
                                  ofRandom(-SVG_HEIGHT/2, SVG_HEIGHT+SVG_HEIGHT/2),
-                                 ofRandom(100, -2500));
+                                 ofRandom(-2500, -5500));
         initialPos = initialdestPos;
         initialPos.z += 1000;
         curPos = initialPos;
         shootDestPos = initialPos;
-        shootDestPos.z += 3000;
+        shootDestPos.z += 6000;
         shootBasePos = shootDestPos;
-        col = ofColor::white;
-        rad = ofRandom(30, 10);
+        col = _col;
+        rad = ofRandom(40, 20);
         
         initializeTime = 0.0;
         bInitialized = false;
@@ -41,10 +42,18 @@ public:
         shoothingTime = 0.0;
         bShootingStar = false;
         bShoothing = false;
+        bFinishShooting = false;
+        
+        init();
+        setAlpha(0);
+        setFadeSeconds(2.0);
+        fadeIn();
     }
     
     void update()
     {
+        updateFade();
+        
         if (!bInitialized && !bMainmovement)
         {
             initializeTime = ofGetElapsedTimef();
@@ -75,7 +84,7 @@ public:
                     float cur = ofGetElapsedTimef();
                     float diff = cur - shoothingTime;
                     float mappedProgress = ofMap(diff, 0.0, shootingDur, 0.0, 1.0, true);
-                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_EXPO_OUT);
+                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_EXPO_INOUT);
                     curPos = shootBasePos.getInterpolated(shootDestPos, factor);
                     
                     if (trails.size() > 0)
@@ -103,15 +112,16 @@ public:
                     {
                         bShoothing = false;
                         bShootingStar = false;
+                        bFinishShooting = true;
                         trails.clear();
                     }
                 }
             }
             else
             {
-                curPos.z += 1;
-                if (curPos.z > 1500)
-                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
+                //                curPos.z += 1;
+                //                if (curPos.z > 1500)
+                //                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
             }
         }
         
@@ -123,19 +133,19 @@ public:
         if (bShootingStar && bMainmovement)
         {
             ofPushStyle();
-            ofSetColor(0,150,216);
+            ofSetColor(col, getAlphaInt());
             ofCircle(curPos, rad);
             for (int i = 0; i < trails.size(); i++)
             {
                 int alpha = ofMap(i, 0, trails.size(), 0, 60, true);
-                ofSetColor(0,150,216, alpha);
+                ofSetColor(col, alpha);
                 ofCircle(trails.at(i), rad);
             }
             ofPopStyle();
         }
         else
         {
-//            ofCircle(curPos, rad);
+            //            ofCircle(curPos, rad);
         }
     }
     
@@ -160,6 +170,7 @@ public:
     float shoothingTime;
     bool bShootingStar;
     bool bShoothing;
+    bool bFinishShooting;
     
     deque<ofPoint> trails;
 };
@@ -179,13 +190,7 @@ public:
     
     void stateEnter()
     {
-        stars.clear();
-        for (int i = 0; i < numStars; i++)
-        {
-            Star star;
-            star.setup();
-            stars.push_back(star);
-        }
+        reset();
     }
     
     void update()
@@ -203,7 +208,22 @@ public:
         glDisable(GL_DEPTH_TEST);
         scrn.end();
         scrn.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);        
+        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        
+        int finShootingStar = 0;
+        for (int i = 0; i < stars.size(); i++)
+        {
+            if (stars.at(i).bFinishShooting)
+            {
+                finShootingStar++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (finShootingStar == stars.size())
+            reset();
     }
     
     void draw()
@@ -218,6 +238,37 @@ public:
     }
 
 private:
+    
+    void reset()
+    {
+        ofColor col;
+        int rdm = ofRandom(3);
+        if (rdm == 0)
+            col = ofColor::red;
+        else if (rdm == 1)
+            col = ofColor::cyan;
+        else
+            col = ofColor::green;
+        
+        stars.clear();
+        for (int i = 0; i < numStars; i++)
+        {
+            ofColor thisCol = col;
+            if (0 == i % 10)
+            {
+                int rdm2 = ofRandom(3);
+                if (rdm2 == 0)
+                    thisCol = ofColor::red;
+                else if (rdm2 == 1)
+                    thisCol = ofColor::cyan;
+                else
+                    thisCol = ofColor::green;
+            }
+            Star star;
+            star.setup(thisCol);
+            stars.push_back(star);
+        }
+    }
     
     ofTexture* tex;
     ofPixels* colorPixels;

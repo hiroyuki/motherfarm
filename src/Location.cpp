@@ -187,8 +187,9 @@ void Location::loadSVG(string filename)
                     }
                     line.group = group;
                     line.lineIdInGroup = color.g == 127 ? BLUE : RED;
-                    cout << line.group << " " << line.lineIdInGroup << endl;
                     line.dmxindex = color.g == 127 ? color.b : color.g;
+                    
+                    cout << line.dmxindex << " " << line.lineIdInGroup << endl;
                     lines.push_back(line);
                     break;
             }
