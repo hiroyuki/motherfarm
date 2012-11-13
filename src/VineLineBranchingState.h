@@ -10,8 +10,11 @@
 #define motherfarmLED_VineLineBranchingState_h
 
 #include "BaseState.h"
+#include "ofxFadable.h"
 
-const static int MAX_CIRCLE_SIZE = 10;
+const static int MAX_CIRCLE_SIZE = 15;
+const float phaseDur = 10.0;
+const float fadeDur = 1.0;
 
 class VectorField
 {
@@ -84,7 +87,7 @@ public:
         
         ofFill();
         ofSetColor(col, 20);
-//        ofSetColor(ofColor::green, a);
+        //        ofSetColor(ofColor::green, a);
         ofCircle(x, y, r);
         
         ofPopStyle();
@@ -96,6 +99,69 @@ public:
     float a;
     float fNoiseSpeed;
     int c;
+};
+
+class Berry
+{
+public:
+    
+    void setup(ofPoint _pos)
+    {
+        ofPoint pos = _pos;
+        int rdm = ofRandom(1, 3);
+        for (int i = 0; i < rdm; i++)
+        {
+            ofPoint newPos;
+            newPos.x = pos.x + ofRandom(-16, 16);
+            newPos.y = pos.y + ofRandom(-16, 16);
+            poss.push_back(newPos);
+            float rad = ofRandom(25, 15);
+            rads.push_back(rad);
+            int a = ofRandom(10, 70);
+            alphas.push_back(a);
+        }
+        bDrawn = false;
+        drawTime = 0;
+        maxDraw = 15;
+    }
+    
+    void update()
+    {
+        
+    }
+    
+    void draw()
+    {
+        if (!bDrawn && drawTime < maxDraw)
+        {
+            drawTime++;
+            ofPushStyle();
+            ofEnableAlphaBlending();
+            ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+            ofPushMatrix();
+            ofTranslate(0, 0, -10);
+            for (int i = 0; i < poss.size(); i++)
+            {
+                ofSetColor(ofColor::red, alphas.at(i));
+                int rad = ofMap(drawTime, 0, maxDraw, 0, rads.at(i), true);
+                ofCircle(poss.at(i), rad);
+            }
+            ofPopMatrix();
+            ofDisableBlendMode();
+            ofPopStyle();
+            if (drawTime >= maxDraw)
+            {
+                bDrawn = true;
+            }
+        }
+    }
+    
+    bool bDrawn;
+    vector<ofPoint> poss;
+    vector<float> rads;
+    vector<int> alphas;
+    int drawTime;
+    int maxDraw;
 };
 
 class Branch
@@ -124,38 +190,55 @@ public:
         }
         
         fHeadSpeed = 2;
+        
+        genTime = ofGetElapsedTimef();
+        growTime = ofRandom(4.5, 2.0);
+        
+        berry.setup(ofPoint(x, y));
     }
     
     void update()
     {
-        if (x < 0 || x >= SVG_WIDTH || y < 0 || y >= SVG_HEIGHT)
-            setup(numCircles, baseCol);
+        if (berry.bDrawn)
+        {
+            if (x < 0 || x >= SVG_WIDTH || y < 0 || y >= SVG_HEIGHT)
+                setup(numCircles, baseCol);
+            
+            if (x < 0)
+                x += SVG_WIDTH;
+            else if (x > SVG_WIDTH)
+                x -= SVG_WIDTH;
+            
+            if (y < 0)
+                y += SVG_HEIGHT;
+            else if (y > SVG_HEIGHT)
+                y -= SVG_HEIGHT;
+            
+            float fAngle = vectorField.force(x,y, 0, 1, 1) * PI * 2;
+            x += cos(fAngle) * fHeadSpeed;
+            y += sin(fAngle) * fHeadSpeed;
+            
+            if (ofGetElapsedTimef() - genTime < growTime)
+                AddCircle(x, y);
+        }
         
-        if (x < 0)
-            x += SVG_WIDTH;
-        else if (x > SVG_WIDTH)
-            x -= SVG_WIDTH;
-        
-        if (y < 0)
-            y += SVG_HEIGHT;
-        else if (y > SVG_HEIGHT)
-            y -= SVG_HEIGHT;
-        
-        float fAngle = vectorField.force(x,y, 0, 1, 1) * PI * 2;
-        x += cos(fAngle) * fHeadSpeed;
-        y += sin(fAngle) * fHeadSpeed;
-        AddCircle(x, y);
+        berry.update();
     }
     
     void draw()
     {
-        for(int i=0; i < numCircles; i++)
+        if (berry.bDrawn)
         {
-            if(circles[i].r > 0.001)
+            for(int i=0; i < numCircles; i++)
             {
-                circles[i].draw(vectorField, baseCol);
+                if(circles[i].r > 0.001)
+                {
+                    circles[i].draw(vectorField, baseCol);
+                }
             }
         }
+        
+        berry.draw();
         
         oldX = x;
         oldY = y;
@@ -173,6 +256,7 @@ private:
     
     int curCircle = 0;
     vector<Circle> circles;
+    Berry berry;
     float x, y, oldX, oldY;
     float vx, vy;
     float seed;
@@ -183,9 +267,12 @@ private:
     int numCircles;
     
     ofColor baseCol;
+    
+    float genTime;
+    float growTime;
 };
 
-class VineLineBranchingState : public BaseState
+class VineLineBranchingState : public BaseState, ofxFadableBase
 {
     
 public:
@@ -196,30 +283,18 @@ public:
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;        
         
-        numBranches = 4;
+        numBranches = 50;
         numCircles = 1000;
         
-//        ofColor col1 = ofColor(0,143,196);
-        ofColor col1 = ofColor(18,150,54);
-        ofColor col2 = ofColor(18,150,54);
-        cols.push_back(col1);
-        cols.push_back(col2);
+        scrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fadeScrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
         
-        for (int i = 0; i < numBranches; i++)
-        {
-            float rdm = ofRandomf();
-            Branch branch;
-            if (rdm < 0)
-                branch.setup(numCircles, cols.at(0));
-            else
-                branch.setup(numCircles, cols.at(1));
-            branches.push_back(branch);
-        }
+        reset();
         
-        scrn.allocate(SVG_WIDTH, SVG_HEIGHT);
-        scrn.begin();
-        ofClear(0);
-        scrn.end();
+        phaseBeginTime = ofGetElapsedTimef();
+        bFading = false;
+        init();
+        setAlpha(1.0);
     }
     
     void stateEnter()
@@ -227,24 +302,69 @@ public:
         scrn.begin();
         ofClear(0);
         scrn.end();
+        
+        reset();
+        
+        phaseBeginTime = ofGetElapsedTimef();
+        bFading = false;
+        init();
+        setAlpha(1.0);
     }
     
     void update()
     {
         scrn.begin();
-        ofDisableLighting();
         ofEnableAlphaBlending();
-        glDisable(GL_DEPTH_TEST);
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         for (int i = 0; i < numBranches; i++)
         {
             branches.at(i).update();
             branches.at(i).draw();
         }
-        ofDisableBlendMode();
+        ofDisableAlphaBlending();
         scrn.end();
-        scrn.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        
+        float cur = ofGetElapsedTimef();
+        float diff = cur - phaseBeginTime;
+        if (diff > phaseDur && !bFading)
+        {
+            bFading = true;
+            setFadeSeconds(fadeDur);
+            fadeOut();
+        }
+        if (bFading)
+        {
+            if (getAlphaInt() <= 5)
+            {
+                reset();
+                phaseBeginTime = cur;
+                bFading = false;
+                init();
+                setAlpha(1.0);
+            }
+        }
+        
+        updateFade();
+        
+
+        if (bFading)
+        {
+            fadeScrn.begin();
+            ofClear(0);
+            ofEnableBlendMode(OF_BLENDMODE_ADD);
+            ofSetColor(255, getAlphaInt());
+            for (int i = 0; i < 6; i++)
+                scrn.draw(0, 0);
+            ofDisableBlendMode();
+            fadeScrn.end();
+            fadeScrn.readToPixels(*colorPixels);
+            tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        }
+        else
+        {
+            scrn.readToPixels(*colorPixels);
+            tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        }
     }
     
     void draw()
@@ -261,13 +381,39 @@ public:
     
 private:
     
+    void reset()
+    {
+        ofColor col1 = ofColor(ofColor::cyan);
+        ofColor col2 = ofColor(ofColor::green);
+        cols.push_back(col1);
+        cols.push_back(col2);
+        
+        branches.clear();
+        for (int i = 0; i < numBranches; i++)
+        {
+            float rdm = ofRandomf();
+            Branch branch;
+            if (rdm < 0)
+                branch.setup(numCircles, cols.at(0));
+            else
+                branch.setup(numCircles, cols.at(1));
+            branches.push_back(branch);
+        }
+        
+        scrn.begin();
+        ofClear(0);
+        scrn.end();
+    }
+    
     int numBranches;
     int numCircles;
     vector<Branch> branches;
     
     ofFbo scrn;
-    
+    ofFbo fadeScrn;
     vector<ofColor> cols;
+    float phaseBeginTime;
+    bool bFading;
     
     ofTexture *tex;
     ofPixels * colorPixels;    
