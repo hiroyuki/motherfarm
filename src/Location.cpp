@@ -13,9 +13,9 @@ ofImage img;
 bool drawLine = false;
 
 
-void Location::setup(ofTexture * colorTex, ofPixels * pix)
+void Location::setup(ofPixels * pix)
 {
-    colorTexture = colorTex;
+//    colorTexture = colorTex;
     colorPix = pix;
 #ifdef RISE
     loadSVG("1109_rise.svg");
@@ -185,11 +185,14 @@ void Location::loadSVG(string filename)
                     {
                         line.addNord(points[i]);
                     }
+#ifdef RISE
                     line.group = group;
+#else
+                    line.group = (255 - group) / 10;
+#endif
                     line.lineIdInGroup = color.g == 127 ? BLUE : RED;
                     line.dmxindex = color.g == 127 ? color.b : color.g;
                     
-                    cout << line.dmxindex << " " << line.lineIdInGroup << endl;
                     lines.push_back(line);
                     break;
             }
@@ -197,4 +200,8 @@ void Location::loadSVG(string filename)
         }
     }
     std::sort(lines.begin(), lines.end());
+    for ( int i = 0; i < lines.size(); i++ )
+    {
+        cout << lines[i].group << " " << lines[i].lineIdInGroup << " " << lines[i].dmxindex << endl;
+    }
 }

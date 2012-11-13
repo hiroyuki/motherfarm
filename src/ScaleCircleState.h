@@ -10,7 +10,7 @@
 #define motherfarmLED_ScaleCircleState_h
 #include "BaseState.h"
 #include "ScaleCircle.h"
-#define MAX_CIRCLE 10
+#define MAX_CIRCLE 5
 class ScaleCircleState : public BaseState
 {
 public:
@@ -27,10 +27,13 @@ public:
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
+        
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
+        int no = 0;
         while( circles.size() < MAX_CIRCLE / 2 )
         {
-            circles.push_back(ScaleCircle());
+            no++;
+            circles.push_back(ScaleCircle(no));
             circles[circles.size() -1].init(SVG_WIDTH, SVG_HEIGHT);
         }
     }
@@ -51,7 +54,7 @@ public:
                 circles[ i ].init(SVG_WIDTH, SVG_HEIGHT);
                 if ( circles.size() < MAX_CIRCLE )
                 {
-                    circles.push_back(ScaleCircle());
+                    circles.push_back(ScaleCircle(i));
                     circles[ circles.size() - 1].init(SVG_WIDTH, SVG_HEIGHT);
                 }
             }
@@ -67,7 +70,7 @@ public:
         if( doClear ) ofClear(0);
         doClear = false;
         
-        ofSetColor(245, 245, 245, 240);
+        ofSetColor(253, 253, 253, 240);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);

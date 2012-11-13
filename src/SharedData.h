@@ -53,7 +53,7 @@ public:
         tex->allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
         colorPixels = new ofPixels();
         colorPixels->allocate(SVG_WIDTH, SVG_HEIGHT, OF_IMAGE_COLOR_ALPHA);
-        location.setup(tex, colorPixels);
+        location.setup(colorPixels);
         recv.setup(11111);
         sender.setup("127.0.0.1", 10000);
         ofxOscMessage message;
@@ -65,6 +65,7 @@ public:
     
     void update()
     {
+//        cout << "shareddata update" <<endl;
         location.update();
         while (recv.hasWaitingMessages()) {
             ofxOscMessage message;

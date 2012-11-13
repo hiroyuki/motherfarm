@@ -26,6 +26,7 @@
 		6452E1A61638F1B7008B86E4 /* LocationHeight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6452E1A51638F1B7008B86E4 /* LocationHeight.cpp */; };
 		6452E1D91638F32A008B86E4 /* assimp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6452E1D31638F32A008B86E4 /* assimp.a */; };
 		6452E1DA1638F32B008B86E4 /* ofxAssimpModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6452E1D71638F32A008B86E4 /* ofxAssimpModelLoader.cpp */; };
+		64BE8ED61652018C00DE3674 /* ofxFadableBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64BE8ECF1652018C00DE3674 /* ofxFadableBase.cpp */; };
 		64E40C6A1636707000FD0763 /* Location.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C691636707000FD0763 /* Location.cpp */; };
 		64E40C741636718B00FD0763 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6D1636718B00FD0763 /* tinyxml.cpp */; };
 		64E40C751636718B00FD0763 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6F1636718B00FD0763 /* tinyxmlerror.cpp */; };
@@ -59,7 +60,6 @@
 		E7E077E515D3B63C0020DFD4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E415D3B63C0020DFD4 /* CoreVideo.framework */; };
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
-		E9BA20641651DE24004F65D0 /* ofxFadableBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BA205D1651DE24004F65D0 /* ofxFadableBase.cpp */; };
 		a29d8c96ae042eceaa1bd4f3cbbf0c9d /* NetworkingUtilsWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2a5b1fad3f30c8065c396acbb72e5d95 /* NetworkingUtilsWin.cpp */; };
 		ade367465d2a8ebad4c7a8d92a3ef718 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = add194746185e2da11468377f4e88c2f /* IpEndpointName.cpp */; };
 		c4782ecc372420ace0615b749e1d0d6b /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = bc8881b3c8c0a1c45f042e7a9e7b92cc /* OscPrintReceivedElements.cpp */; };
@@ -195,6 +195,14 @@
 		6452E1D61638F32A008B86E4 /* ofxAssimpMeshHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpMeshHelper.h; sourceTree = "<group>"; };
 		6452E1D71638F32A008B86E4 /* ofxAssimpModelLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAssimpModelLoader.cpp; sourceTree = "<group>"; };
 		6452E1D81638F32A008B86E4 /* ofxAssimpModelLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpModelLoader.h; sourceTree = "<group>"; };
+		64BE8ECE1652018C00DE3674 /* ofxFadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadable.h; sourceTree = "<group>"; };
+		64BE8ECF1652018C00DE3674 /* ofxFadableBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFadableBase.cpp; sourceTree = "<group>"; };
+		64BE8ED01652018C00DE3674 /* ofxFadableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableBase.h; sourceTree = "<group>"; };
+		64BE8ED11652018C00DE3674 /* ofxFadableCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableCam.h; sourceTree = "<group>"; };
+		64BE8ED21652018C00DE3674 /* ofxFadableFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableFont.h; sourceTree = "<group>"; };
+		64BE8ED31652018C00DE3674 /* ofxFadableImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableImg.h; sourceTree = "<group>"; };
+		64BE8ED41652018C00DE3674 /* ofxFadableRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableRect.h; sourceTree = "<group>"; };
+		64BE8ED51652018C00DE3674 /* ofxFadableVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableVideo.h; sourceTree = "<group>"; };
 		64C7B1E2165116BD00D07ED1 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
 		64C7B1E3165116BD00D07ED1 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -314,14 +322,6 @@
 		E99A508816507F8300C0B289 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
 		E99A508916507F8300C0B289 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		E9B8E6DE164F79790058AC69 /* VineLineBranchingState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VineLineBranchingState.h; sourceTree = "<group>"; };
-		E9BA205C1651DE24004F65D0 /* ofxFadable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadable.h; sourceTree = "<group>"; };
-		E9BA205D1651DE24004F65D0 /* ofxFadableBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxFadableBase.cpp; sourceTree = "<group>"; };
-		E9BA205E1651DE24004F65D0 /* ofxFadableBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableBase.h; sourceTree = "<group>"; };
-		E9BA205F1651DE24004F65D0 /* ofxFadableCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableCam.h; sourceTree = "<group>"; };
-		E9BA20601651DE24004F65D0 /* ofxFadableFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableFont.h; sourceTree = "<group>"; };
-		E9BA20611651DE24004F65D0 /* ofxFadableImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableImg.h; sourceTree = "<group>"; };
-		E9BA20621651DE24004F65D0 /* ofxFadableRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableRect.h; sourceTree = "<group>"; };
-		E9BA20631651DE24004F65D0 /* ofxFadableVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableVideo.h; sourceTree = "<group>"; };
 		a0399084868e7cafb7e3d8e975d55095 /* retina.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = retina.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/retina.hpp; sourceTree = SOURCE_ROOT; };
 		a15e0125b8c9b7f01ded56958ff73de8 /* matrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = matrix.h; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/flann/matrix.h; sourceTree = SOURCE_ROOT; };
 		a2aaa8ca403479e6fcdf920ebcd1682b /* OscHostEndianness.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscHostEndianness.h; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscHostEndianness.h; sourceTree = SOURCE_ROOT; };
@@ -740,6 +740,30 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		64BE8ECC1652018C00DE3674 /* ofxFadable */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8ECD1652018C00DE3674 /* src */,
+			);
+			name = ofxFadable;
+			path = addons/ofxFadable;
+			sourceTree = "<group>";
+		};
+		64BE8ECD1652018C00DE3674 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				64BE8ECE1652018C00DE3674 /* ofxFadable.h */,
+				64BE8ECF1652018C00DE3674 /* ofxFadableBase.cpp */,
+				64BE8ED01652018C00DE3674 /* ofxFadableBase.h */,
+				64BE8ED11652018C00DE3674 /* ofxFadableCam.h */,
+				64BE8ED21652018C00DE3674 /* ofxFadableFont.h */,
+				64BE8ED31652018C00DE3674 /* ofxFadableImg.h */,
+				64BE8ED41652018C00DE3674 /* ofxFadableRect.h */,
+				64BE8ED51652018C00DE3674 /* ofxFadableVideo.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		64C7B1E1165116BD00D07ED1 /* ofxTweenLite */ = {
 			isa = PBXGroup;
 			children = (
@@ -965,7 +989,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				E9BA205A1651DE24004F65D0 /* ofxFadable */,
+				64BE8ECC1652018C00DE3674 /* ofxFadable */,
 				64C7B1E1165116BD00D07ED1 /* ofxTweenLite */,
 				E99A508716507F8300C0B289 /* ofxTweenLite */,
 				64413BD8164E15A1007B5B28 /* ofxGrabCam */,
@@ -1071,30 +1095,6 @@
 			);
 			name = ofxTweenLite;
 			path = ../../../addons/ofxTweenLite;
-			sourceTree = "<group>";
-		};
-		E9BA205A1651DE24004F65D0 /* ofxFadable */ = {
-			isa = PBXGroup;
-			children = (
-				E9BA205B1651DE24004F65D0 /* src */,
-			);
-			name = ofxFadable;
-			path = ../../../addons/ofxFadable;
-			sourceTree = "<group>";
-		};
-		E9BA205B1651DE24004F65D0 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				E9BA205C1651DE24004F65D0 /* ofxFadable.h */,
-				E9BA205D1651DE24004F65D0 /* ofxFadableBase.cpp */,
-				E9BA205E1651DE24004F65D0 /* ofxFadableBase.h */,
-				E9BA205F1651DE24004F65D0 /* ofxFadableCam.h */,
-				E9BA20601651DE24004F65D0 /* ofxFadableFont.h */,
-				E9BA20611651DE24004F65D0 /* ofxFadableImg.h */,
-				E9BA20621651DE24004F65D0 /* ofxFadableRect.h */,
-				E9BA20631651DE24004F65D0 /* ofxFadableVideo.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		a0b90d3b0adb9c1716816714bf7f212b /* ofxOpenCv */ = {
@@ -1372,7 +1372,7 @@
 				64413C52164E15A1007B5B28 /* svgtiny_gradient.cpp in Sources */,
 				64413C53164E15A1007B5B28 /* svgtiny_list.cpp in Sources */,
 				64413C54164E15A1007B5B28 /* ofxSVGTiny.cpp in Sources */,
-				E9BA20641651DE24004F65D0 /* ofxFadableBase.cpp in Sources */,
+				64BE8ED61652018C00DE3674 /* ofxFadableBase.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #ifndef motherfarmLED_Location_h
 #define motherfarmLED_Location_h
 #include "ofxSVGTiny.h"
-//#define RISE
+#define RISE
 #ifdef RISE
 #include "RiseLocationLine.h"
 #else
@@ -28,7 +28,7 @@
 class Location
 {
 public:
-    void setup(ofTexture * colorPix, ofPixels * pix);
+    void setup(ofPixels * pix);
     void update();
     void debugDraw();
     void drawLed();
@@ -43,7 +43,7 @@ public:
     void setCameraPos( float x, float y, float z);
     
     
-    ofTexture * colorTexture;
+//    ofTexture * colorTexture;
     ofPixels * colorPix;
 //    void exportLocation();
     ofFbo depthBufferFbo;
