@@ -106,6 +106,16 @@ public:
         return nords.size();
     }
     
+    virtual int getDataSize()
+    {
+        return nords.size() * 3;
+    }
+    
+    virtual unsigned char * getData()
+    {
+        
+    }
+    
     //sort
     bool operator <(const LocationLine& m1) const
     {

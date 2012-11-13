@@ -49,8 +49,8 @@ void testApp::draw(){
     {
         glDisable(GL_DEPTH_TEST);
         ofDisableLighting();
+        ofSetHexColor(0);
         ofRect(0, 0, stateMachine.getSharedData().tex->getWidth(), stateMachine.getSharedData().tex->getHeight());
-        
         ofSetColor(255,255,255,255);
         stateMachine.getSharedData().tex->draw(ofPoint());
         ofNoFill();
