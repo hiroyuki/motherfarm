@@ -59,22 +59,26 @@ public:
         ofDisableLighting();
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
-        
+        for( int j = 0; j < circles.size(); j++)
+        {
+            circles[j].updateImage(longestLen);
+        }
         fbo.begin();
         if( doClear ) ofClear(0);
         doClear = false;
-        ofSetColor(240, 240, 240, 240);
+        
+        ofSetColor(245, 245, 245, 240);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
         glPointSize(2);
         
         ofPushMatrix();
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
-        for( int j = 0; j < circles.size(); j++)
-        {
-            circles[j].draw(longestLen);
-        }
+            ofEnableBlendMode(OF_BLENDMODE_ADD);
+            for( int j = 0; j < circles.size(); j++)
+            {
+                circles[j].draw(longestLen);
+            }
         ofPopMatrix();
         ofDisableBlendMode();
         

@@ -49,7 +49,6 @@ public:
     
     void setup()
     {
-        
         tex = new ofTexture();
         tex->allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
         colorPixels = new ofPixels();
@@ -61,6 +60,7 @@ public:
         message.setAddress("/clear");
         sender.sendMessage(message);
         show2D = false;
+        showTex  = true;
     }
     
     void update()
@@ -124,6 +124,11 @@ public:
         dt.eventName = "changeState";
         curState = dt.nextState = stateName;
         ofNotifyEvent(event.farmEvent, dt, this);
+    }
+    
+    void sendDmx()
+    {
+        
     }
 };
 #endif

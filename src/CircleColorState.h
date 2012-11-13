@@ -68,7 +68,7 @@ public:
         ofClear(0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
-        glPointSize(2);
+        glPointSize(3);
         
         ofPushMatrix();
         ofEnableBlendMode(OF_BLENDMODE_ADD);

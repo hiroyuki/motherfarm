@@ -13,6 +13,10 @@
 class ScaleCircle : public CircleSeed
 {
 public:
+    int pastRadius;
+    ofFbo fbo;
+    ofImage img;
+    
     ScaleCircle() : CircleSeed()
     {
         delay = ofRandom(10000);
@@ -20,9 +24,13 @@ public:
     
     void init( int width, int height)
     {
+        
         CircleSeed::init(width, height);
         pos = ofPoint(width/2, height/2);
         radius = 0;
+        pastRadius = 0;
+        fbo.allocate(width, height);
+        img.allocate(width, height, OF_IMAGE_COLOR);
     }
     
     void update()
@@ -49,16 +57,29 @@ public:
             default:
                 break;
         }
+    }
+    
+    void updateImage( int longlen)
+    {
         
+        fbo.begin();
+        ofClear(0);
+        radius = alpha * longlen;
+        ofSetLineWidth(3);
+        ofSetColor(color, ofMap(alpha, 0, 0.1, 0, 1, true)*255);
+        ofCircle(pos.x, pos.y, radius);
+        ofSetHexColor(0);
+        ofCircle(pos.x, pos.y, pastRadius);
+        pastRadius = radius;
+        fbo.end();
+        fbo.readToPixels(img.getPixelsRef());
+        img.update();
     }
     
     void draw(int longlen)
     {
-        ofSetLineWidth(3);
-        ofNoFill();
-        ofSetColor(color, ofMap(alpha, 0, 0.1, 0, 1, true)*255);
-        ofCircle(pos.x, pos.y, alpha*longlen);
-        ofFill();
+//        fbo.draw(0,0);
+        img.draw(0, 0);
     }
 };
 

@@ -17,7 +17,11 @@ void Location::setup(ofTexture * colorTex, ofPixels * pix)
 {
     colorTexture = colorTex;
     colorPix = pix;
+#ifdef RISE
     loadSVG("1109_rise.svg");
+#else
+    loadSVG("dmx_mother_farm.svg");
+#endif
 #ifndef RISE
     mapHeight.setup("4_3.dae");
 #endif
@@ -183,6 +187,7 @@ void Location::loadSVG(string filename)
                     }
                     line.group = group;
                     line.lineIdInGroup = color.g == 127 ? BLUE : RED;
+                    cout << line.group << " " << line.lineIdInGroup << endl;
                     line.dmxindex = color.g == 127 ? color.b : color.g;
                     lines.push_back(line);
                     break;

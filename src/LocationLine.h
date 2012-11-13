@@ -56,7 +56,8 @@ public:
         for ( int i = 0; i < nords.size(); i++ )
         {
             ofPushMatrix();
-            ofSetColor(nords[i].color);
+//            ofSetColor(nords[i].color);
+            ofSetHexColor(0xffffff);
             ofTranslate(nords[i].pos.x, nords[i].pos.y, 0);
             ofCircle(0,0, 3);
             ofPopMatrix();

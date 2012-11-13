@@ -34,6 +34,7 @@ void testApp::update(){
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     sharedData->update();
     stateMachine.currentState->update();
+    sharedData->sendDmx();
 }
 //--------------------------------------------------------------
 void testApp::draw(){
@@ -42,6 +43,20 @@ void testApp::draw(){
         glEnable(GL_DEPTH_TEST);
         stateMachine.currentState->draw();
     }
+    ofDisableBlendMode();
+    ofEnableAlphaBlending();
+    if ( sharedData->showTex )
+    {
+        glDisable(GL_DEPTH_TEST);
+        ofDisableLighting();
+        ofRect(0, 0, stateMachine.getSharedData().tex->getWidth(), stateMachine.getSharedData().tex->getHeight());
+        
+        ofSetColor(255,255,255,255);
+        stateMachine.getSharedData().tex->draw(ofPoint());
+        ofNoFill();
+        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+        ofFill();
+    }
     if ( sharedData->show2D )
     {
         glDisable(GL_DEPTH_TEST);
@@ -49,16 +64,6 @@ void testApp::draw(){
         ofSetHexColor(0xffffff);
         stateMachine.getSharedData().location.draw2dLine();
         ofSetHexColor(0xffffff);
-        ofNoFill();
-        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
-        ofFill();
-    }
-    if ( sharedData->showTex )
-    {
-        glDisable(GL_DEPTH_TEST);
-        ofDisableLighting();
-        ofSetHexColor(0xffffff);
-        stateMachine.getSharedData().tex->draw(ofPoint());
         ofNoFill();
         ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
         ofFill();
