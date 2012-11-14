@@ -47,6 +47,8 @@ void testApp::draw(){
     ofEnableAlphaBlending();
     if ( sharedData->showTex )
     {
+        if (sharedData->bDefaultBlend)
+            glBlendFunc(GL_ONE, GL_NONE);
         glDisable(GL_DEPTH_TEST);
         ofDisableLighting();
         ofSetHexColor(0);

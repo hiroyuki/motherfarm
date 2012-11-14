@@ -59,6 +59,7 @@ public:
     int mode;
     int dataManualEnntecNo = -1;
     
+    bool bDefaultBlend;
     
     void setup()
     {
@@ -75,6 +76,8 @@ public:
         show2D = false;
         showTex  = true;
         mode = TEST_NONE;
+        
+        bDefaultBlend = false;
     }
     
     void update()

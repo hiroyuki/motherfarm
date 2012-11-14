@@ -191,10 +191,13 @@ public:
     void stateEnter()
     {
         reset();
+        getSharedData().bDefaultBlend = true;
     }
     
     void update()
     {
+        BaseState::update();
+        
         scrn.begin();
         ofClear(0);
         glEnable(GL_DEPTH_TEST);
@@ -235,6 +238,11 @@ public:
     string getName()
     {
         return "GalaxyOfStarState";
+    }
+    
+    void stateExit()
+    {
+        getSharedData().bDefaultBlend = false;
     }
 
 private:

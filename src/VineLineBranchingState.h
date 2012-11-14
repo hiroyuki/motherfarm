@@ -361,10 +361,14 @@ public:
         {
             screens.at(i)->reset();
         }
+        
+        getSharedData().bDefaultBlend = true;
     }
     
     void update()
     {
+        BaseState::update();
+        
         fbo.begin();
         ofSetColor(253, 253, 253);        
         fbo.draw(0, 0);
@@ -378,7 +382,7 @@ public:
         fbo.end();
         
         fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);        
+        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
     }
     
     void draw()
@@ -390,6 +394,11 @@ public:
     string getName()
     {
         return "VineLineBranchingState";
+    }
+    
+    void stateExit()
+    {
+        getSharedData().bDefaultBlend = false;
     }
     
     
