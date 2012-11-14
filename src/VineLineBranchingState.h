@@ -104,6 +104,7 @@ public:
     
     void setup(ofPoint _pos)
     {
+        poss.clear();
         ofPoint pos = _pos;
         int rdm = ofRandom(1, 3);
         for (int i = 0; i < rdm; i++)
@@ -372,8 +373,8 @@ public:
         fbo.begin();
         ofSetColor(253, 253, 253);        
         fbo.draw(0, 0);
-        fbo.draw(0, 0);
-        fbo.draw(0, 0);
+//        fbo.draw(0, 0);
+//        fbo.draw(0, 0);
         for (int i = 0; i < screens.size(); i++)
         {
             screens.at(i)->update();
