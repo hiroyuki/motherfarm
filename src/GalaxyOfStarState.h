@@ -119,9 +119,9 @@ public:
             }
             else
             {
-                //                curPos.z += 1;
-                //                if (curPos.z > 1500)
-                //                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
+                curPos.z += 1;
+                if (curPos.z > 1500)
+                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
             }
         }
         
@@ -213,20 +213,20 @@ public:
         scrn.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
         
-        int finShootingStar = 0;
-        for (int i = 0; i < stars.size(); i++)
-        {
-            if (stars.at(i).bFinishShooting)
-            {
-                finShootingStar++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        if (finShootingStar == stars.size())
-            reset();
+//        int finShootingStar = 0;
+//        for (int i = 0; i < stars.size(); i++)
+//        {
+//            if (stars.at(i).bFinishShooting)
+//            {
+//                finShootingStar++;
+//            }
+//            else
+//            {
+//                break;
+//            }
+//        }
+//        if (finShootingStar == stars.size())
+//            reset();
     }
     
     void draw()
@@ -249,29 +249,39 @@ private:
     
     void reset()
     {
-        ofColor col;
-        int rdm = ofRandom(3);
-        if (rdm == 0)
-            col = ofColor::red;
-        else if (rdm == 1)
-            col = ofColor::cyan;
-        else
-            col = ofColor::green;
+//        ofColor col;
+//        int rdm = ofRandom(3);
+//        if (rdm == 0)
+//            col = ofColor::red;
+//        else if (rdm == 1)
+//            col = ofColor::cyan;
+//        else
+//            col = ofColor::green;
         
         stars.clear();
         for (int i = 0; i < numStars; i++)
         {
-            ofColor thisCol = col;
-            if (0 == i % 10)
-            {
-                int rdm2 = ofRandom(3);
-                if (rdm2 == 0)
-                    thisCol = ofColor::red;
-                else if (rdm2 == 1)
-                    thisCol = ofColor::cyan;
-                else
-                    thisCol = ofColor::green;
-            }
+//            ofColor thisCol = col;
+//            if (0 == i % 10)
+//            {
+//                int rdm2 = ofRandom(3);
+//                if (rdm2 == 0)
+//                    thisCol = ofColor::red;
+//                else if (rdm2 == 1)
+//                    thisCol = ofColor::cyan;
+//                else
+//                    thisCol = ofColor::green;
+//            }
+            
+            ofColor thisCol;
+            int rdm = ofRandom(3);
+            if (rdm == 0)
+                thisCol = ofColor::red;
+            else if (rdm == 1)
+                thisCol = ofColor::cyan;
+            else
+                thisCol = ofColor::green;
+            
             Star star;
             star.setup(thisCol);
             stars.push_back(star);
