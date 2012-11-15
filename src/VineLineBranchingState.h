@@ -10,6 +10,7 @@
 #define motherfarmLED_VineLineBranchingState_h
 
 #include "BaseState.h"
+#include "ofxXmlSettings.h"
 
 const static int MAX_CIRCLE_SIZE = 15;
 const float fadeDur = 1.0;
@@ -102,18 +103,20 @@ class Berry
 {
 public:
     
-    void setup(ofPoint _pos)
+    void setup(ofPoint _pos, ofColor _col)
     {
+        col = _col;
+        
         poss.clear();
         ofPoint pos = _pos;
-        int rdm = ofRandom(1, 3);
+        int rdm = ofRandom(2, 4);
         for (int i = 0; i < rdm; i++)
         {
             ofPoint newPos;
-            newPos.x = pos.x + ofRandom(-16, 16);
-            newPos.y = pos.y + ofRandom(-16, 16);
+            newPos.x = pos.x + ofRandom(-20, 20);
+            newPos.y = pos.y + ofRandom(-20, 20);
             poss.push_back(newPos);
-            float rad = ofRandom(25, 15);
+            float rad = ofRandom(40, 25);
             rads.push_back(rad);
             int a = ofRandom(10, 70);
             alphas.push_back(a);
@@ -138,7 +141,7 @@ public:
             ofTranslate(0, 0, -10);
             for (int i = 0; i < poss.size(); i++)
             {
-                ofSetColor(ofColor::red, alphas.at(i));
+                ofSetColor(col, alphas.at(i));
                 int rad = ofMap(drawTime, 0, maxDraw, 0, rads.at(i), true);
                 ofCircle(poss.at(i), rad);
             }
@@ -157,6 +160,7 @@ public:
     vector<int> alphas;
     int drawTime;
     int maxDraw;
+    ofColor col;
 };
 
 class Branch
@@ -168,9 +172,10 @@ public:
         vectorField.setup(1, 1);
     }
     
-    void setup(int _numCircles, ofColor _baseCol)
+    void setup(int _numCircles, ofColor _baseCol, ofColor _sashiCol)
     {
         baseCol = _baseCol;
+        sashiCol = _sashiCol;
         numCircles = _numCircles;
         oldX = x = ofRandom(0, SVG_WIDTH);
         oldY = y = ofRandom(0, SVG_HEIGHT);
@@ -189,7 +194,7 @@ public:
         genTime = ofGetElapsedTimef();
         growTime = ofRandom(4.5, 2.0);
         
-        berry.setup(ofPoint(x, y));
+        berry.setup(ofPoint(x, y), sashiCol);
     }
     
     void update()
@@ -197,7 +202,7 @@ public:
         if (berry.bDrawn)
         {
             if (x < 0 || x >= SVG_WIDTH || y < 0 || y >= SVG_HEIGHT)
-                setup(numCircles, baseCol);
+                setup(numCircles, baseCol, sashiCol);
             
             if (x < 0)
                 x += SVG_WIDTH;
@@ -262,6 +267,7 @@ private:
     int numCircles;
     
     ofColor baseCol;
+    ofColor sashiCol;
     
     float genTime;
     float growTime;
@@ -271,12 +277,12 @@ class Screen
 {
 public:
 
-    void setup()
+    void setup(vector<ofColor> _baseCols, vector<ofColor> _sashiCol)
     {
         numBranches = 10;
         numCircles = 1000;        
         
-        reset();
+        reset(_baseCols, _sashiCol);
     }
     
     void update()
@@ -295,30 +301,19 @@ public:
         }
     }
     
-    void reset()
+    void reset(vector<ofColor> _baseCols, vector<ofColor> _sashiCol)
     {
-        vector<ofColor> cols;
-        ofColor col1 = ofColor(0,250,154);
-        ofColor col2 = ofColor(50,205,50);
-        ofColor col3 = ofColor(173,255,47);
-        ofColor col4 = ofColor(0,255,127);
-        ofColor col5 = ofColor(60,179,113);
-        cols.push_back(col1);
-        cols.push_back(col2);
-        cols.push_back(col3);
-        cols.push_back(col4);
-        cols.push_back(col5);
+        baseCols = _baseCols;
+        sashiCol = _sashiCol;
         
-        int colIdx = 0;
         branches.clear();
         for (int i = 0; i < numBranches; i++)
         {
+            int rdm = ofRandom(baseCols.size());
+            int rdmSashi = ofRandom(sashiCol.size());
             Branch branch;
-            branch.setup(numCircles, cols.at(colIdx));
+            branch.setup(numCircles, baseCols.at(rdm), sashiCol.at(rdmSashi));
             branches.push_back(branch);
-            colIdx++;
-            if (colIdx >= cols.size()-1)
-                colIdx = 0;
         }
     }
     
@@ -326,7 +321,8 @@ public:
 private:
     
     vector<Branch> branches;
-    ofColor baseCol;
+    vector<ofColor> baseCols;
+    vector<ofColor> sashiCol;
     
     int numBranches;
     int numCircles;
@@ -345,22 +341,24 @@ public:
         
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         
+        getStateSettingFromXML();
+        
         for (int i = 0; i < 3; i++)
         {
             Screen* scrn = new Screen();
-            scrn->setup();
+            scrn->setup(baseCols, sashiCols);
             screens.push_back(scrn);
         }
-        fbo.begin();
-        ofClear(0);
-        fbo.end();
+        reset();
     }
     
     void stateEnter()
     {
+        getStateSettingFromXML();
+        
         for (int i = 0; i < screens.size(); i++)
         {
-            screens.at(i)->reset();
+            screens.at(i)->reset(baseCols, sashiCols);
         }
         
         getSharedData().bDefaultBlend = true;
@@ -373,8 +371,6 @@ public:
         fbo.begin();
         ofSetColor(253, 253, 253);        
         fbo.draw(0, 0);
-//        fbo.draw(0, 0);
-//        fbo.draw(0, 0);
         for (int i = 0; i < screens.size(); i++)
         {
             screens.at(i)->update();
@@ -400,16 +396,59 @@ public:
     void stateExit()
     {
         getSharedData().bDefaultBlend = false;
+        
+        reset();
     }
     
     
 private:
     
+    void getStateSettingFromXML()
+    {
+        ofxXmlSettings xml;
+        bool s = xml.loadFile("StateColor/" + getName() + ".xml");
+        xml.pushTag("colors");
+        int nTag = xml.getNumTags("baseCol");
+        baseCols.clear();
+        for (int i = 0; i < nTag; i++)
+        {
+            string rgb = xml.getValue("baseCol", "", i);
+            vector<string> split = ofSplitString(rgb, ",");
+            int r = ofToInt(split.at(0));
+            int g = ofToInt(split.at(1));
+            int b = ofToInt(split.at(2));
+            ofColor col = ofColor(r, g, b);
+            baseCols.push_back(col);
+        }
+        nTag = xml.getNumTags("sashiCol");
+        sashiCols.clear();
+        for (int i = 0; i < nTag; i++)
+        {
+            string rgb = xml.getValue("sashiCol", "", i);
+            vector<string> split = ofSplitString(rgb, ",");
+            int r = ofToInt(split.at(0));
+            int g = ofToInt(split.at(1));
+            int b = ofToInt(split.at(2));
+            ofColor col = ofColor(r, g, b);
+            sashiCols.push_back(col);
+        }
+    }
+    
+    void reset()
+    {
+        fbo.begin();
+        ofClear(0);
+        fbo.end();
+    }
+    
     ofFbo fbo;
     
     vector<Screen*> screens;
     ofTexture *tex;
-    ofPixels * colorPixels;    
+    ofPixels * colorPixels;
+    
+    vector<ofColor> baseCols;
+    vector<ofColor> sashiCols;
 };
 
 #endif

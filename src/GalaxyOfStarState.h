@@ -12,6 +12,7 @@
 #include "BaseState.h"
 #include "ofxTweenLite.h"
 #include "ofxFadable.h"
+#include "ofxXmlSettings.h"
 
 const int numStars = 300;
 const float initialPositioningDur = 0.1;
@@ -190,6 +191,7 @@ public:
     
     void stateEnter()
     {
+        getStateSettingFromXML();
         reset();
         getSharedData().bDefaultBlend = true;
     }
@@ -212,21 +214,6 @@ public:
         scrn.end();
         scrn.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
-        
-//        int finShootingStar = 0;
-//        for (int i = 0; i < stars.size(); i++)
-//        {
-//            if (stars.at(i).bFinishShooting)
-//            {
-//                finShootingStar++;
-//            }
-//            else
-//            {
-//                break;
-//            }
-//        }
-//        if (finShootingStar == stars.size())
-//            reset();
     }
     
     void draw()
@@ -248,43 +235,35 @@ public:
 private:
     
     void reset()
-    {
-//        ofColor col;
-//        int rdm = ofRandom(3);
-//        if (rdm == 0)
-//            col = ofColor::red;
-//        else if (rdm == 1)
-//            col = ofColor::cyan;
-//        else
-//            col = ofColor::green;
-        
+    {        
         stars.clear();
         for (int i = 0; i < numStars; i++)
         {
-//            ofColor thisCol = col;
-//            if (0 == i % 10)
-//            {
-//                int rdm2 = ofRandom(3);
-//                if (rdm2 == 0)
-//                    thisCol = ofColor::red;
-//                else if (rdm2 == 1)
-//                    thisCol = ofColor::cyan;
-//                else
-//                    thisCol = ofColor::green;
-//            }
-            
-            ofColor thisCol;
-            int rdm = ofRandom(3);
-            if (rdm == 0)
-                thisCol = ofColor::red;
-            else if (rdm == 1)
-                thisCol = ofColor::cyan;
-            else
-                thisCol = ofColor::green;
+            int rdm = ofRandom(colsFromXML.size());
+            ofColor thisCol = colsFromXML.at(rdm);
             
             Star star;
             star.setup(thisCol);
             stars.push_back(star);
+        }
+    }
+    
+    void getStateSettingFromXML()
+    {
+        ofxXmlSettings xml;
+        bool s = xml.loadFile("StateColor/" + getName() + ".xml");
+        xml.pushTag("colors");
+        int nTag = xml.getNumTags("col");
+        colsFromXML.clear();
+        for (int i = 0; i < nTag; i++)
+        {
+            string rgb = xml.getValue("col", "", i);
+            vector<string> split = ofSplitString(rgb, ",");
+            int r = ofToInt(split.at(0));
+            int g = ofToInt(split.at(1));
+            int b = ofToInt(split.at(2));
+            ofColor col = ofColor(r, g, b);
+            colsFromXML.push_back(col);
         }
     }
     
@@ -293,6 +272,7 @@ private:
     ofFbo scrn;
     
     vector<Star> stars;
+    vector<ofColor> colsFromXML;
 };
 
 #endif
