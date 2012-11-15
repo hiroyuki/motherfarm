@@ -16,8 +16,9 @@ void testApp::setup(){
     stateMachine.addState(new ScaleCircleState());
     stateMachine.addState(new VineLineBranchingState());
     stateMachine.addState(new GalaxyOfStarState());
+    stateMachine.addState(new BellState());
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    stateMachine.getSharedData().changeState("TextureDevState");
+    stateMachine.getSharedData().changeState("BellState");
     
     map<string, shared_ptr< itg::ofxState<SharedData> > > states = stateMachine.getStates();
     map<string, shared_ptr< itg::ofxState<SharedData> > >::iterator itr = states.begin();

@@ -19,8 +19,9 @@ public:
     ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
-    vector<WaveSeed> waves;
     bool doClear;
+    vector<WaveSeed> waves;
+
     
     void setup()
     {

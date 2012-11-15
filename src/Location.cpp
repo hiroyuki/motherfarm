@@ -30,7 +30,7 @@ void Location::setup(ofPixels * pix)
     light.enable();
     light.setAmbientColor(ofFloatColor(0.2,0.2,0.2));
 //    light.setDiffuseColor(ofFloatColor(0.1, 0.1, 0.1));
-    light.setPosition(0, 0, 0);
+    light.setPosition(255, 0, 0);
 //    cam.setCursorDraw(true);
     cam.setFarClip(100);
     cam.setNearClip(0);
@@ -40,7 +40,7 @@ void Location::setup(ofPixels * pix)
     cam.setFarClip(1000);
     cam.setNearClip(0);
     glDisable(GL_DEPTH_TEST);
-//    artnet.setup("192.168.11.100");
+    artnet.setup("192.168.11.100");
 }
 
 void Location::setCameraPos( float x, float y, float z)
@@ -195,7 +195,7 @@ void Location::sendDmx(int showNo)
                     cout << endl;
                 }
                 if ( dmxs[ i ].no != -1){
-//                    artnet.sendDmx(dmxs[i].getIpAddress(), dmxs[ i ].getData(), dmxs[i].totalDataSize);
+                    artnet.sendDmx(dmxs[i].getIpAddress(), dmxs[ i ].getData(), dmxs[i].totalDataSize);
                 }
             }
         }
@@ -269,10 +269,10 @@ void Location::loadSVG(string filename)
                         case 155:
                             line.group = 14;
                             break;
-                        case 125:
+                        case 115:
                             line.group = 12;
                             break;
-                        case 115:
+                        case 125:
                             line.group = 11;
                             break;
                         case 105:
@@ -301,6 +301,17 @@ void Location::loadSVG(string filename)
             totalNum += points.size();
         }
     }
+#ifndef RISE
+    LocationLine line;
+    line.group = 6;
+    line.lineIdInGroup = 1;
+    line.dmxindex = 1;
+    for( int i = 0; i < 100; i++)
+    {
+        line.addNord(ofPoint(SVG_WIDTH / 100 * i, SVG_HEIGHT));
+    }
+    lines.push_back(line);
+#endif
     std::sort(lines.begin(), lines.end());
     int totalBufferSize = 0;
     for ( int i = 0; i < lines.size(); i++ )

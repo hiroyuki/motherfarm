@@ -15,6 +15,7 @@
 #include "ScaleCircleState.h"
 #include "VineLineBranchingState.h"
 #include "GalaxyOfStarState.h"
+#include "BellState.h"
 
 class testApp : public ofBaseApp{
 

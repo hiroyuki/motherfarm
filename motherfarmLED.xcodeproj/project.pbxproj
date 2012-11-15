@@ -211,6 +211,7 @@
 		64BE8ED41652018C00DE3674 /* ofxFadableRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableRect.h; sourceTree = "<group>"; };
 		64BE8ED51652018C00DE3674 /* ofxFadableVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxFadableVideo.h; sourceTree = "<group>"; };
 		64BE8EDC16522C3900DE3674 /* Enttec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enttec.h; sourceTree = "<group>"; };
+		64C1EB7E1654E16A008CC458 /* BellState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BellState.h; sourceTree = "<group>"; };
 		64C7B1E2165116BD00D07ED1 /* ofxTweenLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTweenLite.h; sourceTree = "<group>"; };
 		64C7B1E3165116BD00D07ED1 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -867,6 +868,7 @@
 				64FF5AC8164758660016F17D /* ScaleCircleState.h */,
 				E9B8E6DE164F79790058AC69 /* VineLineBranchingState.h */,
 				E99A504D16505D2800C0B289 /* GalaxyOfStarState.h */,
+				64C1EB7E1654E16A008CC458 /* BellState.h */,
 			);
 			name = state;
 			sourceTree = "<group>";

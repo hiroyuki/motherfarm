@@ -9,7 +9,7 @@
 #ifndef motherfarmLED_Location_h
 #define motherfarmLED_Location_h
 #include "ofxSVGTiny.h"
-//#define RISE
+#define RISE
 #ifdef RISE
 #include "RiseLocationLine.h"
 #else
