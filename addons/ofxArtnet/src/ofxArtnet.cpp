@@ -6,11 +6,9 @@
 //  Copyright 2012年 rhizomatiks. All rights reserved.
 //
 #include "ofxArtnet.h"
-
 int ofxArtnet::nodes_found;
+bool ofxArtnet::verbose;
 status_artnet ofxArtnet::status;
-
-
 void ofxArtnet::setup(const char* interfaceIP, int port_addr, int verbose)
 {
     nodes_found = 0;
@@ -19,7 +17,7 @@ void ofxArtnet::setup(const char* interfaceIP, int port_addr, int verbose)
     
     if ( (node = artnet_new(interfaceIP, verbose)) == NULL) 
     {
-        printf("cannot create node: %s\n", artnet_strerror() );
+        if ( verbose ) printf("cannot create node: %s\n", artnet_strerror() );
         goto error_destroy;            
     }
     artnet_set_short_name(node, SHORT_NAME.c_str());
@@ -31,7 +29,7 @@ void ofxArtnet::setup(const char* interfaceIP, int port_addr, int verbose)
     artnet_set_handler(node, ARTNET_REPLY_HANDLER, ofxArtnet::reply_handler, NULL);
     
     if (artnet_start(node) != ARTNET_EOK) {
-        printf("Failed to start: %s\n", artnet_strerror() );
+        if ( verbose ) printf("Failed to start: %s\n", artnet_strerror() );
         goto error_destroy;
     }
     
@@ -50,7 +48,7 @@ void ofxArtnet::setup(const char* interfaceIP, int port_addr, int verbose)
     artnet_destroy(node);
     
 //    free(ops.ip_addr);
-    exit(1);
+//    exit(1);
 }
 
 void ofxArtnet::threadedFunction(){
@@ -96,7 +94,11 @@ void ofxArtnet::sendDmx( string targetIp, const unsigned char* data512, int size
     if ( status == NODES_FOUND)
     {
         if ( artnet_send_dmx(node, 0, targetIp.c_str(), size , data512) != ARTNET_EOK) {
-            printf("Failed to Send: %s\n", artnet_strerror() );
+            if ( verbose ) printf("[ofxArtnet]Failed to Send: %s\n", artnet_strerror() );
         }
+    }
+    else
+    {
+        if ( verbose ) printf("NODES_IS_NOT_FOUND\n");
     }
 }

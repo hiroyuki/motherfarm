@@ -16,6 +16,7 @@
 #include "VineLineBranchingState.h"
 #include "GalaxyOfStarState.h"
 #include "BellState.h"
+#include "NoiseState.h"
 
 class testApp : public ofBaseApp{
 
