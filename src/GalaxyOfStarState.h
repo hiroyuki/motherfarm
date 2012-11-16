@@ -14,10 +14,13 @@
 #include "ofxFadable.h"
 #include "ofxXmlSettings.h"
 
-const int numStars = 300;
+const int numStars = 150;
 const float initialPositioningDur = 0.1;
-const float shootingDur = 4.0;
+const float shootingDur = 7.0;
 const int numMaxTrail = 50;
+
+const int minDist = -2500;
+const int maxDist = -5500;
 
 class Star : public ofxFadableBase
 {
@@ -27,7 +30,7 @@ public:
     {
         initialdestPos = ofPoint(ofRandom(-SVG_WIDTH/2, SVG_WIDTH+SVG_WIDTH/2),
                                  ofRandom(-SVG_HEIGHT/2, SVG_HEIGHT+SVG_HEIGHT/2),
-                                 ofRandom(-2500, -5500));
+                                 ofRandom(minDist, maxDist));
         initialPos = initialdestPos;
         initialPos.z += 1000;
         curPos = initialPos;
@@ -85,7 +88,7 @@ public:
                     float cur = ofGetElapsedTimef();
                     float diff = cur - shoothingTime;
                     float mappedProgress = ofMap(diff, 0.0, shootingDur, 0.0, 1.0, true);
-                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_EXPO_INOUT);
+                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_LINEAR_INOUT);
                     curPos = shootBasePos.getInterpolated(shootDestPos, factor);
                     
                     if (trails.size() > 0)
@@ -121,26 +124,31 @@ public:
             else
             {
                 curPos.z += 1;
-                if (curPos.z > 1500)
-                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
+                if (curPos.z > -500)
+                    curPos.z = /*initialdestPos.z + */ofRandom(minDist, maxDist);
             }
         }
         
         checkShoot();
     }
     
-    void draw()
+    void draw(float palpha)
     {
         if (bShootingStar && bMainmovement)
         {
             ofPushStyle();
-            ofSetColor(col, getAlphaInt());
+            int a = ofMap(curPos.z, maxDist, -500, -100, 255, true);
+            ofSetColor(col, a*palpha);
             ofCircle(curPos, rad);
-            for (int i = 0; i < trails.size(); i++)
+            if (a > 0)
             {
-                int alpha = ofMap(i, 0, trails.size(), 0, 60, true);
-                ofSetColor(col, alpha);
-                ofCircle(trails.at(i), rad);
+                //            for (int i = 0; i < trails.size(); i++)
+                //            {
+                //                int alpha = ofMap(i, 0, trails.size(), 0, a, true);
+                ////                alpha += a;
+                //                ofSetColor(col, alpha);
+                //                ofCircle(trails.at(i), rad);
+                //            }
             }
             ofPopStyle();
         }
@@ -186,7 +194,7 @@ public:
         BaseState::setup();
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;
-        scrn.allocate(SVG_WIDTH, SVG_HEIGHT);
+        scrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
     }
     
     void stateEnter()
@@ -194,24 +202,37 @@ public:
         getStateSettingFromXML();
         reset();
         getSharedData().bDefaultBlend = true;
+        
+        scrn.begin();
+        ofClear(0);
+        scrn.end();
+        
+        show();
     }
     
     void update()
     {
+        ofEnableAlphaBlending();
+        
         BaseState::update();
         
         scrn.begin();
         ofClear(0);
+        
+        ofPushStyle();
+        ofSetColor(120, 0, 0, alpha*255);
+        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+        ofPopStyle();
+        
         glEnable(GL_DEPTH_TEST);
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
         for (int i = 0; i < stars.size(); i++)
         {
             stars.at(i).update();
-            stars.at(i).draw();
+            stars.at(i).draw(alpha);
         }
-        ofDisableBlendMode();
         glDisable(GL_DEPTH_TEST);
         scrn.end();
+        
         scrn.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
     }
@@ -231,11 +252,11 @@ public:
     {
         getSharedData().bDefaultBlend = false;
     }
-
+    
 private:
     
     void reset()
-    {        
+    {
         stars.clear();
         for (int i = 0; i < numStars; i++)
         {

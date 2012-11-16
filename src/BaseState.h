@@ -27,8 +27,8 @@ public:
     
     virtual void stateEnter()
     {
+        showMs = ofGetElapsedTimeMillis();
         show();
-        showMs = ofGetElapsedTimef();
     }
     
     virtual void stateExit()
@@ -60,8 +60,7 @@ public:
             }
         }
         sharedData->location.update();
-        cout << (int)backToNomal << " "<< ofGetElapsedTimeMillis() - showMs << endl;
-        if ( !backToNomal && ofGetElapsedTimeMillis() - showMs > 40000 && showMs != -1)
+        if ( backToNomal && ofGetElapsedTimeMillis() - showMs > 40000 && showMs != -1)
         {
             sharedData->changeState("NoiseState");
             showMs = -1;

@@ -79,7 +79,6 @@ public:
         fbo.begin();ofClear(0);fbo.end();
         assignRect();
         pastAngle = 0;
-        backToNomal = false;
     }
     
     void stateEnter()
@@ -88,6 +87,7 @@ public:
         BaseState::stateEnter();
         fbo.begin();ofClear(0);fbo.end();
         assignRect();
+        show();
     }
     
     void assignRect()
