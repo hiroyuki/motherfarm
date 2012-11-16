@@ -84,6 +84,7 @@ public:
     void stateEnter()
     {
         assignRect();
+        show();
     }
     
     void assignRect()

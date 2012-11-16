@@ -436,6 +436,8 @@ public:
         }
         
         getSharedData().bDefaultBlend = true;
+        
+        show();
     }
     
     void update()
@@ -473,14 +475,6 @@ public:
         }
         
         fbo.end();
-        
-//        tmpFbo.begin();
-//        ofClear(0);
-//        ofSetColor(255, alpha*255);
-//        fbo.draw(0, 0);
-//        fbo.draw(0, 0);
-//        fbo.draw(0, 0);        
-//        tmpFbo.end();
         
         fbo.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
