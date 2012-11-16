@@ -426,7 +426,7 @@ public:
             screens.at(i)->reset(baseCols, sashiCols);
         }
         
-        numCircle = 20;
+        numCircle = 20 * 2.0;
         for (int i = 0; i < numCircle; i++)
         {
             CircleBtm c;
