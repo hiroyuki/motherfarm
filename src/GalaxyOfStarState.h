@@ -14,9 +14,9 @@
 #include "ofxFadable.h"
 #include "ofxXmlSettings.h"
 
-const int numStars = 300;
+const int numStars = 150;
 const float initialPositioningDur = 0.1;
-const float shootingDur = 4.0;
+const float shootingDur = 7.0;
 const int numMaxTrail = 50;
 
 const int minDist = -2500;
@@ -137,13 +137,18 @@ public:
         if (bShootingStar && bMainmovement)
         {
             ofPushStyle();
-            ofSetColor(col, 100);
+            int a = ofMap(curPos.z, maxDist, -500, -100, 255, true);
+            ofSetColor(col, a);
             ofCircle(curPos, rad);
-            for (int i = 0; i < trails.size(); i++)
+            if (a > 0)
             {
-                int alpha = ofMap(i, 0, trails.size(), 0, 30, true);
-                ofSetColor(col, alpha);
-                ofCircle(trails.at(i), rad);
+//            for (int i = 0; i < trails.size(); i++)
+//            {
+//                int alpha = ofMap(i, 0, trails.size(), 0, a, true);
+////                alpha += a;
+//                ofSetColor(col, alpha);
+//                ofCircle(trails.at(i), rad);
+//            }
             }
             ofPopStyle();
         }
@@ -204,9 +209,17 @@ public:
         BaseState::update();
         
         scrn.begin();
-        ofClear(0);
+        ofClear(120, 0, 0, alpha*255);
+        
+//        ofPushStyle();
+//        ofSetColor(ofColor::white);
+//        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+//        ofPopStyle();
+        
+        
         glEnable(GL_DEPTH_TEST);
-        ofEnableBlendMode(OF_BLENDMODE_ADD);
+//        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        
         for (int i = 0; i < stars.size(); i++)
         {
             stars.at(i).update();

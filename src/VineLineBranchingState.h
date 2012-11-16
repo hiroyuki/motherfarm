@@ -15,6 +15,10 @@
 const static int MAX_CIRCLE_SIZE = 15;
 const float fadeDur = 1.0;
 
+const float sizeMult = 4.1;
+const float decrease = 0.999;
+const int berryMaxDraw = 55;
+
 class VectorField
 {
 public:
@@ -22,7 +26,7 @@ public:
     void setup(float ts1, float ts2)
     {
         fScaleMult = 0.01 * ts1;
-        fSpeedMult = 0.0005 * ts2;
+        fSpeedMult = 0.00005 * ts2;
         
         float w = 500, h = 500;
         fNoiseMin = 1;
@@ -72,7 +76,7 @@ public:
         fNoiseSpeed = ofRandom(0.5, 10);
     }
     
-    void draw(VectorField vectorField, ofColor col)
+    void draw(VectorField vectorField, ofColor col, float palpha)
     {
         ofPushStyle();
         
@@ -85,8 +89,9 @@ public:
         y += sin(fAngle);
         
         ofFill();
-        ofSetColor(col, 20);
-        ofCircle(x, y, r);
+        ofSetColor(col, 20 * palpha);
+        
+        ofCircle(x, y, r * sizeMult);
         
         ofPopStyle();
     }
@@ -118,12 +123,14 @@ public:
             poss.push_back(newPos);
             float rad = ofRandom(40, 25);
             rads.push_back(rad);
-            int a = ofRandom(10, 70);
+            int a = ofRandom(100, 70);
             alphas.push_back(a);
         }
         bDrawn = false;
         drawTime = 0;
-        maxDraw = 15;
+        maxDraw = berryMaxDraw;
+        drawBegin = 0.0;
+        bBegin = false;
     }
     
     void update()
@@ -131,17 +138,23 @@ public:
         
     }
     
-    void draw()
+    void draw(float palpha)
     {
         if (!bDrawn && drawTime < maxDraw)
         {
+            if (!bBegin)
+            {
+                drawBegin = ofGetElapsedTimef();
+                bBegin = true;
+            }
+            
             drawTime++;
             ofPushStyle();
             ofPushMatrix();
             ofTranslate(0, 0, -10);
             for (int i = 0; i < poss.size(); i++)
             {
-                ofSetColor(col, alphas.at(i));
+                ofSetColor(col, alphas.at(i)*palpha);
                 int rad = ofMap(drawTime, 0, maxDraw, 0, rads.at(i), true);
                 ofCircle(poss.at(i), rad);
             }
@@ -160,6 +173,8 @@ public:
     vector<int> alphas;
     int drawTime;
     int maxDraw;
+    float drawBegin;
+    bool bBegin;
     ofColor col;
 };
 
@@ -225,7 +240,7 @@ public:
         berry.update();
     }
     
-    void draw()
+    void draw(float palpha)
     {
         if (berry.bDrawn)
         {
@@ -233,12 +248,12 @@ public:
             {
                 if(circles[i].r > 0.001)
                 {
-                    circles[i].draw(vectorField, baseCol);
+                    circles[i].draw(vectorField, baseCol, palpha);
                 }
             }
         }
         
-        berry.draw();
+        berry.draw(palpha);
         
         oldX = x;
         oldY = y;
@@ -293,11 +308,11 @@ public:
         }
     }
     
-    void draw()
+    void draw(float palpha)
     {   
         for (int i = 0; i < numBranches; i++)
         {
-            branches.at(i).draw();
+            branches.at(i).draw(palpha);
         }
     }
     
@@ -328,6 +343,56 @@ private:
     int numCircles;
 };
 
+class CircleBtm
+{
+public:
+    
+    void setup()
+    {
+        bUp = false;
+        rad = 15;
+        
+        int y = - rad - 300;
+        int x = ofRandom(SVG_WIDTH);
+        pos = ofPoint(x,y);
+    }
+    
+    void update()
+    {
+        if (bUp)
+        {
+            pos.y += 20;
+            if (pos.y > SVG_HEIGHT + rad)
+            {
+                bUp = false;
+                pos.y = - rad - 300;
+            }
+        }
+    }
+    
+    void draw(float alpha)
+    {
+        ofPushStyle();
+        ofSetColor(ofColor::white, alpha*10);
+        ofCircle(pos, rad);
+        
+        int mTrail = 200;
+        for (int i = 0; i < mTrail; i++)
+        {
+            float thisRad = ofMap(i, 0, mTrail, rad * 0.5, rad);
+            float thisA = ofMap(i, 0, mTrail, 1, 10);
+            ofSetColor(ofColor::white, alpha*thisA);
+            ofCircle(pos.x, pos.y + thisRad * 10, thisRad);
+        }
+        ofPopStyle();
+    }
+    
+    ofPoint pos;
+    bool bUp;
+    int rad;
+    
+};
+
 class VineLineBranchingState : public BaseState
 {
     
@@ -340,6 +405,7 @@ public:
         colorPixels = sharedData->colorPixels;        
         
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
+        tmpFbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         
         getStateSettingFromXML();
         
@@ -361,22 +427,60 @@ public:
             screens.at(i)->reset(baseCols, sashiCols);
         }
         
+        numCircle = 20;
+        for (int i = 0; i < numCircle; i++)
+        {
+            CircleBtm c;
+            c.setup();
+            circles.push_back(c);
+        }
+        
         getSharedData().bDefaultBlend = true;
     }
     
     void update()
     {
+        ofEnableAlphaBlending();
+        
+        int rdmSec = ofRandom(3, 10);
+        if (0 == (int)(ofGetElapsedTimef()) % rdmSec)
+        {
+            int rdm = ofRandom(numCircle);
+            circles.at(rdm).bUp = true;
+        }
+        
         BaseState::update();
         
         fbo.begin();
-        ofSetColor(253, 253, 253);        
+        
+        ofPushStyle();
+        ofSetColor(0, 40, 0, alpha*100);
+        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+        ofPopStyle();
+        
+        ofSetColor(255 * decrease, 255 * decrease, 255 * decrease, alpha*255);
         fbo.draw(0, 0);
         for (int i = 0; i < screens.size(); i++)
         {
             screens.at(i)->update();
-            screens.at(i)->draw();
+            screens.at(i)->draw(alpha);
         }
+        
+        for (int i = 0; i < numCircle; i++)
+        {
+            circles.at(i).update();
+            circles.at(i).draw(alpha);
+        }
+        
         fbo.end();
+        
+//        tmpFbo.begin();
+//        ofClear(0);
+//        ofSetColor(255, alpha*255);
+//        fbo.draw(0, 0);
+//        fbo.draw(0, 0);
+//        fbo.draw(0, 0);        
+//        tmpFbo.end();
         
         fbo.readToPixels(*colorPixels);
         tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
@@ -442,6 +546,7 @@ private:
     }
     
     ofFbo fbo;
+    ofFbo tmpFbo;
     
     vector<Screen*> screens;
     ofTexture *tex;
@@ -449,6 +554,10 @@ private:
     
     vector<ofColor> baseCols;
     vector<ofColor> sashiCols;
+    
+    vector<CircleBtm> circles;
+    int numCircle;
 };
+
 
 #endif
