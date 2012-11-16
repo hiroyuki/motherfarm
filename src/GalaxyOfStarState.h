@@ -207,7 +207,8 @@ public:
         ofClear(0);
         scrn.end();
         
-        show();
+        
+        BaseState::stateEnter();
     }
     
     void update()

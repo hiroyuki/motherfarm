@@ -436,7 +436,8 @@ public:
         
         getSharedData().bDefaultBlend = true;
         
-        show();
+        
+        BaseState::stateEnter();
     }
     
     void update()
