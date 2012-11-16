@@ -35,6 +35,7 @@ public:
     {
         BaseState::stateEnter();
         show();
+        sharedData->doNoise = 0;
     }
     
     void update()
