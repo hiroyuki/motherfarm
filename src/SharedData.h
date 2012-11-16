@@ -18,7 +18,7 @@
 #define SVG_WIDTH 790
 #define SVG_HEIGHT 450
 #endif
-#define MAX_STARS 5
+#define MAX_STARS 15
 class FarmEventData
 {
 public:
@@ -62,6 +62,7 @@ public:
     int dataManualEnntecNo = -1;
     ofPixels extraLED;
     vector< CircleSeed> stars;
+    bool doNoise;
     
     bool bDefaultBlend;
     
@@ -82,6 +83,7 @@ public:
         mode = TEST_NONE;
         extraLED.allocate(4, 2, 3);
         bDefaultBlend = false;
+        doNoise = false;
         for ( int i= 0; i < MAX_STARS; i++ )
         {
             stars.push_back(CircleSeed());

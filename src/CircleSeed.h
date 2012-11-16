@@ -9,7 +9,7 @@
 #ifndef motherfarmLED_CircleSeed_h
 #define motherfarmLED_CircleSeed_h
 #define LERP 0.2
-#define SCALE_LERP 0.1
+#define SCALE_LERP 0.03
 #define KEEP_MS 0
 #define STATUS_NEW 0
 #define STATUS_SHOW 1
@@ -39,7 +39,7 @@ public:
         if ( height != 0) areaH = height;
         if ( width != 0) areaW = width;
         pos = ofPoint(ofRandom(areaW), ofRandom(areaH));
-        radius = ofRandom(100, 140);
+        radius = ofRandom(150, 340);
         status = STATUS_NEW;
         changeMs = ofGetElapsedTimeMillis();
         color.r = ofRandom(255);

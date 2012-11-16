@@ -11,9 +11,9 @@
 #include "BaseState.h"
 #define RECT_NUM_X 100.f
 #define RECT_NUM_Y 35.f
-#define CENTERX_INTERVAL 10
+#define CENTERX_INTERVAL 20
 #define ANGLE_RESOLUTION 0.01
-#define TOCENTER_NUM 15
+#define TOCENTER_NUM 20
 enum RECT_COLOR
 {
     R_BLUE, R_YELLOW
@@ -44,7 +44,7 @@ public:
         g = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 255.f
                                     :ofNoise( seedy * t) * 150.f;
         b = (color == R_BLUE) ? ofNoise( seedx * seedy * t) * 150.f + 105.f
-                                    : 255.f;
+                                    : 0.f;
     }
     
     void draw(float alpha)
@@ -56,7 +56,7 @@ public:
     void drawBell(float alpha)
     {
         ofSetColor(r, g, b, alpha*255.f);
-        ofRect(x, y + (ofNoise(seedx + ofGetElapsedTimeMillis() * 0.001f)-0.5f) * SVG_HEIGHT * 1.5f, size, size);
+        ofRect(x, y + (ofNoise(seedx + ofGetElapsedTimeMillis() * 0.001f)-0.5f) * SVG_HEIGHT*2.f, size, size);
     }
 };
 class BellState : public BaseState
@@ -79,6 +79,7 @@ public:
         fbo.begin();ofClear(0);fbo.end();
         assignRect();
         pastAngle = 0;
+        backToNomal = false;
     }
     
     void stateEnter()
@@ -109,7 +110,7 @@ public:
             rects.push_back(ColorRect(i, i));
             rects.back().color = R_YELLOW;
             rects.back().x = i;
-            rects.back().size = 15;
+            rects.back().size = 10;
             rects.back().y = (SVG_HEIGHT - rects.back().size)>>1;
         }
         for ( int i = 0; i < TOCENTER_NUM; i++)
@@ -134,7 +135,7 @@ public:
         ofTranslate(longestLen/2, longestLen/2);
         float angle = ofGetElapsedTimeMillis()/ 10.f;
 
-        ofRotate(ofGetElapsedTimeMillis()/ 10.f, 0, 0, 1);
+        ofRotate(ofGetElapsedTimeMillis()/ 25.f, 0, 0, 1);
         for( int i = 0; i < rects.size(); i++ )
         {
             if ( rects[i].color == R_BLUE)

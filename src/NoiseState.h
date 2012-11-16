@@ -19,6 +19,8 @@ public:
     int longestLen;
     ofPixels *smallPix;
     float compressw, compressh;
+    bool bNoise = false;
+    float noiseAlpha = 0;
     void setup()
     {
         BaseState::setup();
@@ -49,8 +51,8 @@ public:
                 {
                     if ( comph - floor(comph) < compressh)
                     {
-                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4] = ofNoise(i*0.001+t*0.001, j*0.001+t*0.001) * 50.f*alpha;
-                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+1] = ofNoise(i*0.001-t*0.001, j*0.001+t*0.002) * 127.f*alpha;
+                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4] = ofNoise(i*0.001+t*0.001, j*0.001+t*0.001) * 10.f*alpha;
+                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+1] = ofNoise(i*0.001-t*0.001, j*0.001+t*0.002) * 60.f*alpha;
                         colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+2] = ofNoise(i*0.001-t*0.002, j*0.001-t*0.001) * 255.f * alpha;
                         colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+3] = 255*alpha;
                         lastupdatey = j;
@@ -88,10 +90,31 @@ public:
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         tex->draw(0, 0);
         sharedData->drawStars(alpha);
+        if ( bNoise )
+        {
+            noiseAlpha = ofLerp(noiseAlpha, 1, 0.01);
+            for( int i = 0; i < SVG_WIDTH; i+=15)
+            {
+                for( int j = 0; j < SVG_HEIGHT; j += 15 )
+                {
+                    if ( ofRandom(1) > 0.5)
+                    {
+                        ofSetColor(255, 255, 255, noiseAlpha*255);
+                        ofRect(i, j, 15,15);
+                    }
+                }
+            }
+        }
         ofDisableBlendMode();
         fbo.end();
         fbo.readToPixels(*colorPixels);
         tex->loadData(*colorPixels);
+    }
+    
+    void doNoise()
+    {
+        noiseAlpha = 0;
+        bNoise = true;
     }
     
     void draw()

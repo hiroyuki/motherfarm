@@ -40,7 +40,7 @@ public:
         }
         color.r = 255;
         color.g = 255;
-        color.b = 0;
+        color.b = 255;
         
         center = ofPoint( areaW / 2.f, areaH / 2.f, 0.f );
         angleRad = ofRandom( TWO_PI );

@@ -96,20 +96,21 @@ public:
                 cout << "execute!!!!!" << endl;
                 sharedData->dt.eventName = "changeState";
                 string stateName;
+                sharedData->doNoise = false;
                 switch( action.type)
                 {
                     case 1:
-                        stateName = "BellState";
+                        stateName = "VineLineBranchingState";
                         break;
                     case 2:
                         stateName = "GalaxyOfStarState";
                         break;
                     case 3:
-                        stateName = "VineLineBranchingState";
+                        stateName = "BellState";
                         break;
                 }
                 sharedData->curState = sharedData->dt.nextState = stateName;
-                //ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
+                ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
                 action.executed = true;
             }
         }
@@ -144,6 +145,7 @@ public:
                     action.actionDate.setDate(y, m, d);
                     action.actionDate.setTimesec(h, mm, s);
                     action.actionDate.timesec += 10000;
+                    sharedData->doNoise = true;
                     action.type = dateXML.getValue("result:type", -1);
                     action.executed = false;
                     lastExecuted =  dateXML.getValue("result:time", "error");

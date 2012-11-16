@@ -16,6 +16,8 @@ public:
     string nextState;
     SharedData *sharedData;
     float showLerp, hideLerp;
+    bool backToNomal = true;
+    int showMs;
     virtual void setup()
     {
         sharedData = &getSharedData();
@@ -26,6 +28,7 @@ public:
     virtual void stateEnter()
     {
         show();
+        showMs = ofGetElapsedTimef();
     }
     
     virtual void stateExit()
@@ -57,6 +60,12 @@ public:
             }
         }
         sharedData->location.update();
+        cout << (int)backToNomal << " "<< ofGetElapsedTimeMillis() - showMs << endl;
+        if ( !backToNomal && ofGetElapsedTimeMillis() - showMs > 40000 && showMs != -1)
+        {
+            sharedData->changeState("NoiseState");
+            showMs = -1;
+        }
     }
     
     virtual void draw()
