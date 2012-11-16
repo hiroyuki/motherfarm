@@ -5,7 +5,7 @@ void testApp::setup(){
     ofSetFrameRate(40);
     sharedData = &stateMachine.getSharedData();
     sharedData->setup();
-    stateMachine.addState(new BaseState());
+//    stateMachine.addState(new BaseState());
     stateMachine.addState(new ParseState());
     stateMachine.addState(new TextureDevState());
     stateMachine.addState(new SingleColorWave());
@@ -20,7 +20,7 @@ void testApp::setup(){
     stateMachine.addState(new NoiseState());
     
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    stateMachine.getSharedData().changeState("BellState");
+    stateMachine.changeState("BellState");
     
     map<string, shared_ptr< itg::ofxState<SharedData> > > states = stateMachine.getStates();
     map<string, shared_ptr< itg::ofxState<SharedData> > >::iterator itr = states.begin();
@@ -80,9 +80,19 @@ void testApp::draw(){
 void testApp::eventListener( FarmEventData& data)
 {
     cout << "event receive" << endl;
+    if ( data.eventName == "showState")
+    {
+        cout << "change state " << data.nextState << endl;
+        stateMachine.changeState(sharedData->dt.nextState);
+    }
     if ( data.eventName == "changeState")
     {
-        stateMachine.changeState(data.nextState);
+        stateMachine.currentState->hide(data.nextState);
+//        stateMachine.changeState(data.nextState);
+    }
+    if ( data.eventName == "showCur")
+    {
+        stateMachine.currentState->show();
     }
 }
 

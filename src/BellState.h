@@ -39,23 +39,23 @@ public:
     void update()
     {
         float t = ofGetElapsedTimeMillis() * 0.0001;
-        r = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 205.f
+        r = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 255.f
                                     :ofNoise( seedx * t) * 150.f;
-        g = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 205.f
+        g = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 255.f
                                     :ofNoise( seedy * t) * 150.f;
         b = (color == R_BLUE) ? ofNoise( seedx * seedy * t) * 150.f + 105.f
-                                    :ofNoise( seedx * seedy * t) * 155.f + 100;
+                                    : 255.f;
     }
     
-    void draw()
+    void draw(float alpha)
     {
-        ofSetColor(r, g, b);
+        ofSetColor(r, g, b, alpha*255.f);
         ofRect(x, y, size, size);
     }
     
-    void drawBell()
+    void drawBell(float alpha)
     {
-        ofSetColor(r, g, b);
+        ofSetColor(r, g, b, alpha*255.f);
         ofRect(x, y + (ofNoise(seedx + ofGetElapsedTimeMillis() * 0.001f)-0.5f) * SVG_HEIGHT * 1.5f, size, size);
     }
 };
@@ -83,6 +83,9 @@ public:
     
     void stateEnter()
     {
+        cout << "stateEnter bell state" << endl;
+        BaseState::stateEnter();
+        fbo.begin();ofClear(0);fbo.end();
         assignRect();
     }
     
@@ -123,7 +126,7 @@ public:
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
         fbo.begin();
-        ofSetColor(240, 240, 240, 240);
+        ofSetColor(240*alpha, 240*alpha, 240*alpha, 240*alpha);
         fbo.draw(0, 0);
         ofSetHexColor(0xffffff);
         ofPushMatrix();
@@ -139,7 +142,7 @@ public:
                 ofPushMatrix();
                 ofTranslate(-longestLen / 2, -longestLen / 2);
                 rects[i].update();
-                rects[i].draw();
+                rects[i].draw(alpha);
                 ofPopMatrix();
             }
         }
@@ -152,7 +155,7 @@ public:
             {
                 ofPushMatrix();
                 rects[i].update();
-                rects[i].drawBell();
+                rects[i].drawBell(alpha);
                 ofPopMatrix();
             }
         }
@@ -162,7 +165,7 @@ public:
         {
             ofPushMatrix();
                 centers[i].update();
-                centers[i].draw();
+                centers[i].draw(alpha);
             ofPopMatrix();
         }
         ofPopMatrix();

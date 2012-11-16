@@ -36,8 +36,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 502.0, 212.0, 50.0, 20.0 ],
-					"presentation_rect" : [ 504.5, 212.0, 0.0, 0.0 ]
+					"patching_rect" : [ 502.0, 212.0, 50.0, 20.0 ]
 				}
 
 			}
@@ -51,7 +50,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 502.0, 247.0, 91.0, 18.0 ],
-					"presentation_rect" : [ 502.5, 249.0, 0.0, 0.0 ],
 					"text" : "/drawEnttec $1"
 				}
 
@@ -66,8 +64,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 383.0, 185.0, 50.0, 20.0 ],
-					"presentation_rect" : [ 381.5, 183.0, 0.0, 0.0 ]
+					"patching_rect" : [ 383.0, 185.0, 50.0, 20.0 ]
 				}
 
 			}
@@ -81,8 +78,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 321.5, 185.0, 50.0, 20.0 ],
-					"presentation_rect" : [ 324.5, 185.0, 0.0, 0.0 ]
+					"patching_rect" : [ 321.5, 185.0, 50.0, 20.0 ]
 				}
 
 			}
@@ -110,7 +106,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 409.5, 247.0, 63.0, 18.0 ],
-					"presentation_rect" : [ 410.5, 251.0, 0.0, 0.0 ],
 					"text" : "/enttec $1"
 				}
 
@@ -718,7 +713,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-3",
-					"items" : [ "BaseState", ",", "CircleColorState", ",", "CircleToCenterState", ",", "CircleToOutState", ",", "GalaxyOfStarState", ",", "MultiColorWave", ",", "ParseState", ",", "ScaleCircleState", ",", "SingleColorWave", ",", "TextureDevState", ",", "VineLineBranchingState" ],
+					"items" : [ "BaseState", ",", "BellState", ",", "CircleColorState", ",", "CircleToCenterState", ",", "CircleToOutState", ",", "GalaxyOfStarState", ",", "MultiColorWave", ",", "NoiseState", ",", "ParseState", ",", "ScaleCircleState", ",", "SingleColorWave", ",", "TextureDevState", ",", "VineLineBranchingState" ],
 					"maxclass" : "umenu",
 					"numinlets" : 1,
 					"numoutlets" : 3,

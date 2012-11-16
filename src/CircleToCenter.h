@@ -91,9 +91,9 @@ public:
         pos.y = center.y + sin( angleRad) * longestLen*alpha;
     }
     
-    virtual void draw()
+    virtual void draw(float al)
     {
-        ofSetColor(color.r, color.g, color.b, ofMap( alpha, 0, 0.15, 0, 1, true ) * 255);
+        ofSetColor(color.r, color.g, color.b, ofMap( alpha, 0, 0.15, 0, 1, true ) * 255 * al);
         ofCircle(pos.x, pos.y, radius*ofMap(centerDegree, 0, 0.3, 0, 1, true));
     }
 };

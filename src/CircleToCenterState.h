@@ -65,7 +65,7 @@ public:
         fbo.begin();
         if( doClear ) ofClear(0);
         doClear = false;
-        ofSetColor(240);
+        ofSetColor(240.f*alpha, 240.f*alpha, 240.f*alpha,240.f*alpha);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
@@ -75,7 +75,7 @@ public:
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         for( int j = 0; j < circles.size(); j++)
         {
-            circles[j].draw();
+            circles[j].draw(alpha);
         }
         ofPopMatrix();
         ofDisableBlendMode();

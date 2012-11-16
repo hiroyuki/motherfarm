@@ -192,10 +192,18 @@ public:
     
     void changeState( string stateName )
     {
-        cout << "changeState " << stateName << endl;
-        dt.eventName = "changeState";
-        curState = dt.nextState = stateName;
-        ofNotifyEvent(event.farmEvent, dt, this);
+        if ( curState != stateName)
+        {
+            cout << "changeState " << stateName << endl;
+            dt.eventName = "changeState";
+            curState = dt.nextState = stateName;
+            ofNotifyEvent(event.farmEvent, dt, this);
+        }
+        else
+        {
+            dt.eventName = "showCur";
+            ofNotifyEvent(event.farmEvent, dt, this);
+        }
     }
 };
 #endif

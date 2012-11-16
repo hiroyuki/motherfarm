@@ -47,10 +47,13 @@ public:
         if ( isHiding )
         {
             alpha = ofLerp( alpha, 0.f, hideLerp);
-            if ( alpha < 0.01)
+            if ( alpha < 0.1)
             {
                 alpha = 0;
                 isHiding = false;
+                sharedData->dt.eventName = "showState";
+                sharedData->dt.nextState = nextState;
+                ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
             }
         }
         sharedData->location.update();
@@ -58,7 +61,7 @@ public:
     
     virtual void draw()
     {
-        //cout << alpha << endl;
+//        cout << alpha << endl;
         //        ofBackgroundGradient(ofColor(255/5,255/5,255/5),ofColor(0));
         ofBackground(0, 0, 0);
         ofSetColor(255, 255, 255, alpha*255);
@@ -71,16 +74,24 @@ public:
     
     virtual void show()
     {
-        if( !isHiding )
+        cout << "show " << getName()<< endl;
+//        if( !isHiding )
         {
             isShowing = true;
+            isHiding = false;
             alpha = 0;
         }
     }
     
-    virtual void hide(string nextState)
+    virtual void hide(string _nextState)
     {
-        if ( !isShowing) isHiding = true;
+        cout << "hide to " << _nextState <<getName() << endl;
+        if ( _nextState != getName())
+        {
+            isShowing = false;
+            nextState = _nextState;
+            isHiding = true;
+        }
     }
     
     virtual void eventListener()

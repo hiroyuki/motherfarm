@@ -57,7 +57,6 @@ public:
                 if ( ofGetElapsedTimeMillis() - changeMs > delay)
                 {
                     status = STATUS_SHOW;
-                    cout << status << endl;
                     changeMs = ofGetElapsedTimeMillis();    
                 }
                 alpha = 0;
@@ -77,7 +76,6 @@ public:
                 {
                     changeMs = ofGetElapsedTimeMillis();
                     status = STATUS_HIDE;
-                    cout << status << endl;
                 }
                 break;
             case STATUS_HIDE:
