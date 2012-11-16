@@ -19,8 +19,6 @@ public:
     int longestLen;
     ofPixels *smallPix;
     float compressw, compressh;
-    bool bNoise = false;
-    float noiseAlpha = 0;
     void setup()
     {
         BaseState::setup();
@@ -92,16 +90,17 @@ public:
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         tex->draw(0, 0);
         sharedData->drawStars(alpha);
-        if ( bNoise )
+        if ( sharedData->doNoise > 0 )
         {
-            noiseAlpha = ofLerp(noiseAlpha, 1, 0.01);
+            sharedData->noiseAlpha = sharedData->doNoise == 1 ? ofLerp(sharedData->noiseAlpha, 1.f, 0.1)
+                                                                :ofLerp(sharedData->noiseAlpha, 0.f, 0.01);
             for( int i = 0; i < SVG_WIDTH; i+=15)
             {
                 for( int j = 0; j < SVG_HEIGHT; j += 15 )
                 {
                     if ( ofRandom(1) > 0.5)
                     {
-                        ofSetColor(255, 255, 255, noiseAlpha*255);
+                        ofSetColor(255, 255, 255, sharedData->noiseAlpha*255);
                         ofRect(i, j, 15,15);
                     }
                 }
@@ -111,12 +110,6 @@ public:
         fbo.end();
         fbo.readToPixels(*colorPixels);
         tex->loadData(*colorPixels);
-    }
-    
-    void doNoise()
-    {
-        noiseAlpha = 0;
-        bNoise = true;
     }
     
     void draw()

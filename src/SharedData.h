@@ -62,7 +62,8 @@ public:
     int dataManualEnntecNo = -1;
     ofPixels extraLED;
     vector< CircleSeed> stars;
-    bool doNoise;
+    int doNoise;
+    float noiseAlpha = 0;
     
     bool bDefaultBlend;
     

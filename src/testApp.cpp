@@ -110,6 +110,15 @@ void testApp::keyReleased(int key){
 //        case 'e':
 //            location.exportLocation();
             break;
+        case '1':
+            sharedData->doNoise = 1;
+            sharedData->noiseAlpha = 0;
+            break;
+        case '2':
+            sharedData->doNoise = 2;
+            sharedData->noiseAlpha = 1;
+            break;
+            
         default:
             break;
     }

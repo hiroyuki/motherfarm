@@ -91,12 +91,15 @@ public:
         }
         if ( !action.executed && currentDate.timesec != 0 )
         {
+            if ( currentDate.timesec > action.actionDate.timesec - 3000 && sharedData->doNoise == 0)
+            {
+                sharedData->doNoise = 1;
+            }
             if ( currentDate.timesec > action.actionDate.timesec && currentDate.date >= action.actionDate.date)
             {
                 cout << "execute!!!!!" << endl;
                 sharedData->dt.eventName = "changeState";
                 string stateName;
-                sharedData->doNoise = false;
                 switch( action.type)
                 {
                     case 1:
@@ -145,7 +148,6 @@ public:
                     action.actionDate.setDate(y, m, d);
                     action.actionDate.setTimesec(h, mm, s);
                     action.actionDate.timesec += 10000;
-                    sharedData->doNoise = true;
                     action.type = dateXML.getValue("result:type", -1);
                     action.executed = false;
                     lastExecuted =  dateXML.getValue("result:time", "error");
