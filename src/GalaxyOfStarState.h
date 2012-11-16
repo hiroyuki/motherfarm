@@ -19,6 +19,9 @@ const float initialPositioningDur = 0.1;
 const float shootingDur = 4.0;
 const int numMaxTrail = 50;
 
+const int minDist = -2500;
+const int maxDist = -5500;
+
 class Star : public ofxFadableBase
 {
 public:
@@ -27,7 +30,7 @@ public:
     {
         initialdestPos = ofPoint(ofRandom(-SVG_WIDTH/2, SVG_WIDTH+SVG_WIDTH/2),
                                  ofRandom(-SVG_HEIGHT/2, SVG_HEIGHT+SVG_HEIGHT/2),
-                                 ofRandom(-2500, -5500));
+                                 ofRandom(minDist, maxDist));
         initialPos = initialdestPos;
         initialPos.z += 1000;
         curPos = initialPos;
@@ -85,7 +88,7 @@ public:
                     float cur = ofGetElapsedTimef();
                     float diff = cur - shoothingTime;
                     float mappedProgress = ofMap(diff, 0.0, shootingDur, 0.0, 1.0, true);
-                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_EXPO_INOUT);
+                    float factor = ofxTweenLite::tween(0.0, 1.0, mappedProgress, OF_EASE_LINEAR_INOUT);
                     curPos = shootBasePos.getInterpolated(shootDestPos, factor);
                     
                     if (trails.size() > 0)
@@ -121,8 +124,8 @@ public:
             else
             {
                 curPos.z += 1;
-                if (curPos.z > 1500)
-                    curPos.z = initialdestPos.z - ofRandom(2000, 2500);
+                if (curPos.z > -500)
+                    curPos.z = /*initialdestPos.z + */ofRandom(minDist, maxDist);
             }
         }
         
@@ -134,11 +137,11 @@ public:
         if (bShootingStar && bMainmovement)
         {
             ofPushStyle();
-            ofSetColor(col, getAlphaInt());
+            ofSetColor(col, 100);
             ofCircle(curPos, rad);
             for (int i = 0; i < trails.size(); i++)
             {
-                int alpha = ofMap(i, 0, trails.size(), 0, 60, true);
+                int alpha = ofMap(i, 0, trails.size(), 0, 30, true);
                 ofSetColor(col, alpha);
                 ofCircle(trails.at(i), rad);
             }
