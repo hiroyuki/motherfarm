@@ -173,12 +173,12 @@ public:
         return result;
     }
     
-    void drawStars()
+    void drawStars(float alpha)
     {
         for( int i = 0; i < stars.size();i ++)
         {
             stars[i].update();
-            stars[i].draw();
+            stars[i].draw(alpha);
         }
     }
     

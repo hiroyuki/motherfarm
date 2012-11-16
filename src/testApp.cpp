@@ -20,7 +20,7 @@ void testApp::setup(){
     stateMachine.addState(new NoiseState());
     
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    stateMachine.getSharedData().changeState("NoiseState");
+    stateMachine.getSharedData().changeState("BellState");
     
     map<string, shared_ptr< itg::ofxState<SharedData> > > states = stateMachine.getStates();
     map<string, shared_ptr< itg::ofxState<SharedData> > >::iterator itr = states.begin();
@@ -30,6 +30,7 @@ void testApp::setup(){
         itr++;
     }
     stateMachine.disableAppEvents();
+    statusManager.init(&stateMachine.getSharedData());
 }
 
 //--------------------------------------------------------------
@@ -38,6 +39,7 @@ void testApp::update(){
     sharedData->update();
     stateMachine.currentState->update();
     sharedData->sendDmx();
+    statusManager.update();
 }
 //--------------------------------------------------------------
 void testApp::draw(){

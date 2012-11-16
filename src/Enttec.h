@@ -53,6 +53,7 @@ public:
             offset += j == 0 ? 0 : lines[j-1].getDataSize();
             memcpy(data + offset, lines[j].getData(), lines[j].getDataSize());
         }
+    
     }
     
     void setData( int dataNo, int color)
@@ -64,7 +65,6 @@ public:
     
     void setAllData(int color)
     {
-        cout << "setalldata" << lines.size()<< endl;
         for ( int i = 0; i < lines.size(); i++)
         {
             unsigned char* dt = lines[i].getData();

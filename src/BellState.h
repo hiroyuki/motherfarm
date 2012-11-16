@@ -9,21 +9,54 @@
 #ifndef motherfarmLED_BellState_h
 #define motherfarmLED_BellState_h
 #include "BaseState.h"
-#define RECT_NUM_X 60.f
-#define RECT_NUM_Y 5.f
+#define RECT_NUM_X 100.f
+#define RECT_NUM_Y 35.f
+#define CENTERX_INTERVAL 10
+#define ANGLE_RESOLUTION 0.01
+#define TOCENTER_NUM 15
+enum RECT_COLOR
+{
+    R_BLUE, R_YELLOW
+};
+
 class ColorRect
 {
 public:
     float x, y;
+    int r,g,b;
+    int seedx, seedy;
+    RECT_COLOR color;
+    int size;
+    int initialMs;
+    ColorRect(int sx, int sy)
+    {
+        seedx = sx;
+        seedy = sy;
+        size = 0;
+        initialMs = ofGetElapsedTimeMillis();
+    }
     
     void update()
     {
+        float t = ofGetElapsedTimeMillis() * 0.0001;
+        r = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 205.f
+                                    :ofNoise( seedx * t) * 150.f;
+        g = (color == R_YELLOW) ? ofNoise( seedx * seedy * t) * 50.f + 205.f
+                                    :ofNoise( seedy * t) * 150.f;
+        b = (color == R_BLUE) ? ofNoise( seedx * seedy * t) * 150.f + 105.f
+                                    :ofNoise( seedx * seedy * t) * 155.f + 100;
     }
     
     void draw()
     {
-        ofSetColor(255, 255, 0);
-        ofRect(x, y, 5, 5);
+        ofSetColor(r, g, b);
+        ofRect(x, y, size, size);
+    }
+    
+    void drawBell()
+    {
+        ofSetColor(r, g, b);
+        ofRect(x, y + (ofNoise(seedx + ofGetElapsedTimeMillis() * 0.001f)-0.5f) * SVG_HEIGHT * 1.5f, size, size);
     }
 };
 class BellState : public BaseState
@@ -34,6 +67,8 @@ public:
     ofPixels * colorPixels;
     int longestLen;
     vector<ColorRect> rects;
+    vector<CircleToCenter> centers;
+    float pastAngle;
     void setup()
     {
         BaseState::setup();
@@ -43,6 +78,7 @@ public:
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         fbo.begin();ofClear(0);fbo.end();
         assignRect();
+        pastAngle = 0;
     }
     
     void stateEnter()
@@ -58,10 +94,25 @@ public:
         {
             for( int j = 0; j <= longestLen / RECT_NUM_Y; j++)
             {
-                rects.push_back(ColorRect());
+                rects.push_back(ColorRect(i, j));
+                rects.back().color = R_BLUE;
                 rects.back().x = i * RECT_NUM_X;
                 rects.back().y = j * RECT_NUM_Y;
+                rects.back().size = 15;
             }
+        }
+        for ( float i = 0; i < SVG_WIDTH; i += CENTERX_INTERVAL)
+        {
+            rects.push_back(ColorRect(i, i));
+            rects.back().color = R_YELLOW;
+            rects.back().x = i;
+            rects.back().size = 15;
+            rects.back().y = (SVG_HEIGHT - rects.back().size)>>1;
+        }
+        for ( int i = 0; i < TOCENTER_NUM; i++)
+        {
+            centers.push_back(CircleToCenter(i, false));
+            centers.back().init(SVG_WIDTH, SVG_HEIGHT, longestLen);
         }
     }
     
@@ -78,13 +129,40 @@ public:
         ofPushMatrix();
         ofTranslate( (SVG_WIDTH-longestLen)>>1,(SVG_HEIGHT-longestLen)>>1);
         ofTranslate(longestLen/2, longestLen/2);
+        float angle = ofGetElapsedTimeMillis()/ 10.f;
+
         ofRotate(ofGetElapsedTimeMillis()/ 10.f, 0, 0, 1);
         for( int i = 0; i < rects.size(); i++ )
         {
+            if ( rects[i].color == R_BLUE)
+            {
+                ofPushMatrix();
+                ofTranslate(-longestLen / 2, -longestLen / 2);
+                rects[i].update();
+                rects[i].draw();
+                ofPopMatrix();
+            }
+        }
+        float pastAngle = angle;
+        ofPopMatrix();
+        ofPushMatrix();
+        for( int i = 0; i < rects.size(); i++ )
+        {
+            if ( rects[i].color == R_YELLOW)
+            {
+                ofPushMatrix();
+                rects[i].update();
+                rects[i].drawBell();
+                ofPopMatrix();
+            }
+        }
+        ofPopMatrix();
+        ofPushMatrix();
+        for( int i = 0; i < centers.size(); i++ )
+        {
             ofPushMatrix();
-            ofTranslate(-longestLen / 2, -longestLen / 2);
-            rects[i].update();
-            rects[i].draw();
+                centers[i].update();
+                centers[i].draw();
             ofPopMatrix();
         }
         ofPopMatrix();

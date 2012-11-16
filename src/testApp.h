@@ -17,6 +17,7 @@
 #include "GalaxyOfStarState.h"
 #include "BellState.h"
 #include "NoiseState.h"
+#include "StatusManagement.h"
 
 class testApp : public ofBaseApp{
 
@@ -38,6 +39,7 @@ class testApp : public ofBaseApp{
     
         itg::ofxStateMachine<SharedData> stateMachine;
         SharedData *sharedData;
+    StatusManagement statusManager;
 
     ofImage img;
 };

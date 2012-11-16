@@ -40,7 +40,7 @@ void Location::setup(ofPixels * pix)
     cam.setFarClip(1000);
     cam.setNearClip(0);
     glDisable(GL_DEPTH_TEST);
-//    artnet.verbose = true;
+    artnet.verbose = false;
     artnet.setup("192.168.11.100");
 }
 
@@ -191,11 +191,12 @@ void Location::sendDmx(int showNo)
                     {
                         unsigned char * datas = (unsigned char *)enttec.getData();
                         cout << (int)datas[i] << " ";
-                        if ( (i+1) % 150 == 0) cout << endl;
+                        if ( (i+1) % 180 == 0) cout << endl;
                     }
                     cout << endl;
                 }
                 if ( dmxs[ i ].no != -1){
+//                    cout << dmxs[i].getIpAddress() << " " << dmxs[i].totalDataSize << endl;
                     artnet.sendDmx(dmxs[i].getIpAddress(), dmxs[ i ].getData(), dmxs[i].totalDataSize);
                 }
             }

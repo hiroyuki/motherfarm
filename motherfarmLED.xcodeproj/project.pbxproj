@@ -38,6 +38,8 @@
 		64C1EBD616555A68008CC458 /* tod.c in Sources */ = {isa = PBXBuildFile; fileRef = 64C1EBC416555A68008CC458 /* tod.c */; };
 		64C1EBD716555A68008CC458 /* transmit.c in Sources */ = {isa = PBXBuildFile; fileRef = 64C1EBC616555A68008CC458 /* transmit.c */; };
 		64C1EBD816555A68008CC458 /* ofxArtnet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64C1EBC916555A68008CC458 /* ofxArtnet.cpp */; };
+		64C1EBFF16565854008CC458 /* ofxHttpUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64C1EBFB16565853008CC458 /* ofxHttpUtils.cpp */; };
+		64C1EC1A165663F5008CC458 /* ofxDate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64C1EC15165663F5008CC458 /* ofxDate.cpp */; };
 		64E40C6A1636707000FD0763 /* Location.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C691636707000FD0763 /* Location.cpp */; };
 		64E40C741636718B00FD0763 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6D1636718B00FD0763 /* tinyxml.cpp */; };
 		64E40C751636718B00FD0763 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64E40C6F1636718B00FD0763 /* tinyxmlerror.cpp */; };
@@ -259,6 +261,13 @@
 		64C1EBC716555A68008CC458 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		64C1EBC916555A68008CC458 /* ofxArtnet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxArtnet.cpp; sourceTree = "<group>"; };
 		64C1EBCA16555A68008CC458 /* ofxArtnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxArtnet.h; sourceTree = "<group>"; };
+		64C1EBFA16565853008CC458 /* ofxHttpTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpTypes.h; sourceTree = "<group>"; };
+		64C1EBFB16565853008CC458 /* ofxHttpUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxHttpUtils.cpp; sourceTree = "<group>"; };
+		64C1EBFC16565853008CC458 /* ofxHttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxHttpUtils.h; sourceTree = "<group>"; };
+		64C1EC0016565993008CC458 /* StatusManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusManagement.h; sourceTree = "<group>"; };
+		64C1EC0316565F5D008CC458 /* ofxSimplestDateParse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxSimplestDateParse.h; path = addons/ofxSimplestDateParse/src/ofxSimplestDateParse.h; sourceTree = "<group>"; };
+		64C1EC15165663F5008CC458 /* ofxDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDate.cpp; sourceTree = "<group>"; };
+		64C1EC16165663F5008CC458 /* ofxDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDate.h; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		64E40C691636707000FD0763 /* Location.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Location.cpp; sourceTree = "<group>"; };
 		64E40C6D1636718B00FD0763 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
@@ -930,6 +939,59 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		64C1EBEB16565853008CC458 /* ofxHttpUtils */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EBF916565853008CC458 /* src */,
+			);
+			name = ofxHttpUtils;
+			path = addons/ofxHttpUtils;
+			sourceTree = "<group>";
+		};
+		64C1EBF916565853008CC458 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EBFA16565853008CC458 /* ofxHttpTypes.h */,
+				64C1EBFB16565853008CC458 /* ofxHttpUtils.cpp */,
+				64C1EBFC16565853008CC458 /* ofxHttpUtils.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		64C1EC0116565F24008CC458 /* ofxSimplestDateParse */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EC0216565F4A008CC458 /* src */,
+			);
+			name = ofxSimplestDateParse;
+			sourceTree = "<group>";
+		};
+		64C1EC0216565F4A008CC458 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EC0316565F5D008CC458 /* ofxSimplestDateParse.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		64C1EC04165663F5008CC458 /* ofxDate */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EC14165663F5008CC458 /* src */,
+			);
+			name = ofxDate;
+			path = addons/ofxDate;
+			sourceTree = "<group>";
+		};
+		64C1EC14165663F5008CC458 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				64C1EC15165663F5008CC458 /* ofxDate.cpp */,
+				64C1EC16165663F5008CC458 /* ofxDate.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		64E40C671636702300FD0763 /* MODEL */ = {
 			isa = PBXGroup;
 			children = (
@@ -1064,6 +1126,9 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				64C1EC04165663F5008CC458 /* ofxDate */,
+				64C1EC0116565F24008CC458 /* ofxSimplestDateParse */,
+				64C1EBEB16565853008CC458 /* ofxHttpUtils */,
 				64C1EBAA16555A68008CC458 /* ofxArtnet */,
 				64C1EB80165540AB008CC458 /* ofxFX */,
 				64C1EBA3165540AB008CC458 /* ofxTweenLite */,
@@ -1146,6 +1211,7 @@
 				64F61F1D1645869B0051AFC7 /* state */,
 				64E40C671636702300FD0763 /* MODEL */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				64C1EC0016565993008CC458 /* StatusManagement.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 				64F61F1F164586F20051AFC7 /* SharedData.h */,
@@ -1445,6 +1511,8 @@
 				64C1EBD616555A68008CC458 /* tod.c in Sources */,
 				64C1EBD716555A68008CC458 /* transmit.c in Sources */,
 				64C1EBD816555A68008CC458 /* ofxArtnet.cpp in Sources */,
+				64C1EBFF16565854008CC458 /* ofxHttpUtils.cpp in Sources */,
+				64C1EC1A165663F5008CC458 /* ofxDate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

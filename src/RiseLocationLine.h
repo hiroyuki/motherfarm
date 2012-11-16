@@ -59,6 +59,9 @@ public:
                 nords[ i ].color.r = pix->getPixels()[ ( pointy * width + pointx ) * 4];
                 nords[ i ].color.g = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
                 nords[ i ].color.b = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
+                data[ i * 3 ] = pix->getPixels()[ ( pointy * width + pointx ) * 4];
+                data[ i * 3 + 1] = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 1];
+                data[ i * 3 + 2] = pix->getPixels()[ ( pointy * width + pointx ) * 4 + 2];
             }
         }
     }

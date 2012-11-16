@@ -8,8 +8,8 @@
 
 #ifndef motherfarmLED_CircleSeed_h
 #define motherfarmLED_CircleSeed_h
-#define LERP 0.3
-#define SCALE_LERP 0.15
+#define LERP 0.2
+#define SCALE_LERP 0.1
 #define KEEP_MS 0
 #define STATUS_NEW 0
 #define STATUS_SHOW 1
@@ -39,7 +39,7 @@ public:
         if ( height != 0) areaH = height;
         if ( width != 0) areaW = width;
         pos = ofPoint(ofRandom(areaW), ofRandom(areaH));
-        radius = ofRandom(30, 140);
+        radius = ofRandom(100, 140);
         status = STATUS_NEW;
         changeMs = ofGetElapsedTimeMillis();
         color.r = ofRandom(255);
@@ -68,7 +68,6 @@ public:
                 if( alpha > 0.99)
                 {
                     status = STATUS_KEEP;
-                    cout << status << endl;
                     changeMs = ofGetElapsedTimeMillis();
                     alpha = 1;
                 }
@@ -96,9 +95,9 @@ public:
     
     }
     
-    virtual void draw()
+    virtual void draw(float al = 1.f)
     {
-        ofSetColor(color, alpha*255);
+        ofSetColor(color, al*alpha*255);
         ofCircle(pos.x, pos.y, radius*scale);
     }
     

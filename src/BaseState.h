@@ -58,6 +58,7 @@ public:
     
     virtual void draw()
     {
+        //cout << alpha << endl;
         //        ofBackgroundGradient(ofColor(255/5,255/5,255/5),ofColor(0));
         ofBackground(0, 0, 0);
         ofSetColor(255, 255, 255, alpha*255);
@@ -70,7 +71,11 @@ public:
     
     virtual void show()
     {
-        if( !isHiding ) isShowing = true;
+        if( !isHiding )
+        {
+            isShowing = true;
+            alpha = 0;
+        }
     }
     
     virtual void hide(string nextState)
