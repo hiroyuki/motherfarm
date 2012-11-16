@@ -40,6 +40,7 @@ void Location::setup(ofPixels * pix)
     cam.setFarClip(1000);
     cam.setNearClip(0);
     glDisable(GL_DEPTH_TEST);
+//    artnet.verbose = true;
     artnet.setup("192.168.11.100");
 }
 

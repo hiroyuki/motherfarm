@@ -30,7 +30,7 @@ public:
             {
                 ofSetColor(nords[i].color);
             }
-            ofCircle(0,0,0, 3);
+            ofCircle(0,0,0, 1);
             ofPopMatrix();
             
         }
@@ -43,7 +43,7 @@ public:
             ofPushMatrix();
             ofSetColor(nords[i].color);
             ofTranslate(nords[i].pos.x, nords[i].pos.y, 0);
-            ofCircle(0,0, 3);
+            ofCircle(0,0, 1);
             ofPopMatrix();
         }
     }

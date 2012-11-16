@@ -10,6 +10,7 @@
 #define motherfarmLED_SharedData_h
 
 #include "Location.h"
+#include "CircleSeed.h"
 #ifdef RISE
 #define SVG_WIDTH 590
 #define SVG_HEIGHT 580
@@ -17,6 +18,7 @@
 #define SVG_WIDTH 790
 #define SVG_HEIGHT 450
 #endif
+#define MAX_STARS 5
 class FarmEventData
 {
 public:
@@ -58,6 +60,8 @@ public:
     int testLed;
     int mode;
     int dataManualEnntecNo = -1;
+    ofPixels extraLED;
+    vector< CircleSeed> stars;
     
     bool bDefaultBlend;
     
@@ -76,8 +80,14 @@ public:
         show2D = false;
         showTex  = true;
         mode = TEST_NONE;
-        
+        extraLED.allocate(4, 2, 3);
         bDefaultBlend = false;
+        for ( int i= 0; i < MAX_STARS; i++ )
+        {
+            stars.push_back(CircleSeed());
+            stars.back().init(SVG_WIDTH, SVG_HEIGHT);
+            stars.back().delay += i * 1000;
+        }
     }
     
     void update()
@@ -161,6 +171,15 @@ public:
             }
         }
         return result;
+    }
+    
+    void drawStars()
+    {
+        for( int i = 0; i < stars.size();i ++)
+        {
+            stars[i].update();
+            stars[i].draw();
+        }
     }
     
     void sendStates( string stateName )
