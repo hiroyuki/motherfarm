@@ -20,7 +20,20 @@ void testApp::setup(){
     stateMachine.addState(new NoiseState());
     
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    stateMachine.changeState("NoiseState");
+    cout << ofGetHours() << endl;
+    if ( ( ofGetHours() == 17 && ofGetMinutes() > 30 ) || ((ofGetHours() == 23 && ofGetMinutes() < 30 )
+            && ( ofGetHours() > 17 && ofGetHours() < 23 )))
+    
+    {
+        sharedData->curState = "NoiseState";
+        stateMachine.changeState("NoiseState");
+    }
+    else
+    {
+        sharedData->curState = "TextureDevState";
+        stateMachine.changeState("TextureDevState");
+    }
+        
     
     map<string, shared_ptr< itg::ofxState<SharedData> > > states = stateMachine.getStates();
     map<string, shared_ptr< itg::ofxState<SharedData> > >::iterator itr = states.begin();
@@ -35,6 +48,18 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
+    if (!( ( ofGetHours() == 17 && ofGetMinutes() > 30 ) || ((ofGetHours() == 23 && ofGetMinutes() < 30 )
+                                                           && ( ofGetHours() > 17 && ofGetHours() < 23 ))))
+        
+    {
+        if (!( ofGetMonth() == 11 && ofGetDay() == 17))
+        {
+            if ( sharedData->curState != "TextureDevState")
+            {
+                sharedData->changeState("TextureDevState");
+            }
+        }
+    }
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
     sharedData->update();
     stateMachine.currentState->update();
@@ -115,6 +140,7 @@ void testApp::keyReleased(int key){
             sharedData->noiseAlpha = 0;
             break;
         case '2':
+            sharedData->changeState("NoiseState");
             sharedData->doNoise = 2;
             sharedData->noiseAlpha = 1;
             break;

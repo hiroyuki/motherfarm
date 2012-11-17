@@ -54,7 +54,7 @@ public:
         int green = (cos( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
         int blue = (sin( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
 //        cout << "_ " << red << " " << green << " " << blue << endl;
-        ofSetColor(255, 255, 255);
+        ofSetColor(0, 0, 0);
         ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
         fbo.end();
         fbo.readToPixels(*colorPixels);
