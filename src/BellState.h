@@ -66,7 +66,10 @@ public:
     vector<ColorRect> rects;
     vector<CircleToCenter> centers;
     float pastAngle;
-    BellState(SharedData *sharedData):BaseState(sharedData){}
+    BellState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("BellState", isActive);
+    }
     
     void setup()
     {
@@ -81,7 +84,6 @@ public:
     {
         BaseState::stateEnter();
         assignRect();
-        show();
     }
     
     void assignRect()
@@ -160,7 +162,7 @@ public:
         {
             ofPushMatrix();
                 centers[i].update();
-                centers[i].draw(alpha);
+                centers[i].draw();
             ofPopMatrix();
         }
         ofPopMatrix();

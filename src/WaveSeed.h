@@ -21,7 +21,7 @@ public:
     
     WaveSeed() : posY(0), speed(3), addedNext(false), color(0xffffff){
         seed = 0;//ofRandom(0.1, 0.2);
-        nextInterval = ofRandom(2000, 3000);
+        nextInterval = ofRandom(300, 500);
         
     };
     float getY( int i, int height )
@@ -32,6 +32,7 @@ public:
     bool update()
     {
         posY += speed;
+        cout << nextInterval << " " << posY << endl;
         if ( nextInterval < posY && !addedNext)
         {
             addedNext = true;

@@ -28,7 +28,7 @@ class testApp : public ofBaseApp{
         vector< BaseState*> states;
         SharedData *sharedData;
         StatusManagement statusManager;
-        string curStateStr;
         ofxXmlSettings xml;
         ofImage img;
+        ofFbo mainFbo;
 };

@@ -17,7 +17,10 @@ class SingleColorWave : public BaseState
 public:
     int longestLen;
     vector<WaveSeed> waves;
-    SingleColorWave(SharedData *sharedData):BaseState(sharedData){}
+    SingleColorWave(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("SingleColorWave", isActive);
+    }
     
     void setup()
     {

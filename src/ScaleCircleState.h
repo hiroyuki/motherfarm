@@ -16,7 +16,10 @@ class ScaleCircleState : public BaseState
 public:
     int longestLen;
     vector<ScaleCircle> circles;
-    ScaleCircleState(SharedData *sharedData):BaseState(sharedData){}
+    ScaleCircleState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("ScaleCircleState", isActive);
+    }
     
     void setup()
     {

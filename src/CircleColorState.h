@@ -19,7 +19,10 @@ public:
     vector<CircleSeed> circles;
     bool doClear;
     
-    CircleColorState(SharedData *sharedData):BaseState(sharedData){}
+    CircleColorState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("CircleColorState", isActive);
+    }
     
     void setup()
     {

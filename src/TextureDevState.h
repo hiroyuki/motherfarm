@@ -17,7 +17,10 @@ class TextureDevState : public BaseState
 public:
     int longestLen;
     vector<CircleStar> circles;
-    TextureDevState(SharedData *sharedData):BaseState(sharedData){}
+    TextureDevState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("TextureDevState", isActive);
+    }
     
     void setup()
     {

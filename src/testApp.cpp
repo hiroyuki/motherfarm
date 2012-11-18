@@ -1,4 +1,6 @@
 #include "testApp.h"
+#include "ofxSimpleGuiToo.h"
+
 int startHour, startMin, endHour, endMin;
 //--------------------------------------------------------------
 void testApp::setup(){
@@ -7,20 +9,23 @@ void testApp::setup(){
     sharedData = new SharedData();
     sharedData->setup();
 //    stateMachine.addState(new BaseState());
-    states.push_back(new ParseState(sharedData));
+    states.push_back(new MovieState(sharedData));
     states.push_back(new TextureDevState(sharedData));
     states.push_back(new SingleColorWave(sharedData));
     states.push_back(new MultiColorWave(sharedData));
     states.push_back(new CircleColorState(sharedData));
     states.push_back(new CircleToCenterState(sharedData));
-    states.push_back(new CircleToOutState(sharedData));
+    states.push_back(new CircleToOutState());
+    states.back()->setSharedData(sharedData);
     states.push_back(new ScaleCircleState(sharedData));
     states.push_back(new VineLineBranchingState(sharedData));
     states.push_back(new GalaxyOfStarState((sharedData)));
     states.push_back(new BellState(sharedData));
     states.push_back(new NoiseState(sharedData));
+    states.back()->changeActive(true);
+    cout << "======" << endl;
     states.push_back(new WindowState(sharedData));
-
+    mainFbo.allocate(SVG_WIDTH, SVG_HEIGHT);
     xml.loadFile("setting.xml");
     startHour = xml.getValue("start:hour", 0);
     startMin = xml.getValue("start:minutes", 0);
@@ -41,8 +46,11 @@ void testApp::setup(){
 //        stateMachine.changeState("TextureDevState");
 //    }
     
-    
-
+    for( int i=0; i < states.size(); i++)
+    {
+        states[i]->setup();
+    }
+    mainFbo.begin();ofClear(0);mainFbo.end();
     statusManager.init(sharedData);
 }
 
@@ -61,24 +69,38 @@ void testApp::update(){
 //        }
 //    }
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    sharedData->update();
-    if ( curStateStr != sharedData->curState )
+    for( int i=0; i < states.size(); i++)
     {
-        cout << sharedData->curState << endl;
-        curStateStr = sharedData->curState;
+        if ( states[i]->getIsActive())
+        {
+            states[i]->update();
+        }
     }
-    stateMachine.currentState->update();
-//
-//    fbo.readToPixels(*colorPixels);
-//    tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+    mainFbo.begin();
+    ofClear(0);
+    ofEnableAlphaBlending();
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    for( int i=0; i < states.size(); i++)
+    {
+        if ( states[i]->getIsActive())
+        {
+//            states[i]->update();
+            states[i]->draw();
+        }
+    }
+    ofDisableBlendMode();
+    mainFbo.end();
+    mainFbo.readToPixels(*sharedData->colorPixels);
+    sharedData->update();
     sharedData->sendDmx();
-//    statusManager.update();
 }
 //--------------------------------------------------------------
 void testApp::draw(){
+    
+    ofBackground(0, 0, 0);
     {
         glEnable(GL_DEPTH_TEST);
-        stateMachine.currentState->draw();
+        mainFbo.draw(0, 0);
         if ( sharedData->showParse )
         {
             ofEnableLighting();
@@ -86,52 +108,46 @@ void testApp::draw(){
         }
         sharedData->location.drawLed();
     }
-    ofDisableBlendMode();
     ofEnableAlphaBlending();
-    if ( sharedData->showTex )
-    {
-        if (sharedData->bDefaultBlend)
-            glBlendFunc(GL_ONE, GL_NONE);
-        glDisable(GL_DEPTH_TEST);
-        ofDisableLighting();
-        ofSetHexColor(0);
-        ofRect(0, 0, stateMachine.getSharedData().tex->getWidth(), stateMachine.getSharedData().tex->getHeight());
-        ofSetColor(255,255,255,255);
-        stateMachine.getSharedData().tex->draw(ofPoint());
-        ofNoFill();
-        ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
-        ofFill();
-    }
+
+    if (sharedData->bDefaultBlend)
+        glBlendFunc(GL_ONE, GL_NONE);
+    glDisable(GL_DEPTH_TEST);
+    ofNoFill();
+    ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+    ofFill();
+    
     if ( sharedData->show2D )
     {
         glDisable(GL_DEPTH_TEST);
         ofDisableLighting();
         ofSetHexColor(0xffffff);
-        stateMachine.getSharedData().location.draw2dLine();
+        sharedData->location.draw2dLine();
         ofSetHexColor(0xffffff);
         ofNoFill();
         ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
         ofFill();
     }
+    gui.draw();
 }
 
 void testApp::eventListener( FarmEventData& data)
 {
     cout << "event receive" << endl;
-    if ( data.eventName == "showState")
-    {
-        cout << "change state " << data.nextState << endl;
-        stateMachine.changeState(sharedData->dt.nextState);
-    }
-    if ( data.eventName == "changeState")
-    {
-        stateMachine.currentState->hide(data.nextState);
-//        stateMachine.changeState(data.nextState);
-    }
-    if ( data.eventName == "showCur")
-    {
-        stateMachine.currentState->show();
-    }
+//    if ( data.eventName == "showState")
+//    {
+//        cout << "change state " << data.nextState << endl;
+//        stateMachine.changeState(sharedData->dt.nextState);
+//    }
+//    if ( data.eventName == "changeState")
+//    {
+//        stateMachine.currentState->hide(data.nextState);
+////        stateMachine.changeState(data.nextState);
+//    }
+//    if ( data.eventName == "showCur")
+//    {
+//        stateMachine.currentState->show();
+//    }
 }
 
 //--------------------------------------------------------------
@@ -161,6 +177,17 @@ void testApp::keyReleased(int key){
         default:
             break;
     }
+    if(key>='0' && key<='9') {
+		gui.setPage(key - '0');
+		gui.show();
+	} else {
+		switch(key) {
+			case ' ': gui.toggleDraw(); break;
+			case '[': gui.prevPage(); break;
+			case ']': gui.nextPage(); break;
+			case 'p': gui.nextPageWithBlank(); break;
+		}
+	}
 }
 
 //--------------------------------------------------------------

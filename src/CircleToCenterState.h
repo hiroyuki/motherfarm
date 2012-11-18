@@ -11,7 +11,7 @@
 
 #include "BaseState.h"
 #include "CircleToCenter.h"
-#define MAX_CIRCLE 1000
+#define MAX_CIRCLE 200
 
 class CircleToCenterState : public BaseState
 {
@@ -19,22 +19,28 @@ public:
     int longestLen;
     vector<CircleToCenter> circles;
     bool toCenter;
-    CircleToCenterState(SharedData *sharedData):BaseState(sharedData){}
+    CircleToCenterState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("CircleToCenterState", isActive);
+    }
+    
+    CircleToCenterState():BaseState()
+    {}
     
     void setup()
     {
         toCenter = true;
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        while( circles.size() < MAX_CIRCLE / 2 )
-        {
-            circles.push_back(CircleToCenter(toCenter));
-            circles[circles.size() -1].init(SVG_WIDTH, SVG_HEIGHT, longestLen);
-        }
     }
     
     virtual void stateEnter()
     {
+        while( circles.size() < MAX_CIRCLE / 2 )
+        {
+            circles.push_back(CircleToCenter(circles.size(), toCenter));
+            circles.back().init(SVG_WIDTH, SVG_HEIGHT, longestLen);
+        }
         BaseState::stateEnter();
     }
     
@@ -49,8 +55,8 @@ public:
                 circles[ i ].init(SVG_WIDTH, SVG_HEIGHT, longestLen);
                 if ( circles.size() < MAX_CIRCLE )
                 {
-                    circles.push_back(CircleToCenter(toCenter));
-                    circles[ circles.size() - 1].init(SVG_WIDTH, SVG_HEIGHT, longestLen);
+                    circles.push_back(CircleToCenter(circles.size(), toCenter));
+                    circles.back().init(SVG_WIDTH, SVG_HEIGHT, longestLen);
                 }
             }
         }
@@ -69,7 +75,7 @@ public:
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         for( int j = 0; j < circles.size(); j++)
         {
-            circles[j].draw(alpha);
+            circles[j].draw();
         }
         ofPopMatrix();
         ofDisableBlendMode();

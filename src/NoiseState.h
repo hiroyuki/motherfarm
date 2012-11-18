@@ -14,23 +14,23 @@ class NoiseState : public BaseState
 {
 public:
     int longestLen;
-    ofPixels *smallPix;
     float compressw, compressh;
     
-    NoiseState(SharedData *sharedData):BaseState(sharedData){}
+    NoiseState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("NoiseState", isActive);
+    }
     
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
         compressh = compressw = 0.1f;
-        backToNomal = false;
     }
     
     void stateEnter()
     {
         BaseState::stateEnter();
-        show();
         sharedData->doNoise = 0;
     }
     
@@ -105,7 +105,6 @@ public:
         }
         ofDisableBlendMode();
         fbo->end();
-//        tex->loadData(*colorPixels);
     }
     
     void draw()

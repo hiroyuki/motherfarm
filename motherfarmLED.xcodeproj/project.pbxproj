@@ -306,7 +306,7 @@
 		64F2CCDA1647570C00D69DA3 /* CircleToOutState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleToOutState.h; sourceTree = "<group>"; };
 		64F61F1E164586D00051AFC7 /* BaseState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseState.h; sourceTree = "<group>"; };
 		64F61F1F164586F20051AFC7 /* SharedData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedData.h; sourceTree = "<group>"; };
-		64F61F20164590AE0051AFC7 /* ParseState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseState.h; sourceTree = "<group>"; };
+		64F61F20164590AE0051AFC7 /* MovieState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieState.h; sourceTree = "<group>"; };
 		64FF5AC8164758660016F17D /* ScaleCircleState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScaleCircleState.h; sourceTree = "<group>"; };
 		64FF5AC916475B0E0016F17D /* CircleStar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleStar.h; sourceTree = "<group>"; };
 		64FF5ACA16475FBA0016F17D /* ScaleCircle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScaleCircle.h; sourceTree = "<group>"; };
@@ -1031,7 +1031,7 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		64E40C671636702300FD0763 /* MODEL */ = {
+		64E40C671636702300FD0763 /* model */ = {
 			isa = PBXGroup;
 			children = (
 				64E40C681636704700FD0763 /* Location.h */,
@@ -1044,7 +1044,7 @@
 				64BE8EDC16522C3900DE3674 /* Enttec.h */,
 				64D1F628165915D1006615A2 /* TreeBeam.h */,
 			);
-			name = MODEL;
+			name = model;
 			sourceTree = "<group>";
 		};
 		64E40C6B1636718B00FD0763 /* ofxXmlSettings */ = {
@@ -1093,7 +1093,7 @@
 			isa = PBXGroup;
 			children = (
 				64F61F1E164586D00051AFC7 /* BaseState.h */,
-				64F61F20164590AE0051AFC7 /* ParseState.h */,
+				64F61F20164590AE0051AFC7 /* MovieState.h */,
 				64F2CCD216472EC000D69DA3 /* SingleColorWave.h */,
 				64F2CCD41647343E00D69DA3 /* MultiColorWave.h */,
 				64F2CCD7164748F800D69DA3 /* CircleColorState.h */,
@@ -1314,7 +1314,7 @@
 			children = (
 				64F2CCD61647357800D69DA3 /* drawSeed */,
 				64F61F1D1645869B0051AFC7 /* state */,
-				64E40C671636702300FD0763 /* MODEL */,
+				64E40C671636702300FD0763 /* model */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				64C1EC0016565993008CC458 /* StatusManagement.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,

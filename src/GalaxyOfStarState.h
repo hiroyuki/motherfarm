@@ -189,7 +189,10 @@ class GalaxyOfStarState : public BaseState
 {
 public:
     
-    GalaxyOfStarState(SharedData *sharedData):BaseState(sharedData){}
+    GalaxyOfStarState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("GalaxyOfStarState", isActive);
+    }
     
     void setup()
     {

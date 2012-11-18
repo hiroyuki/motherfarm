@@ -8,21 +8,31 @@
 
 #ifndef motherfarmLED_BaseState_h
 #define motherfarmLED_BaseState_h
+#include "ofxSimpleGuiToo.h"
 class BaseState
 {
+protected:
+    bool isActive;
+    bool modeChanged = false;
+    bool pastActive = false;
 public:
     float alpha;
     bool isShowing, isHiding;
-    string nextState;
     SharedData *sharedData;
     float showLerp, hideLerp;
     int showMs;
     ofFbo* fbo;
-    bool isActive;
     
     ofTexture *tex;
     ofPixels * colorPixels;
-    BaseState(SharedData* sharedData)
+    BaseState(SharedData* sharedData):isActive(false), modeChanged(false)
+    {
+        this->sharedData = sharedData;
+    }
+    
+    BaseState() : isActive(false), modeChanged(false){}
+    
+    void setSharedData( SharedData *sharedData)
     {
         this->sharedData = sharedData;
     }
@@ -31,19 +41,18 @@ public:
     {
         showLerp = hideLerp = 0.05;
         alpha = 1;
-        backToNomal = true;
         fbo = new ofFbo();
         fbo->allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
+        colorPixels = new ofPixels();
+        colorPixels->allocate(SVG_WIDTH, SVG_HEIGHT, 4);
         fbo->begin();ofClear(0);fbo->end();
         tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
     }
     
     virtual void stateEnter()
     {
         showMs = ofGetElapsedTimeMillis();
         fbo->begin();ofClear(0);fbo->end();
-        show();
     }
     
     virtual void stateExit()
@@ -51,8 +60,35 @@ public:
         
     }
     
+    void changeActive( bool bActive )
+    {
+        if ( isActive != bActive)
+        {
+            isActive = bActive;
+            modeChanged = true;
+        }
+    }
+    
+    bool getIsActive()
+    {
+        return isActive;
+    }
+    
     virtual void update()
     {
+        if ( pastActive != isActive)
+        {
+            modeChanged = true;
+        }
+        if ( modeChanged )
+        {
+            cout << "mode changeed " << isActive << getName() << endl;
+            if ( isActive )
+            {
+                show();
+            }
+            else hide();
+        }
         if ( isShowing )
         {
             alpha = ofLerp(alpha, 1., showLerp);
@@ -62,26 +98,22 @@ public:
                 isShowing = false;
             }
         }
+        
         if ( isHiding )
         {
             alpha = ofLerp( alpha, 0.f, hideLerp);
             if ( alpha < 0.1)
             {
                 alpha = 0;
+                stateExit();
                 isHiding = false;
                 sharedData->dt.eventName = "showState";
-                sharedData->dt.nextState = nextState;
                 ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
             }
         }
         sharedData->location.update();
-#ifdef RISE
-        if ( backToNomal && ofGetElapsedTimeMillis() - showMs > 40000 && showMs != -1)
-        {
-            sharedData->changeState("NoiseState");
-            showMs = -1;
-        }
-#endif
+        modeChanged = false;
+        pastActive = isActive;
     }
     
     virtual ofFbo* getFbo()
@@ -93,8 +125,8 @@ public:
     {
 //        cout << alpha << endl;
         //        ofBackgroundGradient(ofColor(255/5,255/5,255/5),ofColor(0));
-        ofBackground(0, 0, 0);
         ofSetColor(255, 255, 255, alpha*255);
+        fbo->draw(0,0);
     }
     
     virtual void show()
@@ -105,16 +137,14 @@ public:
             isShowing = true;
             isHiding = false;
             alpha = 0;
+            stateEnter();
         }
     }
     
-    virtual void hide(string _nextState)
+    virtual void hide()
     {
-        cout << "hide to " << _nextState << " " << getName() << endl;
-        if ( _nextState != getName())
         {
             isShowing = false;
-            nextState = _nextState;
             isHiding = true;
         }
     }

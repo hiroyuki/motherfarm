@@ -12,7 +12,10 @@
 class WindowState : public BaseState
 {
 public:
-    WindowState(SharedData *sharedData):BaseState(sharedData){}
+    WindowState(SharedData *sharedData):BaseState(sharedData)
+    {
+        gui.addToggle("WindowState", isActive);
+    }
     
     void setup()
     {
