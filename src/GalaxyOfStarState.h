@@ -189,6 +189,8 @@ class GalaxyOfStarState : public BaseState
 {
 public:
     
+    GalaxyOfStarState(SharedData *sharedData):BaseState(sharedData){}
+    
     void setup()
     {
         BaseState::setup();
@@ -199,7 +201,7 @@ public:
     {
         getStateSettingFromXML();
         reset();
-        getSharedData().bDefaultBlend = true;
+        sharedData->bDefaultBlend = true;
         
         scrn.begin();
         ofClear(0);
@@ -239,7 +241,6 @@ public:
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
     }
     
     string getName()
@@ -249,7 +250,7 @@ public:
     
     void stateExit()
     {
-        getSharedData().bDefaultBlend = false;
+        sharedData->bDefaultBlend = false;
     }
     
 private:

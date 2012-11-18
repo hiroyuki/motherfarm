@@ -16,12 +16,13 @@ public:
     int longestLen;
     ofPixels *smallPix;
     float compressw, compressh;
+    
+    NoiseState(SharedData *sharedData):BaseState(sharedData){}
+    
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
-        fbo.begin();ofClear(0);fbo.end();
         compressh = compressw = 0.1f;
         backToNomal = false;
     }
@@ -81,7 +82,7 @@ public:
             compw += compressw;
         }
         tex->loadData(*colorPixels);
-        fbo.begin();
+        fbo->begin();
         ofClear(0);
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         tex->draw(0, 0);
@@ -103,15 +104,13 @@ public:
             }
         }
         ofDisableBlendMode();
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(*colorPixels);
+        fbo->end();
+//        tex->loadData(*colorPixels);
     }
     
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
         
     }
     

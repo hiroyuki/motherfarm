@@ -66,12 +66,13 @@ public:
     vector<ColorRect> rects;
     vector<CircleToCenter> centers;
     float pastAngle;
+    BellState(SharedData *sharedData):BaseState(sharedData){}
+    
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
-        fbo.begin();ofClear(0);fbo.end();
+        fbo->begin();ofClear(0);fbo->end();
         assignRect();
         pastAngle = 0;
     }
@@ -119,9 +120,9 @@ public:
         ofDisableLighting();
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
-        fbo.begin();
+        fbo->begin();
         ofSetColor(240*alpha, 240*alpha, 240*alpha, 240*alpha);
-        fbo.draw(0, 0);
+        fbo->draw(0, 0);
         ofSetHexColor(0xffffff);
         ofPushMatrix();
         ofTranslate( (SVG_WIDTH-longestLen)>>1,(SVG_HEIGHT-longestLen)>>1);
@@ -163,15 +164,12 @@ public:
             ofPopMatrix();
         }
         ofPopMatrix();
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
     }
     
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
     }
     
     string getName()

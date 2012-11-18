@@ -20,8 +20,8 @@ public:
     ofColor color;
     
     WaveSeed() : posY(0), speed(3), addedNext(false), color(0xffffff){
-        seed = ofRandom(0.5, 1);
-        nextInterval = ofRandom(150, 300);
+        seed = 0;//ofRandom(0.1, 0.2);
+        nextInterval = ofRandom(2000, 3000);
         
     };
     float getY( int i, int height )

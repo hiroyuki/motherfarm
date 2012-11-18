@@ -17,12 +17,12 @@ class SingleColorWave : public BaseState
 public:
     int longestLen;
     vector<WaveSeed> waves;
+    SingleColorWave(SharedData *sharedData):BaseState(sharedData){}
     
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         waves.push_back(WaveSeed());
     }
     
@@ -58,9 +58,9 @@ public:
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
         
-        fbo.begin();
+        fbo->begin();
         ofSetColor(220, 220, 220, 254);
-        fbo.draw(0, 0);
+        fbo->draw(0, 0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
         glPointSize(2);
@@ -74,16 +74,14 @@ public:
             glBegin(GL_POINTS);
             for( int k = 0; k < longestLen; k++)
             {
-                glVertex2d(k-longestLen/2, (int)waves[j].getY(k, fbo.getHeight()*0.2)-longestLen/2);
+                glVertex2d(k-longestLen/2, (int)waves[j].getY(k, fbo->getHeight()*0.2)-longestLen/2);
             }
             glEnd();
         }
         ofPopMatrix();
         
         
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
     }
     
     void draw()
@@ -91,7 +89,6 @@ public:
         //        cout << endl;
         
         BaseState::draw();
-        sharedData->location.drawLed();
         
         //        ofDisableLighting();
         //        glLineWidth(1);

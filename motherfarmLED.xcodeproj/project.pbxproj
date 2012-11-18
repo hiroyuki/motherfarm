@@ -165,8 +165,6 @@
 		63a47ac60ffafc3bf093ec0f62a9a4d4 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscOutboundPacketStream.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/osc/OscOutboundPacketStream.cpp; sourceTree = SOURCE_ROOT; };
 		64413BF4164E15A1007B5B28 /* ofxGrabCam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGrabCam.cpp; sourceTree = "<group>"; };
 		64413BF5164E15A1007B5B28 /* ofxGrabCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGrabCam.h; sourceTree = "<group>"; };
-		64413BF8164E15A1007B5B28 /* ofxState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxState.h; sourceTree = "<group>"; };
-		64413BF9164E15A1007B5B28 /* ofxStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxStateMachine.h; sourceTree = "<group>"; };
 		64413C26164E15A1007B5B28 /* src_colors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = src_colors.cpp; sourceTree = "<group>"; };
 		64413C27164E15A1007B5B28 /* svgtiny.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = svgtiny.cpp; sourceTree = "<group>"; };
 		64413C28164E15A1007B5B28 /* svgtiny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svgtiny.h; sourceTree = "<group>"; };
@@ -672,24 +670,6 @@
 			children = (
 				64413BF4164E15A1007B5B28 /* ofxGrabCam.cpp */,
 				64413BF5164E15A1007B5B28 /* ofxGrabCam.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		64413BF6164E15A1007B5B28 /* ofxStateMachine */ = {
-			isa = PBXGroup;
-			children = (
-				64413BF7164E15A1007B5B28 /* src */,
-			);
-			name = ofxStateMachine;
-			path = addons/ofxStateMachine;
-			sourceTree = "<group>";
-		};
-		64413BF7164E15A1007B5B28 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				64413BF8164E15A1007B5B28 /* ofxState.h */,
-				64413BF9164E15A1007B5B28 /* ofxStateMachine.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1257,7 +1237,6 @@
 				64C1EBA3165540AB008CC458 /* ofxTweenLite */,
 				64BE8ECC1652018C00DE3674 /* ofxFadable */,
 				64413BD8164E15A1007B5B28 /* ofxGrabCam */,
-				64413BF6164E15A1007B5B28 /* ofxStateMachine */,
 				64413C0C164E15A1007B5B28 /* ofxSVGTiny */,
 				6452E1A71638F32A008B86E4 /* ofxAssimpModelLoader */,
 				64E40C6B1636718B00FD0763 /* ofxXmlSettings */,

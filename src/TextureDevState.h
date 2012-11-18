@@ -17,12 +17,12 @@ class TextureDevState : public BaseState
 public:
     int longestLen;
     vector<CircleStar> circles;
+    TextureDevState(SharedData *sharedData):BaseState(sharedData){}
     
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         while( circles.size() < MAX_CIRCLE / 2 )
         {
             circles.push_back(CircleStar());
@@ -42,7 +42,7 @@ public:
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
         
-        fbo.begin();
+        fbo->begin();
         ofClear(0);
         int red = (sin( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
         int green = (cos( ofGetElapsedTimeMillis() / 1000.f) * 0.5 + 0.5) * 255;
@@ -50,9 +50,7 @@ public:
 //        cout << "_ " << red << " " << green << " " << blue << endl;
         ofSetColor(0, 0, 0);
         ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
         if ( sharedData->mode == TEST_ENTTEC)
         {
             Enttec *g = sharedData->getEnttec(sharedData->testEnttec);
@@ -63,8 +61,6 @@ public:
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
-        
     }
     
     string getName()

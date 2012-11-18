@@ -10,18 +10,18 @@
 #define motherfarmLED_ScaleCircleState_h
 #include "BaseState.h"
 #include "ScaleCircle.h"
-#define MAX_CIRCLE 10
+#define MAX_CIRCLE 6
 class ScaleCircleState : public BaseState
 {
 public:
     int longestLen;
     vector<ScaleCircle> circles;
+    ScaleCircleState(SharedData *sharedData):BaseState(sharedData){}
     
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         int no = 0;
         while( circles.size() < MAX_CIRCLE / 2 )
         {
@@ -59,9 +59,9 @@ public:
         {
             circles[j].updateImage(longestLen);
         }
-        fbo.begin();
-        ofSetColor(253, 253, 253, 240);
-        fbo.draw(0, 0);
+        fbo->begin();
+        ofSetColor(250, 250, 250, 240);
+        fbo->draw(0, 0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
         glPointSize(2);
@@ -75,15 +75,12 @@ public:
         ofPopMatrix();
         ofDisableBlendMode();
         
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
     }
     
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
         
     }
     

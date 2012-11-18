@@ -12,6 +12,7 @@
 class WindowState : public BaseState
 {
 public:
+    WindowState(SharedData *sharedData):BaseState(sharedData){}
     
     void setup()
     {

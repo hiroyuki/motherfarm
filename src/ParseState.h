@@ -13,9 +13,11 @@
 class ParseState : public BaseState
 {
 public:
+    ParseState(SharedData *sharedData):BaseState(sharedData){}
+    
     void update()
     {
-        sharedData->location.update();
+
     }
   
     void draw()

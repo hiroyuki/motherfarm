@@ -30,7 +30,7 @@ public:
     
     string getIpAddress()
     {
-        int ipPart = 120+no;
+        int ipPart = 100+no;
         return "192.168.11." + ofToString(ipPart);
     }
     

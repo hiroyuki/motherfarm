@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 #include "Location.h"
-#include "ofxStateMachine.h"
 #include "SharedData.h"
 #include "statesInc.h"
 #include "ofxXmlSettings.h"
@@ -26,7 +25,7 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-        itg::ofxStateMachine<SharedData> stateMachine;
+        vector< BaseState*> states;
         SharedData *sharedData;
         StatusManagement statusManager;
         string curStateStr;

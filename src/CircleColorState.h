@@ -19,11 +19,12 @@ public:
     vector<CircleSeed> circles;
     bool doClear;
     
+    CircleColorState(SharedData *sharedData):BaseState(sharedData){}
+    
     void setup()
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         while( circles.size() < MAX_CIRCLE / 2 )
         {
             circles.push_back(CircleSeed());
@@ -59,7 +60,7 @@ public:
         ofEnableAlphaBlending();
         glDisable(GL_DEPTH_TEST);
         
-        fbo.begin();
+        fbo->begin();
         ofClear(0);
         ofSetColor(255, 255, 255);
         //        glLineWidth(3);
@@ -74,16 +75,12 @@ public:
         ofPopMatrix();
         ofDisableBlendMode();
         
-        fbo.end();
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
     }
     
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
-        
     }
     
     string getName()

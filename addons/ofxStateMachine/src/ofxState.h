@@ -93,7 +93,8 @@ namespace itg
 		
         SharedData& getSharedData() { return *sharedData; }
 		void setSharedData(SharedData* sharedData) { this->sharedData = sharedData; }
-		
+    protected:
+        ofFbo *fbo;
 	private:
 		SharedData* sharedData;
 	};	

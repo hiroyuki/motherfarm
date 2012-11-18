@@ -12,6 +12,7 @@
 class CircleToOutState : public CircleToCenterState
 {
 public:
+    CircleToOutState(SharedData *sharedData):CircleToCenterState(sharedData){}
     void stateEnter()
     {
         toCenter = false;

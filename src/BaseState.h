@@ -8,7 +8,7 @@
 
 #ifndef motherfarmLED_BaseState_h
 #define motherfarmLED_BaseState_h
-class BaseState : public Apex::ofxState<SharedData>
+class BaseState
 {
 public:
     float alpha;
@@ -16,19 +16,25 @@ public:
     string nextState;
     SharedData *sharedData;
     float showLerp, hideLerp;
-    bool backToNomal;
     int showMs;
+    ofFbo* fbo;
+    bool isActive;
     
-    ofFbo fbo;
     ofTexture *tex;
     ofPixels * colorPixels;
+    BaseState(SharedData* sharedData)
+    {
+        this->sharedData = sharedData;
+    }
     
     virtual void setup()
     {
-        sharedData = &getSharedData();
         showLerp = hideLerp = 0.05;
         alpha = 1;
         backToNomal = true;
+        fbo = new ofFbo();
+        fbo->allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
+        fbo->begin();ofClear(0);fbo->end();
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;
     }
@@ -36,7 +42,7 @@ public:
     virtual void stateEnter()
     {
         showMs = ofGetElapsedTimeMillis();
-        fbo.begin();ofClear(0);fbo.end();
+        fbo->begin();ofClear(0);fbo->end();
         show();
     }
     
@@ -78,17 +84,17 @@ public:
 #endif
     }
     
+    virtual ofFbo* getFbo()
+    {
+        return fbo;
+    }
+    
     virtual void draw()
     {
 //        cout << alpha << endl;
         //        ofBackgroundGradient(ofColor(255/5,255/5,255/5),ofColor(0));
         ofBackground(0, 0, 0);
         ofSetColor(255, 255, 255, alpha*255);
-        if ( sharedData->showParse )
-        {
-            ofEnableLighting();
-            sharedData->location.debugDraw();
-        }
     }
     
     virtual void show()

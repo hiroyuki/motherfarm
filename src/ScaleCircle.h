@@ -20,6 +20,7 @@ public:
     ScaleCircle(int no) : CircleSeed()
     {
         delay = ofRandom(2000) + no * 2000;
+                    
     }
     
     void init( int width, int height)
@@ -29,6 +30,7 @@ public:
         pos = ofPoint(width/2 + ofRandom(-1, 1) * width * 0.15, height/2 + ofRandom(-1, 1)*height * 0.15);
         radius = 0;
         pastRadius = 0;
+        changeMs = ofGetElapsedTimeMillis();
         if ( !fbo.isAllocated()) fbo.allocate(width, height, GL_RGBA, 0);
         if ( !img.isAllocated()) img.allocate(width, height, OF_IMAGE_COLOR_ALPHA);
     }

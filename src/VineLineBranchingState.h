@@ -397,12 +397,12 @@ class VineLineBranchingState : public BaseState
 {
     
 public:
+    VineLineBranchingState(SharedData *sharedData):BaseState(sharedData){}
     
     void setup()
     {
         BaseState::setup();
         
-        fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         tmpFbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         
         getStateSettingFromXML();
@@ -433,7 +433,7 @@ public:
             circles.push_back(c);
         }
         
-        getSharedData().bDefaultBlend = true;
+        sharedData->bDefaultBlend = true;
         
         
         BaseState::stateEnter();
@@ -452,7 +452,7 @@ public:
         
         BaseState::update();
         
-        fbo.begin();
+        fbo->begin();
         
         ofPushStyle();
         ofSetColor(0, 40, 0, alpha*100);
@@ -460,7 +460,7 @@ public:
         ofPopStyle();
         
         ofSetColor(255 * decrease, 255 * decrease, 255 * decrease, alpha*255);
-        fbo.draw(0, 0);
+        fbo->draw(0, 0);
         for (int i = 0; i < screens.size(); i++)
         {
             screens.at(i)->update();
@@ -473,16 +473,12 @@ public:
             circles.at(i).draw(alpha);
         }
         
-        fbo.end();
-        
-        fbo.readToPixels(*colorPixels);
-        tex->loadData(colorPixels->getPixels(), SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
+        fbo->end();
     }
     
     void draw()
     {
         BaseState::draw();
-        sharedData->location.drawLed();
     }
     
     string getName()
@@ -492,7 +488,7 @@ public:
     
     void stateExit()
     {
-        getSharedData().bDefaultBlend = false;
+        sharedData->bDefaultBlend = false;
         
         reset();
     }
@@ -533,9 +529,9 @@ private:
     
     void reset()
     {
-        fbo.begin();
+        fbo->begin();
         ofClear(0);
-        fbo.end();
+        fbo->end();
     }
     
     ofFbo tmpFbo;
