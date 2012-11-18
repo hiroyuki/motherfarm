@@ -20,6 +20,7 @@
 #include "ofxOsc.h"
 #include "Enttec.h"
 #include "ofxArtnet.h"
+#include "TreeBeam.h"
 
 #ifdef RISE
 #define TEX_OFFSET_X 0
@@ -63,6 +64,7 @@ public:
     ofxGrabCam cam;
     vector<Enttec> dmxs;
     ofxArtnet artnet;
+    TreeBeam tree;
 };
 
 

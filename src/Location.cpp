@@ -42,6 +42,7 @@ void Location::setup(ofPixels * pix)
     glDisable(GL_DEPTH_TEST);
     artnet.verbose = false;
     artnet.setup("192.168.11.100");
+    tree.setup();
 }
 
 void Location::setCameraPos( float x, float y, float z)
@@ -83,6 +84,8 @@ void Location::placeLedOnWorld()
     for (int i = 0; i < lines.size(); i++) {
         lines[ i ].checkPos(cam);
     }
+    
+    tree.checkPos(cam);
     cam.end();
     depthBufferFbo.end();
 }
@@ -99,6 +102,7 @@ void Location::debugDraw()
         for (int i = 0; i < lines.size(); i++) {
             lines[ i ].debugDraw();
         }
+        tree.debugDraw();
         ofEnableLighting();
         cam.end();
     }
@@ -114,6 +118,7 @@ void Location::drawLed()
         for (int i = 0; i < lines.size(); i++) {
             lines[ i ].debugDraw();
         }
+        tree.debugDraw();
         ofEnableLighting();
         cam.end();
     }
@@ -162,6 +167,7 @@ void Location::update()
     {
         lines[ i ].updateColor(colorPix, ofPoint(TEX_OFFSET_X, TEX_OFFSET_Y), SVG_WIDTH, SVG_HEIGHT);
     }
+    tree.update();
 }
 
 void Location::sendDmx(int showNo)
@@ -196,6 +202,7 @@ void Location::sendDmx(int showNo)
             }
         }
     }
+    artnet.sendDmx(tree.getIpAddress(), tree.data, tree.getSize());
 }
 
 void Location::loadSVG(string filename)
@@ -299,15 +306,15 @@ void Location::loadSVG(string filename)
         }
     }
 #ifndef RISE
-    LocationLine line;
-    line.group = 6;
-    line.lineIdInGroup = 1;
-    line.dmxindex = 1;
-    for( int i = 0; i < 100; i++)
-    {
-        line.addNord(ofPoint(SVG_WIDTH / 100 * i, SVG_HEIGHT));
-    }
-    lines.push_back(line);
+//    LocationLine line;
+//    line.group = 6;
+//    line.lineIdInGroup = 1;
+//    line.dmxindex = 1;
+//    for( int i = 0; i < 100; i++)
+//    {
+//        line.addNord(ofPoint(SVG_WIDTH / 100 * i, SVG_HEIGHT));
+//    }
+//    lines.push_back(line);
 #endif
     std::sort(lines.begin(), lines.end());
     int totalBufferSize = 0;

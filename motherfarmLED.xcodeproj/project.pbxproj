@@ -284,6 +284,7 @@
 		64C1EC0316565F5D008CC458 /* ofxSimplestDateParse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ofxSimplestDateParse.h; path = addons/ofxSimplestDateParse/src/ofxSimplestDateParse.h; sourceTree = "<group>"; };
 		64C1EC15165663F5008CC458 /* ofxDate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDate.cpp; sourceTree = "<group>"; };
 		64C1EC16165663F5008CC458 /* ofxDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDate.h; sourceTree = "<group>"; };
+		64D1F628165915D1006615A2 /* TreeBeam.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeBeam.h; sourceTree = "<group>"; };
 		64E40C681636704700FD0763 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		64E40C691636707000FD0763 /* Location.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Location.cpp; sourceTree = "<group>"; };
 		64E40C6D1636718B00FD0763 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
@@ -1059,6 +1060,7 @@
 				6452E1A51638F1B7008B86E4 /* LocationHeight.cpp */,
 				64EF54B316512FF9001D9249 /* RiseLocationLine.h */,
 				64BE8EDC16522C3900DE3674 /* Enttec.h */,
+				64D1F628165915D1006615A2 /* TreeBeam.h */,
 			);
 			name = MODEL;
 			sourceTree = "<group>";

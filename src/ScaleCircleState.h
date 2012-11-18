@@ -10,12 +10,10 @@
 #define motherfarmLED_ScaleCircleState_h
 #include "BaseState.h"
 #include "ScaleCircle.h"
-#define MAX_CIRCLE 5
+#define MAX_CIRCLE 10
 class ScaleCircleState : public BaseState
 {
 public:
-    ofTexture *tex;
-    ofPixels * colorPixels;
     int longestLen;
     vector<ScaleCircle> circles;
     

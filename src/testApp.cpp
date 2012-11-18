@@ -25,6 +25,7 @@ void testApp::setup(){
     startMin = xml.getValue("start:minutes", 0);
     endHour = xml.getValue("end:hour", 0);
     endMin = xml.getValue("end:minutes", 0);
+    if ( endHour < 12) endHour += 24;
     cout << startHour << startMin << endl;
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
     if ((ofGetHours() == endHour && ofGetMinutes() < endMin )
