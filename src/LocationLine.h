@@ -13,9 +13,9 @@
 
 #define RED 1
 #define BLUE 2
-#define SVG_SCALE 1.65
-#define SVG_OFFSET_X -250
-#define SVG_OFFSET_Y 10
+#define SVG_SCALE 3.00
+#define SVG_OFFSET_X 40
+#define SVG_OFFSET_Y 300
 class LocationLine
 {
 protected:

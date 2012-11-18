@@ -16,13 +16,13 @@ public:
     
     Enttec( int groupNo) : no( groupNo)
     {
-        
+        totalDataSize = 0;
     }
     
     int no;
     string ipAddress;
     vector< LocationLine > lines;
-    int totalDataSize = 0;
+    int totalDataSize;
     void addLine( LocationLine& line)
     {
         lines.push_back( line );

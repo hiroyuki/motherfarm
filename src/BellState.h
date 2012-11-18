@@ -63,7 +63,6 @@ class BellState : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
     vector<ColorRect> rects;
@@ -83,9 +82,7 @@ public:
     
     void stateEnter()
     {
-        cout << "stateEnter bell state" << endl;
         BaseState::stateEnter();
-        fbo.begin();ofClear(0);fbo.end();
         assignRect();
         show();
     }

@@ -185,6 +185,7 @@ public:
     Branch()
     {
         vectorField.setup(1, 1);
+        curCircle = 0;
     }
     
     void setup(int _numCircles, ofColor _baseCol, ofColor _sashiCol)
@@ -269,7 +270,7 @@ private:
             curCircle = 0;
     }
     
-    int curCircle = 0;
+    int curCircle;
     vector<Circle> circles;
     Berry berry;
     float x, y, oldX, oldY;
@@ -539,7 +540,6 @@ private:
         fbo.end();
     }
     
-    ofFbo fbo;
     ofFbo tmpFbo;
     
     vector<Screen*> screens;

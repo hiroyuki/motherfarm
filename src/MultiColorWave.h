@@ -16,10 +16,8 @@ class MultiColorWave : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
-    bool doClear;
     vector<WaveSeed> waves;
 
     
@@ -34,8 +32,8 @@ public:
     }
     
     void stateEnter()
-    {
-        doClear = true;
+    {   
+        BaseState::stateEnter();
     }
     
     void update()
@@ -69,8 +67,6 @@ public:
         glDisable(GL_DEPTH_TEST);
         
         fbo.begin();
-        if( doClear ) ofClear(0);
-        doClear = false;
         ofSetColor(250, 250, 250, 254);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);

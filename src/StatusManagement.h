@@ -18,7 +18,12 @@ class myDate
 {
 public:
     ofxDate date;
-    int timesec =0;
+    int timesec;
+    myDate()
+    {
+        timesec =0;
+    }
+    
     void setTimesec( int h, int mm, int sec)
     {
         timesec = (sec + mm * 60 + h * 60 * 60) * 1000;
@@ -35,9 +40,13 @@ public:
 class Action
 {
 public:
+    Action()
+    {
+        executed = true;
+    }
     myDate actionDate;
     int type;
-    bool executed = true;
+    bool executed;
 };
 
 class StatusManagement
@@ -69,54 +78,54 @@ public:
     
     void update()
     {
-        if ( ofGetElapsedTimeMillis() - lastLoadMs > LOAD_INTERVAL)
-        {
-            ofxHttpForm form;
-            form.action="http://ex.rzm.co.jp/risexmas2012/data";
-            form.method = OFX_HTTP_GET;
-            httpUtils.addForm(form);
-            lastLoadMs = ofGetElapsedTimeMillis();
-        }
-        if ( ofGetElapsedTimeMillis() - lastCheckMs > CHECK_INTERVAL)
-        {
-            ofxHttpForm form;
-            form.action = "http://ex.rzm.co.jp/risexmas2012/now";
-            form.method = OFX_HTTP_GET;
-            httpUtils.addForm(form);
-            lastCheckMs = ofGetElapsedTimeMillis();
-        }
-        else if ( currentDate.date == checkedDate.date && currentDate.timesec > 0 )
-        {
-            currentDate.timesec = checkedDate.timesec + (ofGetElapsedTimeMillis() - lastCheckMs);
-        }
-        if ( !action.executed && currentDate.timesec != 0 )
-        {
-            if ( currentDate.timesec > action.actionDate.timesec - 3000 && sharedData->doNoise == 0)
-            {
-                sharedData->doNoise = 1;
-            }
-            if ( currentDate.timesec > action.actionDate.timesec && currentDate.date >= action.actionDate.date)
-            {
-                cout << "execute!!!!!" << endl;
-                sharedData->dt.eventName = "changeState";
-                string stateName;
-                switch( action.type)
-                {
-                    case 1:
-                        stateName = "VineLineBranchingState";
-                        break;
-                    case 2:
-                        stateName = "GalaxyOfStarState";
-                        break;
-                    case 3:
-                        stateName = "BellState";
-                        break;
-                }
-                sharedData->curState = sharedData->dt.nextState = stateName;
-                ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
-                action.executed = true;
-            }
-        }
+//        if ( ofGetElapsedTimeMillis() - lastLoadMs > LOAD_INTERVAL)
+//        {
+//            ofxHttpForm form;
+//            form.action="http://ex.rzm.co.jp/risexmas2012/data";
+//            form.method = OFX_HTTP_GET;
+//            httpUtils.addForm(form);
+//            lastLoadMs = ofGetElapsedTimeMillis();
+//        }
+//        if ( ofGetElapsedTimeMillis() - lastCheckMs > CHECK_INTERVAL)
+//        {
+//            ofxHttpForm form;
+//            form.action = "http://ex.rzm.co.jp/risexmas2012/now";
+//            form.method = OFX_HTTP_GET;
+//            httpUtils.addForm(form);
+//            lastCheckMs = ofGetElapsedTimeMillis();
+//        }
+//        else if ( currentDate.date == checkedDate.date && currentDate.timesec > 0 )
+//        {
+//            currentDate.timesec = checkedDate.timesec + (ofGetElapsedTimeMillis() - lastCheckMs);
+//        }
+//        if ( !action.executed && currentDate.timesec != 0 )
+//        {
+//            if ( currentDate.timesec > action.actionDate.timesec - 3000 && sharedData->doNoise == 0)
+//            {
+//                sharedData->doNoise = 1;
+//            }
+//            if ( currentDate.timesec > action.actionDate.timesec && currentDate.date >= action.actionDate.date)
+//            {
+//                cout << "execute!!!!!" << endl;
+//                sharedData->dt.eventName = "changeState";
+//                string stateName;
+//                switch( action.type)
+//                {
+//                    case 1:
+//                        stateName = "VineLineBranchingState";
+//                        break;
+//                    case 2:
+//                        stateName = "GalaxyOfStarState";
+//                        break;
+//                    case 3:
+//                        stateName = "BellState";
+//                        break;
+//                }
+//                sharedData->curState = sharedData->dt.nextState = stateName;
+//                ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
+//                action.executed = true;
+//            }
+//        }
     }
     
     void newResponse(ofxHttpResponse & response)

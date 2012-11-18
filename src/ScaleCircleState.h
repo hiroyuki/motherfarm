@@ -19,7 +19,6 @@ public:
     ofPixels * colorPixels;
     int longestLen;
     vector<ScaleCircle> circles;
-    bool doClear;
     
     void setup()
     {
@@ -40,7 +39,7 @@ public:
     
     void stateEnter()
     {
-        doClear = true;
+        BaseState::stateEnter();
     }
     
     void update()
@@ -67,9 +66,6 @@ public:
             circles[j].updateImage(longestLen);
         }
         fbo.begin();
-        if( doClear ) ofClear(0);
-        doClear = false;
-        
         ofSetColor(253, 253, 253, 240);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);

@@ -14,7 +14,6 @@ class NoiseState : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
     ofPixels *smallPix;

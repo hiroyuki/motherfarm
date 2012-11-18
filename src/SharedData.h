@@ -15,8 +15,8 @@
 #define SVG_WIDTH 590
 #define SVG_HEIGHT 580
 #else
-#define SVG_WIDTH 790
-#define SVG_HEIGHT 450
+#define SVG_WIDTH 450
+#define SVG_HEIGHT 280
 #endif
 #define MAX_STARS 15
 class FarmEventData
@@ -59,16 +59,17 @@ public:
     int testEnttec;
     int testLed;
     int mode;
-    int dataManualEnntecNo = -1;
+    int dataManualEnntecNo;
     ofPixels extraLED;
     vector< CircleSeed> stars;
     int doNoise;
-    float noiseAlpha = 0;
+    float noiseAlpha;
     
     bool bDefaultBlend;
     
     void setup()
     {
+        cout << "sharedData setup" << endl;
         tex = new ofTexture();
         tex->allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA);
         colorPixels = new ofPixels();
@@ -85,6 +86,9 @@ public:
         extraLED.allocate(4, 2, 3);
         bDefaultBlend = false;
         doNoise = false;
+        dataManualEnntecNo = -1;
+        noiseAlpha = 0;
+        showParse = false;
         for ( int i= 0; i < MAX_STARS; i++ )
         {
             stars.push_back(CircleSeed());

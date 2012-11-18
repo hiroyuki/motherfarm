@@ -39,7 +39,8 @@ class testApp : public ofBaseApp{
     
         itg::ofxStateMachine<SharedData> stateMachine;
         SharedData *sharedData;
-    StatusManagement statusManager;
+        StatusManagement statusManager;
+    string curStateStr;
 
     ofImage img;
 };

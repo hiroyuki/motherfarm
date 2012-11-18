@@ -126,15 +126,9 @@ void Location::draw2dLine()
     ofTranslate(TEX_OFFSET_X, TEX_OFFSET_Y);
     for( int i = 0; i < lines.size(); i++)
     {
-        if ( lines[i].group == 19)
         {
             ofSetHexColor(0xff0000);
             lines[ i ].draw2D();
-        }
-        else
-        {
-            ofSetHexColor(0xffffff);
-//            lines[ i ].draw2D();
         }
     }
     ofPopMatrix();
@@ -207,6 +201,7 @@ void Location::sendDmx(int showNo)
 void Location::loadSVG(string filename)
 {
     svg.load(filename);
+    
     int totalNum = 0;
     for (int i = 0; i < svg.getNumPath(); i++)
     {

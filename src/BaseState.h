@@ -16,18 +16,21 @@ public:
     string nextState;
     SharedData *sharedData;
     float showLerp, hideLerp;
-    bool backToNomal = true;
+    bool backToNomal;
     int showMs;
+    ofFbo fbo;
     virtual void setup()
     {
         sharedData = &getSharedData();
         showLerp = hideLerp = 0.05;
         alpha = 1;
+        backToNomal = true;
     }
     
     virtual void stateEnter()
     {
         showMs = ofGetElapsedTimeMillis();
+        fbo.begin();ofClear(0);fbo.end();
         show();
     }
     

@@ -16,11 +16,9 @@ class SingleColorWave : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
     vector<WaveSeed> waves;
-    bool doClear;
     
     void setup()
     {
@@ -34,7 +32,7 @@ public:
     
     void stateEnter()
     {
-        doClear = true;
+        BaseState::stateEnter();
     }
     
     void update()
@@ -65,8 +63,6 @@ public:
         glDisable(GL_DEPTH_TEST);
         
         fbo.begin();
-        if( doClear ) ofClear(0);
-        doClear = false;
         ofSetColor(220, 220, 220, 254);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);

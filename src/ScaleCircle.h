@@ -82,7 +82,6 @@ public:
         img.update();
     }
     
-    bool isSaved = false;
     void draw(int longlen)
     {
 //        fbo.draw(0,0);

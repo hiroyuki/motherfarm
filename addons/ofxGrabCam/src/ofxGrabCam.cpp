@@ -349,7 +349,7 @@ ofVec3f ofxGrabCam::getPosition3f(float _x, float _y)
 	}
 	
 	if (_z == 1.0f)
-		return;
+		return ofVec3f();
 	
 	GLdouble c[3];
 	

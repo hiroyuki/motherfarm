@@ -10,13 +10,12 @@
 #define motherfarmLED_CircleColorState_h
 #include "BaseState.h"
 #include "CircleSeed.h"
-#define MAX_CIRCLE 400
+#define MAX_CIRCLE 100
 
 class CircleColorState : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
     vector<CircleSeed> circles;
@@ -38,7 +37,7 @@ public:
     
     void stateEnter()
     {
-        doClear = true;
+        BaseState::stateEnter();
     }
     
     void update()

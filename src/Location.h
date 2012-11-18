@@ -9,7 +9,7 @@
 #ifndef motherfarmLED_Location_h
 #define motherfarmLED_Location_h
 #include "ofxSVGTiny.h"
-#define RISE
+//#define RISE
 #ifdef RISE
 #include "RiseLocationLine.h"
 #else
@@ -25,8 +25,8 @@
 #define TEX_OFFSET_X 0
 #define TEX_OFFSET_Y 0
 #else
-#define TEX_OFFSET_X -193
-#define TEX_OFFSET_Y -196
+#define TEX_OFFSET_X -20
+#define TEX_OFFSET_Y -10
 #endif
 class Location
 {

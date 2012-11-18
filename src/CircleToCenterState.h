@@ -21,10 +21,10 @@ public:
     ofPixels * colorPixels;
     int longestLen;
     vector<CircleToCenter> circles;
-    bool doClear;
-    bool toCenter = true;
+    bool toCenter;
     void setup()
     {
+        toCenter = true;
         BaseState::setup();
         tex = sharedData->tex;
         colorPixels = sharedData->colorPixels;
@@ -39,7 +39,7 @@ public:
     
     virtual void stateEnter()
     {
-        doClear = true;
+        BaseState::stateEnter();
     }
     
     void update()
@@ -63,8 +63,6 @@ public:
         glDisable(GL_DEPTH_TEST);
         
         fbo.begin();
-        if( doClear ) ofClear(0);
-        doClear = false;
         ofSetColor(240.f*alpha, 240.f*alpha, 240.f*alpha,240.f*alpha);
         fbo.draw(0, 0);
         ofSetColor(255, 255, 255);

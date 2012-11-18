@@ -20,7 +20,6 @@ public:
     ofPixels * colorPixels;
     int longestLen;
     vector<CircleStar> circles;
-    bool doClear;
     
     void setup()
     {
@@ -38,7 +37,7 @@ public:
     
     void stateEnter()
     {
-        doClear = true;
+        BaseState::stateEnter();
     }
     
     void update()
