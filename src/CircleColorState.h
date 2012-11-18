@@ -10,7 +10,7 @@
 #define motherfarmLED_CircleColorState_h
 #include "BaseState.h"
 #include "CircleSeed.h"
-#define MAX_CIRCLE 100
+#define MAX_CIRCLE 20
 
 class CircleColorState : public BaseState
 {
