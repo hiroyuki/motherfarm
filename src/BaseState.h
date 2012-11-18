@@ -104,7 +104,7 @@ public:
     
     virtual void hide(string _nextState)
     {
-        cout << "hide to " << _nextState <<getName() << endl;
+        cout << "hide to " << _nextState << " " << getName() << endl;
         if ( _nextState != getName())
         {
             isShowing = false;

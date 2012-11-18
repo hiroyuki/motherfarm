@@ -1,7 +1,7 @@
 <colors>
 	<! -- いくつでも指定可能。そのなかからランダムで選ばれます -->
-	<sashiCol>255,0,0</sashiCol>	
-	<sashiCol>255,0,0</sashiCol>		
+	<sashiCol>123,255,255</sashiCol>	
+	<sashiCol>0,250,255</sashiCol>
 	<sashiCol>255,20,147</sashiCol>
 	<sashiCol>160,32,240</sashiCol>
 	<baseCol>0,250,255</baseCol>
