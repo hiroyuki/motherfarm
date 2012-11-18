@@ -51,9 +51,9 @@ public:
                 {
                     if ( comph - floor(comph) < compressh)
                     {
-                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4] = ofNoise(i*0.001+t*0.001, j*0.001+t*0.001) * 10.f*alpha;
+                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4] = ofNoise(i*0.001+t*0.001, j*0.001+t*0.001) * 160.f*alpha;
                         colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+1] = ofNoise(i*0.001-t*0.001, j*0.001+t*0.002) * 160.f*alpha;
-                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+2] = ofNoise(i*0.001-t*0.002, j*0.001-t*0.001) * 255.f * alpha;
+                        colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+2] = ofNoise(i*0.001-t*0.002, j*0.001-t*0.001) * 160.f * alpha;
                         colorPixels->getPixels()[(i+j*SVG_WIDTH)*4+3] = 255*alpha;
                         lastupdatey = j;
                     }

@@ -15,7 +15,6 @@ class ScaleCircleState : public BaseState
 {
 public:
     ofTexture *tex;
-    ofFbo fbo;
     ofPixels * colorPixels;
     int longestLen;
     vector<ScaleCircle> circles;
