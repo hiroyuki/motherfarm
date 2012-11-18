@@ -1,4 +1,5 @@
 #include "testApp.h"
+int startHour, startMin, endHour, endMin;
 //--------------------------------------------------------------
 void testApp::setup(){
     ofSetVerticalSync(true);
@@ -18,10 +19,17 @@ void testApp::setup(){
     stateMachine.addState(new GalaxyOfStarState());
     stateMachine.addState(new BellState());
     stateMachine.addState(new NoiseState());
-    
+    stateMachine.addState(new WindowState());
+    xml.loadFile("setting.xml");
+    startHour = xml.getValue("start:hour", 0);
+    startMin = xml.getValue("start:minutes", 0);
+    endHour = xml.getValue("end:hour", 0);
+    endMin = xml.getValue("end:minutes", 0);
+    cout << startHour << startMin << endl;
     ofAddListener(stateMachine.getSharedData().event.farmEvent, this, &testApp::eventListener);
-    if ((ofGetHours() == 23 && ofGetMinutes() < 30 )
-            || ( ofGetHours() > 17 && ofGetHours() < 23))
+    if ((ofGetHours() == endHour && ofGetMinutes() < endMin )
+            || ( ofGetHours() == startHour && ofGetMinutes() > startMin )
+            || ( ofGetHours() > startHour && ofGetHours() < endHour))
     
     {
         sharedData->curState = "NoiseState";
@@ -29,7 +37,6 @@ void testApp::setup(){
     }
     else
     {
-        cout << "black" << endl;
         sharedData->curState = "TextureDevState";
         stateMachine.changeState("TextureDevState");
     }
@@ -48,8 +55,9 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    if (!((ofGetHours() == 23 && ofGetMinutes() < 30 )
-        || ( ofGetHours() > 17 && ofGetHours() < 23)))
+    if (!((ofGetHours() == endHour && ofGetMinutes() < endMin )
+        || ( ofGetHours() == startHour && ofGetMinutes() > startMin )
+        || ( ofGetHours() > startHour && ofGetHours() < endHour)))
         
     {
         {

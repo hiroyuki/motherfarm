@@ -62,8 +62,6 @@ public:
 class BellState : public BaseState
 {
 public:
-    ofTexture *tex;
-    ofPixels * colorPixels;
     int longestLen;
     vector<ColorRect> rects;
     vector<CircleToCenter> centers;
@@ -71,8 +69,6 @@ public:
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         fbo.begin();ofClear(0);fbo.end();

@@ -192,8 +192,6 @@ public:
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
         scrn.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
     }
     
@@ -288,9 +286,6 @@ private:
             colsFromXML.push_back(col);
         }
     }
-    
-    ofTexture* tex;
-    ofPixels* colorPixels;
     ofFbo scrn;
     
     vector<Star> stars;

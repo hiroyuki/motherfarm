@@ -15,8 +15,6 @@
 class CircleColorState : public BaseState
 {
 public:
-    ofTexture *tex;
-    ofPixels * colorPixels;
     int longestLen;
     vector<CircleSeed> circles;
     bool doClear;
@@ -24,8 +22,6 @@ public:
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         while( circles.size() < MAX_CIRCLE / 2 )

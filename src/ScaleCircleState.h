@@ -22,10 +22,7 @@ public:
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         int no = 0;
         while( circles.size() < MAX_CIRCLE / 2 )

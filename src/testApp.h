@@ -4,20 +4,9 @@
 #include "Location.h"
 #include "ofxStateMachine.h"
 #include "SharedData.h"
-#include "BaseState.h"
-#include "ParseState.h"
-#include "TextureDevState.h"
-#include "SingleColorWave.h"
-#include "MultiColorWave.h"
-#include "CircleColorState.h"
-#include "CircleToCenterState.h"
-#include "CircleToOutState.h"
-#include "ScaleCircleState.h"
-#include "VineLineBranchingState.h"
-#include "GalaxyOfStarState.h"
-#include "BellState.h"
-#include "NoiseState.h"
-#include "StatusManagement.h"
+#include "statesInc.h"
+#include "ofxXmlSettings.h"
+
 
 class testApp : public ofBaseApp{
 
@@ -40,7 +29,7 @@ class testApp : public ofBaseApp{
         itg::ofxStateMachine<SharedData> stateMachine;
         SharedData *sharedData;
         StatusManagement statusManager;
-    string curStateStr;
-
-    ofImage img;
+        string curStateStr;
+        ofxXmlSettings xml;
+        ofImage img;
 };

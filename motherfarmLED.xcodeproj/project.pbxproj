@@ -382,6 +382,9 @@
 		B189F9BB1658F4FE00E7CFD0 /* ofxSimpleGuiToo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSimpleGuiToo.h; sourceTree = "<group>"; };
 		B189F9BC1658F4FE00E7CFD0 /* ofxSimpleGuiValueControl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSimpleGuiValueControl.cpp; sourceTree = "<group>"; };
 		B189F9BD1658F4FE00E7CFD0 /* ofxSimpleGuiValueControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSimpleGuiValueControl.h; sourceTree = "<group>"; };
+		B189F9D0165905E400E7CFD0 /* WindowState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowState.h; sourceTree = "<group>"; };
+		B189F9D21659099400E7CFD0 /* setting.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = setting.xml; path = bin/data/setting.xml; sourceTree = "<group>"; };
+		B189F9D416590E0400E7CFD0 /* statesInc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = statesInc.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -1118,6 +1121,7 @@
 				E99A504D16505D2800C0B289 /* GalaxyOfStarState.h */,
 				64C1EB7E1654E16A008CC458 /* BellState.h */,
 				64C1EB7F165538D2008CC458 /* NoiseState.h */,
+				B189F9D0165905E400E7CFD0 /* WindowState.h */,
 			);
 			name = state;
 			sourceTree = "<group>";
@@ -1311,6 +1315,7 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
+				B189F9D21659099400E7CFD0 /* setting.xml */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
@@ -1329,6 +1334,7 @@
 				64C1EC0016565993008CC458 /* StatusManagement.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
+				B189F9D416590E0400E7CFD0 /* statesInc.h */,
 				64F61F1F164586F20051AFC7 /* SharedData.h */,
 			);
 			path = src;

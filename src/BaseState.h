@@ -18,13 +18,19 @@ public:
     float showLerp, hideLerp;
     bool backToNomal;
     int showMs;
+    
     ofFbo fbo;
+    ofTexture *tex;
+    ofPixels * colorPixels;
+    
     virtual void setup()
     {
         sharedData = &getSharedData();
         showLerp = hideLerp = 0.05;
         alpha = 1;
         backToNomal = true;
+        tex = sharedData->tex;
+        colorPixels = sharedData->colorPixels;
     }
     
     virtual void stateEnter()
@@ -63,11 +69,13 @@ public:
             }
         }
         sharedData->location.update();
+#ifdef RISE
         if ( backToNomal && ofGetElapsedTimeMillis() - showMs > 40000 && showMs != -1)
         {
             sharedData->changeState("NoiseState");
             showMs = -1;
         }
+#endif
     }
     
     virtual void draw()

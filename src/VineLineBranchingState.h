@@ -401,8 +401,6 @@ public:
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;        
         
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         tmpFbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
@@ -543,8 +541,6 @@ private:
     ofFbo tmpFbo;
     
     vector<Screen*> screens;
-    ofTexture *tex;
-    ofPixels * colorPixels;
     
     vector<ofColor> baseCols;
     vector<ofColor> sashiCols;

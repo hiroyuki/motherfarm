@@ -13,16 +13,12 @@
 class NoiseState : public BaseState
 {
 public:
-    ofTexture *tex;
-    ofPixels * colorPixels;
     int longestLen;
     ofPixels *smallPix;
     float compressw, compressh;
     void setup()
     {
         BaseState::setup();
-        tex = sharedData->tex;
-        colorPixels = sharedData->colorPixels;
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
         fbo.allocate(SVG_WIDTH, SVG_HEIGHT, GL_RGBA32F_ARB);
         fbo.begin();ofClear(0);fbo.end();
@@ -84,7 +80,7 @@ public:
             comph = 0;
             compw += compressw;
         }
-//        tex->loadData(*colorPixels);
+        tex->loadData(*colorPixels);
         fbo.begin();
         ofClear(0);
         ofEnableBlendMode(OF_BLENDMODE_ADD);
