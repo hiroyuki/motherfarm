@@ -16,6 +16,7 @@ public:
     int pastRadius;
     ofFbo fbo;
     ofImage img;
+    int delay, changeMs;
     
     ScaleCircle(int no) : CircleSeed()
     {

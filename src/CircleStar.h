@@ -17,12 +17,11 @@ public:
         CircleSeed::init(width, height);
         pos = ofPoint(ofRandom(width), 0);
         radius = ofRandom(10);
-        delay = ofRandom(4000);
     }
     
-    void update()
+    void update(int startMs)
     {
-        CircleSeed::update();
+        CircleSeed::update(startMs);
         pos.y += 5;
     }
     

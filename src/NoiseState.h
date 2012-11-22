@@ -25,7 +25,7 @@ public:
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        compressh = compressw = 0.1f;
+        compressh = compressw = 0.05f;
     }
     
     void stateEnter()
@@ -86,23 +86,6 @@ public:
         ofClear(0);
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         tex->draw(0, 0);
-        sharedData->drawStars(alpha);
-        if ( sharedData->doNoise > 0 )
-        {
-            sharedData->noiseAlpha = sharedData->doNoise == 1 ? ofLerp(sharedData->noiseAlpha, 1.f, 0.1)
-                                                                :ofLerp(sharedData->noiseAlpha, 0.f, 0.01);
-            for( int i = 0; i < SVG_WIDTH; i+=15)
-            {
-                for( int j = 0; j < SVG_HEIGHT; j += 15 )
-                {
-                    if ( ofRandom(1) > 0.5)
-                    {
-                        ofSetColor(255, 255, 255, sharedData->noiseAlpha*255);
-                        ofRect(i, j, 15,15);
-                    }
-                }
-            }
-        }
         ofDisableBlendMode();
         fbo->end();
     }

@@ -9,8 +9,8 @@
 #ifndef motherfarmLED_CircleToCenter_h
 #define motherfarmLED_CircleToCenter_h
 #include "CircleSeed.h"
-#define LERP 0.03
-#define CENTER_LERP 0.1
+#define LERP 0.01
+#define CENTER_LERP 0.03
 class CircleToCenter : public CircleSeed
 {
 public:
@@ -21,6 +21,7 @@ public:
     float longestLen;
     bool direction;
     int no;
+    int delay, changeMs;
     float speed;
     float pastScale, curScale;
     
@@ -29,7 +30,14 @@ public:
     {
         direction = toCenter;
         no = _no;
-        speed = CENTER_LERP;
+        if ( direction )
+        {
+            speed = CENTER_LERP;
+        }
+        else
+        {
+            speed = CENTER_LERP / 5.f;
+        }
     }
     
     void setSpeed( float sp )
@@ -37,24 +45,24 @@ public:
         speed = sp;
     }
     
-    void init(int width = 0, int height = 0, int _longestLen = 0)
+    virtual void init(int width = 0, int height = 0, int _longestLen = 0)
     {
         longestLen = (_longestLen != 0) ? _longestLen : longestLen;
         if ( width != 0 && height != 0)
         {
             CircleSeed::init(width, height);
-            delay = ofRandom(1000) + no * 150;
+            delay = ofRandom(1000) + no * 30;
             changeMs = ofGetElapsedTimeMillis();
         }
         else //2回め以降
         {
             delay = 0;
         }
-        color.r = 255;
-        color.g = 255;
-        color.b = 255;
+        color.r = ofRandom(255);
+        color.g = ofRandom(255);
+        color.b = ofRandom(255);
         
-        center = ofPoint( areaW / 2.f, areaH / 2.f - 50.f, 0.f );
+        center = ofPoint( areaW / 2.f, areaH / 2.f - 30.f, 0.f );
         angleRad = ofRandom( TWO_PI );
         if ( direction )
         {
@@ -86,7 +94,7 @@ public:
                 alpha = direction ? 1 : 0;
                 break;
             case STATUS_SHOW:
-                centerDegree = ofLerp(centerDegree, direction ? 0 : 1, CENTER_LERP);
+                centerDegree = ofLerp(centerDegree, direction ? 0 : 1, speed);
                 alpha = ofLerp(centerDegree, direction ? 0 : 1, speed);
                 if( (alpha < 0.01 && direction ) || (alpha > 0.99 && !direction ))
                 {
@@ -102,7 +110,6 @@ public:
                 break;
         }
         curPosSeed = longestLen * alpha;
-//        cout << curPosSeed << "_" << lastPosSeed << "_" << alpha << endl;
         curScale = radius*ofMap(centerDegree, 0, 0.3, 0, 1, true);
     }
 
@@ -121,12 +128,6 @@ public:
             glEnd();
             glLineWidth(1);
         }
-//        for( float i = 0; i < diff; i+=radius*ofMap(centerDegree, 0, 0.3, 0, 1, true))
-//        {
-//            pos.x = center.x + cos( angleRad ) * lastPosSeed + i;
-//            pos.y = center.y + sin( angleRad ) * lastPosSeed + i;
-//            ofCircle(pos.x, pos.y, radius*ofMap(centerDegree, 0, 0.3, 0, 1, true));
-//        }
     }
     virtual void drawColor(float al)
     {
@@ -144,12 +145,6 @@ public:
             glEnd();
             glLineWidth(1);
         }
-//        for( float i = 0; i < diff; i+=radius*ofMap(centerDegree, 0, 0.3, 0, 1, true))
-//        {
-//            pos.x = center.x + cos( angleRad ) * lastPosSeed + i;
-//            pos.y = center.y + sin( angleRad ) * lastPosSeed + i;
-//            ofCircle(pos.x, pos.y, radius*ofMap(centerDegree, 0, 0.3, 0, 1, true));
-//        }
     }
 };
 #endif

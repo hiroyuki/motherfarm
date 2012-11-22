@@ -29,11 +29,12 @@
 #define TEX_OFFSET_X -20
 #define TEX_OFFSET_Y -10
 #endif
+
 class Location
 {
 public:
     void setup(ofPixels * pix);
-    void update();
+    void update(bool bmp4000, bool bpm2000, bool bmp1000, bool bmp500, float treeAlpha);
     void sendDmx(int enttecNo);
     void debugDraw();
     void drawLed();
@@ -65,6 +66,7 @@ public:
     vector<Enttec> dmxs;
     ofxArtnet artnet;
     TreeBeam tree;
+    TreeModel* treeModel;
 };
 
 

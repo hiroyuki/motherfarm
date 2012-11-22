@@ -21,8 +21,9 @@ public:
     void setup()
     {
         BaseState::setup();
-        if ( player.loadMovie("test.mov") )
+        if ( player.loadMovie("B_full_compose_3min40s_1120a.mov") )
         {
+            player.setVolume(0);
             cout << "load succeed" << endl;
         }
     }
@@ -30,6 +31,7 @@ public:
     void stateEnter()
     {
         BaseState::stateEnter();
+        player.setPosition(0);
         player.play();
     }
     
@@ -37,20 +39,33 @@ public:
     {
         BaseState::update();
         player.update();
+//        cout << player.getCurrentFrame() << endl;
+//        if ( player.getCurrentFrame() > 1280 && sharedData->location.treeModel->mode_tree != TREE_BPM500
+//            && player.getCurrentFrame() < 4700)
+//        {
+//            sharedData->location.treeModel->mode_tree = TREE_BPM500;
+//        }
+//        else if ( player.getCurrentFrame() >  4700)
+//        {
+//            sharedData->location.treeModel->mode_tree = TREE_BPM2000;
+//        }
     }
   
     void draw()
     {
 //        fbo->begin();
 //        ofClear(0);
-        ofSetHexColor(0xffffff);
+        ofEnableAlphaBlending();
+        ofSetColor(255, 255, 255, sharedData->curveA*255.f);
         player.draw(0, 0);
+        ofSetColor(255,255,255);
 //        BaseState::draw();
 //        fbo->end();
     }
     
     void stateExit()
     {
+        BaseState::stateExit();
         player.stop();
     }
     

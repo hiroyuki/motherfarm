@@ -10,7 +10,7 @@
 #define motherfarmLED_MultiColorWave_h
 #include "BaseState.h"
 #include "WaveSeed.h"
-#define MAX_LINE 5
+#define MAX_LINE 20
 
 class MultiColorWave : public BaseState
 {
@@ -27,7 +27,7 @@ public:
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        waves.push_back(WaveSeed());
+        waves.push_back(WaveSeed(sharedData->getWindSpeed(), sharedData->getAngle()));
         waves.back().color.r = ofRandom(0xff);
         waves.back().color.g = ofRandom(0xff);
         waves.back().color.b = ofRandom(0xff);
@@ -53,19 +53,29 @@ public:
 //        }
         for( int i = 0; i < waves.size(); i++)
         {
-            if ( waves[ i ].update() )
+            
+            waves[ i ].update(ofMap(sharedData->getWindSpeed(), 1000.f, 100, 1.5f, 3.5f));
+            if ( waves[ i ].getInterval() < 0 && !waves[ i ].isAdded)
             {
-                cout << "create new" << endl;
                 if ( waves.size() < MAX_LINE )
-                    waves.push_back(WaveSeed());
-                waves.back().color.r = ofRandom(0xff);
-                waves.back().color.g = ofRandom(0xff);
-                waves.back().color.b = ofRandom(0xff);
-                cout << ofRandom(0xff) << endl;
-            }
-            if ( waves[ i ].posY > longestLen)
-            {
-                waves[ i ].init();
+                {
+                    waves.push_back(WaveSeed(sharedData->getWindSpeed(), sharedData->getAngle()));
+                    waves.back().color.r = ofRandom(0xff);
+                    waves.back().color.g = ofRandom(0xff);
+                    waves.back().color.b = ofRandom(0xff);
+                    waves[ i ].isAdded = true;
+                }
+                else
+                {
+                    for( int j = 0; j < waves.size() && !waves[ i ].isAdded; j++ )
+                    {
+                        if ( waves[ j ].posY > longestLen)
+                        {
+                            waves[ j ].init(sharedData->getWindSpeed(), sharedData->getAngle());
+                            waves[ i ].isAdded = true;
+                        }
+                    }
+                }
             }
         }
         ofDisableLighting();
@@ -80,25 +90,26 @@ public:
         glPointSize(2);
         
         ofPushMatrix();
-        ofTranslate(longestLen/2, longestLen/2);
-        ofRotate(sharedData->angle, 0, 0, 1);
+        ofTranslate(SVG_WIDTH/2, SVG_HEIGHT/2);
         ofEnableBlendMode(OF_BLENDMODE_ADD);
         
         for( int j = 0; j < waves.size(); j++)
         {
+            ofPushMatrix();
+            ofRotate(waves[j].angle, 0, 0, 1);
             ofSetColor( waves[ j ].color );
-//            cout <<  waves[ j ].color << endl;
             glBegin(GL_POINTS);
             for( int k = 0; k < longestLen; k++)
             {
                 glVertex2d(k-longestLen/2, (int)waves[j].getY(k, fbo->getHeight()*0.2)-longestLen/2);
             }
             glEnd();
+            ofPopMatrix();
         }
         
         ofPopMatrix();
         ofDisableBlendMode();
-        
+        ofSetHexColor( 0xffffff );
         fbo->end();
     }
     

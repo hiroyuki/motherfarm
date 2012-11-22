@@ -11,7 +11,7 @@
 
 #include "BaseState.h"
 #include "CircleToCenter.h"
-#define MAX_CIRCLE 200
+#define MAX_CIRCLE 300
 
 class CircleToCenterState : public BaseState
 {
@@ -44,7 +44,7 @@ public:
         BaseState::stateEnter();
     }
     
-    void update()
+    virtual void update()
     {
         BaseState::update();
         for( int i = 0; i < circles.size(); i++)

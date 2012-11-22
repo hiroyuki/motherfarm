@@ -26,7 +26,7 @@ public:
     {
         BaseState::setup();
         longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
-        waves.push_back(WaveSeed());
+        waves.push_back(WaveSeed(sharedData->getWindSpeed(), sharedData->getAngle()));
     }
     
     void stateEnter()
@@ -47,14 +47,25 @@ public:
         //        }
         for( int i = 0; i < waves.size(); i++)
         {
-            if ( waves[ i ].update() )
+            waves[ i ].update(ofMap(sharedData->getWindSpeed(), 1000.f, 100, 1.5f, 3.5f));
+            if ( waves[ i ].getInterval() < 0 && !waves[ i ].isAdded)
             {
                 if ( waves.size() < MAX_LINE )
-                    waves.push_back(WaveSeed());
-            }
-            if ( waves[ i ].posY > longestLen)
-            {
-                waves[ i ].init();
+                {
+                    waves.push_back(WaveSeed(sharedData->getWindSpeed(), sharedData->getAngle()));
+                    waves[ i ].isAdded = true;
+                }
+                else
+                {
+                    for( int j = 0; j < waves.size() && !waves[ i ].isAdded; j++ )
+                    {
+                        if ( waves[ j ].posY > longestLen)
+                        {
+                            waves[ j ].init(sharedData->getWindSpeed(), sharedData->getAngle());
+                            waves[ i ].isAdded = true;
+                        }
+                    }
+                }
             }
         }
         ofDisableLighting();
@@ -70,9 +81,10 @@ public:
         
         ofPushMatrix();
         ofTranslate(longestLen/2, longestLen/2);
-        ofRotate(sharedData->angle, 0, 0, 1);
         for( int j = 0; j < waves.size(); j++)
         {
+            ofPushMatrix();
+            ofRotate( waves[ j ].angle, 0, 0, 1);
             ofSetColor( waves[ j ].color );
             glBegin(GL_POINTS);
             for( int k = 0; k < longestLen; k++)
@@ -80,6 +92,7 @@ public:
                 glVertex2d(k-longestLen/2, (int)waves[j].getY(k, fbo->getHeight()*0.2)-longestLen/2);
             }
             glEnd();
+            ofPopMatrix();
         }
         ofPopMatrix();
         

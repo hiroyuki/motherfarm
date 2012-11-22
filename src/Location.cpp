@@ -42,6 +42,7 @@ void Location::setup(ofPixels * pix)
     glDisable(GL_DEPTH_TEST);
     artnet.verbose = false;
     artnet.setup("192.168.11.100");
+    treeModel = new TreeModel();
     tree.setup();
 }
 
@@ -55,11 +56,6 @@ void Location::setLight(float ambient_r, float ambient_g, float ambient_b, float
 {
     light.setAmbientColor(ofFloatColor(ambient_r, ambient_g, ambient_b));
     light.setDiffuseColor(ofFloatColor(diffuse_r, diffuse_g, diffuse_b));
-}
-
-void Location::exportXML()
-{
-    
 }
 
 void Location::placeLedOnWorld()
@@ -161,13 +157,14 @@ LocationLine* Location::getLine(int group, int lineIdInGroup, int dmxIndex)
     return line;
 }
 
-void Location::update()
+void Location::update(bool bpm4000, bool bpm2000, bool bpm1000, bool bpm500, float treeAlpha)
 {
     for( int i = 0; i < lines.size(); i++)
     {
         lines[ i ].updateColor(colorPix, ofPoint(TEX_OFFSET_X, TEX_OFFSET_Y), SVG_WIDTH, SVG_HEIGHT);
     }
-    tree.update();
+    
+    tree.update(treeModel, bpm4000, bpm2000, bpm1000, bpm500, treeAlpha);
 }
 
 void Location::sendDmx(int showNo)

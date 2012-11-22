@@ -1,30 +1,64 @@
 #include "testApp.h"
 #include "ofxSimpleGuiToo.h"
 
+
 int startHour, startMin, endHour, endMin;
+bool isAvailable;
+bool isScreenSaver;
+bool compell = true;
 //--------------------------------------------------------------
 void testApp::setup(){
-    ofSetVerticalSync(true);
+//    ofSetVerticalSync(true);
     ofSetFrameRate(40);
     sharedData = new SharedData();
     sharedData->setup();
-//    stateMachine.addState(new BaseState());
-    states.push_back(new MovieState(sharedData));
+    //    stateMachine.addState(new BaseState());
     states.push_back(new TextureDevState(sharedData));
+    states.back()->changeActive(true);
     states.push_back(new SingleColorWave(sharedData));
+    states.push_back(new SRandomNoiseState(sharedData));
+    states.push_back(new MovieState(sharedData));
     states.push_back(new MultiColorWave(sharedData));
     states.push_back(new CircleColorState(sharedData));
     states.push_back(new CircleToCenterState(sharedData));
     states.push_back(new CircleToOutState());
     states.back()->setSharedData(sharedData);
+    states.push_back(new DanganState());
+    states.back()->setSharedData(sharedData);
     states.push_back(new ScaleCircleState(sharedData));
-    states.push_back(new VineLineBranchingState(sharedData));
-    states.push_back(new GalaxyOfStarState((sharedData)));
     states.push_back(new BellState(sharedData));
     states.push_back(new NoiseState(sharedData));
-    states.back()->changeActive(true);
-    cout << "======" << endl;
     states.push_back(new WindowState(sharedData));
+    states.push_back(new GradualChangerState(sharedData));
+    states.push_back(new ClickState(sharedData));
+    states.push_back(new GradualChangeGrayState(sharedData));
+    states.push_back(new RandomNoiseState(sharedData));
+    states.push_back(new FillCircleState(sharedData));
+    states.push_back(new FortimeLoopState(sharedData));
+//    states.back()->changeActive(true);
+    
+    durationSender.setup("192.168.11.99", 12346);
+    if ( false )
+    {
+        for( int i = 0; i < states.size(); i++)
+        {
+            ofxOscMessage m;
+            m.setAddress("/duration/addtrack");
+            m.addStringArg("switches");
+            m.addStringArg("state " + states[i]->getName());
+            durationSender.sendMessage(m);
+            ofSleepMillis(100);
+        }
+    }
+    if ( false )
+    {
+        ofxOscMessage m;
+        m.setAddress("/duration/addtrack");
+        m.addStringArg("switches");
+        m.addStringArg("state " + states.back()->getName());
+        durationSender.sendMessage(m);
+    }
+    
     mainFbo.allocate(SVG_WIDTH, SVG_HEIGHT);
     xml.loadFile("setting.xml");
     startHour = xml.getValue("start:hour", 0);
@@ -32,19 +66,8 @@ void testApp::setup(){
     endHour = xml.getValue("end:hour", 0);
     endMin = xml.getValue("end:minutes", 0);
     ofAddListener(sharedData->event.farmEvent, this, &testApp::eventListener);
-//    if ((ofGetHours() == endHour && ofGetMinutes() < endMin )
-//            || ( ofGetHours() == startHour && ofGetMinutes() > startMin )
-//            || ( ofGetHours() > startHour && ofGetHours() < endHour))
+    isAvailable = ( ofGetHours() >= startHour && ofGetHours() < endHour);
     
-//    {
-//        sharedData->curState = "NoiseState";
-//        stateMachine.changeState("NoiseState");
-//    }
-//    else
-//    {
-//        sharedData->curState = "TextureDevState";
-//        stateMachine.changeState("TextureDevState");
-//    }
     
     for( int i=0; i < states.size(); i++)
     {
@@ -52,40 +75,60 @@ void testApp::setup(){
     }
     mainFbo.begin();ofClear(0);mainFbo.end();
     statusManager.init(sharedData);
+    sharedData->sendStart();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-//    if (!((ofGetHours() == endHour && ofGetMinutes() < endMin )
-//        || ( ofGetHours() == startHour && ofGetMinutes() > startMin )
-//        || ( ofGetHours() > startHour && ofGetHours() < endHour)))
-//        
-//    {
-//        {
-//            if ( sharedData->curState != "TextureDevState")
-//            {
-//                sharedData->changeState("TextureDevState");
-//            }
-//        }
-//    }
-    ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    for( int i=0; i < states.size(); i++)
+    if ( ofGetHours() == endHour - 1)
     {
-        if ( states[i]->getIsActive())
+        if ( ofGetMinutes() > 30)
         {
-            states[i]->update();
+            isScreenSaver = true;
         }
     }
-    mainFbo.begin();
-    ofClear(0);
-    ofEnableAlphaBlending();
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
-    for( int i=0; i < states.size(); i++)
+    ofSetWindowTitle(ofToString(ofGetFrameRate()));
+    if ( !isAvailable && !compell)
     {
-        if ( states[i]->getIsActive())
+        states[0]->update();
+        mainFbo.begin();
+        ofClear(0);
+        ofEnableAlphaBlending();
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        states[0]->draw();
+    }
+    else if ( isScreenSaver && !compell)
+    {
+        states[1]->update();
+        sharedData->curveA = 1;
+        states[2]->update();
+        mainFbo.begin();
+        ofClear(0);
+        ofEnableAlphaBlending();
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        states[1]->draw();
+        states[2]->draw();
+    }
+    else
+    {
+        for( int i=0; i < states.size(); i++)
         {
-//            states[i]->update();
-            states[i]->draw();
+            if ( states[i]->getIsActive() || states[i]->bdoUpdate() )
+            {
+                states[i]->update();
+            }
+        }
+        mainFbo.begin();
+        ofClear(0);
+        ofEnableAlphaBlending();
+        ofEnableBlendMode(OF_BLENDMODE_ADD);
+        for( int i=0; i < states.size(); i++)
+        {
+            if ( states[i]->getIsActive() || states[i]->bdoUpdate() )
+            {
+    //            states[i]->update();
+                states[i]->draw();
+            }
         }
     }
     ofDisableBlendMode();
@@ -93,6 +136,7 @@ void testApp::update(){
     mainFbo.readToPixels(*sharedData->colorPixels);
     sharedData->update();
     sharedData->sendDmx();
+
 }
 //--------------------------------------------------------------
 void testApp::draw(){
@@ -100,7 +144,7 @@ void testApp::draw(){
     ofBackground(0, 0, 0);
     {
         glEnable(GL_DEPTH_TEST);
-        mainFbo.draw(0, 0);
+        mainFbo.draw(ofGetWidth() - mainFbo.getWidth() - 10, 10);
         if ( sharedData->showParse )
         {
             ofEnableLighting();
@@ -114,7 +158,7 @@ void testApp::draw(){
         glBlendFunc(GL_ONE, GL_NONE);
     glDisable(GL_DEPTH_TEST);
     ofNoFill();
-    ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
+    ofRect(ofGetWidth() - mainFbo.getWidth() - 10, 10, SVG_WIDTH, SVG_HEIGHT);
     ofFill();
     
     if ( sharedData->show2D )
@@ -128,22 +172,25 @@ void testApp::draw(){
         ofRect(0, 0, SVG_WIDTH, SVG_HEIGHT);
         ofFill();
     }
+    sharedData->windManager.debugDraw();
     gui.draw();
 }
 
 void testApp::eventListener( FarmEventData& data)
 {
-    cout << "event receive" << endl;
 //    if ( data.eventName == "showState")
 //    {
 //        cout << "change state " << data.nextState << endl;
 //        stateMachine.changeState(sharedData->dt.nextState);
 //    }
-//    if ( data.eventName == "changeState")
-//    {
-//        stateMachine.currentState->hide(data.nextState);
-////        stateMachine.changeState(data.nextState);
-//    }
+    if ( data.eventName == "changeState")
+    {
+        for( int i = 0; i < states.size(); i++ )
+        {
+            if ( data.stateName == states[i]->getName())
+                states[i]->changeActive((bool) data.bActive);
+        }
+    }
 //    if ( data.eventName == "showCur")
 //    {
 //        stateMachine.currentState->show();
@@ -169,7 +216,6 @@ void testApp::keyReleased(int key){
             sharedData->noiseAlpha = 0;
             break;
         case '2':
-            sharedData->changeState("NoiseState");
             sharedData->doNoise = 2;
             sharedData->noiseAlpha = 1;
             break;

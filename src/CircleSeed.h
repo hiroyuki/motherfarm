@@ -25,13 +25,10 @@ public:
     float alpha;
     float scale;
     int status;
-    int changeMs;
     int areaW, areaH;
-    int delay;
     
     CircleSeed():color(0xff,0xff, 0xff), radius(40), alpha(0), status(0), scale(0)
     {
-        delay = ofRandom(1000);
     }
     
     virtual void init( int width = 0, int height = 0)
@@ -41,23 +38,21 @@ public:
         pos = ofPoint(ofRandom(areaW), ofRandom(areaH));
         radius = ofRandom(150, 340);
         status = STATUS_NEW;
-        changeMs = ofGetElapsedTimeMillis();
         color.r = ofRandom(255);
         color.g = ofRandom(255);
         color.b = ofRandom(255);
     }
     
-    virtual void update()
+    virtual void update(bool gotBang)
     {
         if ( status > STATUS_NEW){
             scale = ofLerp(scale, 1, SCALE_LERP);
         }
         switch (status) {
             case STATUS_NEW:
-                if ( ofGetElapsedTimeMillis() - changeMs > delay)
+                if ( gotBang )
                 {
                     status = STATUS_SHOW;
-                    changeMs = ofGetElapsedTimeMillis();    
                 }
                 alpha = 0;
                 scale = 0;
@@ -66,16 +61,8 @@ public:
                 alpha = ofLerp(alpha, 1, LERP);
                 if( alpha > 0.99)
                 {
-                    status = STATUS_KEEP;
-                    changeMs = ofGetElapsedTimeMillis();
-                    alpha = 1;
-                }
-                break;
-            case STATUS_KEEP:
-                if ( ofGetElapsedTimeMillis() - changeMs > KEEP_MS)
-                {
-                    changeMs = ofGetElapsedTimeMillis();
                     status = STATUS_HIDE;
+                    alpha = 1;
                 }
                 break;
             case STATUS_HIDE:
@@ -84,7 +71,6 @@ public:
                 {
                     alpha = 0;
                     init();
-                    changeMs = ofGetElapsedTimeMillis();
                 }
                 break;
             default:

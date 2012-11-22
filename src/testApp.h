@@ -24,6 +24,9 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+		virtual void exit(){
+            sharedData->sendExit();
+        }
     
         vector< BaseState*> states;
         SharedData *sharedData;
@@ -31,4 +34,5 @@ class testApp : public ofBaseApp{
         ofxXmlSettings xml;
         ofImage img;
         ofFbo mainFbo;
+    ofxOscSender durationSender;
 };

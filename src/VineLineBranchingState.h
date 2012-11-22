@@ -399,7 +399,7 @@ class VineLineBranchingState : public BaseState
 public:
     VineLineBranchingState(SharedData *sharedData):BaseState(sharedData)
     {
-        gui.addToggle("ScaleCircleState", isActive);   
+        gui.addToggle("VineLineBranchingState", isActive);   
     }
     
     void setup()

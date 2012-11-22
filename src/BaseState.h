@@ -12,7 +12,7 @@
 class BaseState
 {
 protected:
-    bool isActive;
+    bool isActive = false;
     bool modeChanged = false;
     bool pastActive = false;
 public:
@@ -21,6 +21,7 @@ public:
     SharedData *sharedData;
     float showLerp, hideLerp;
     int showMs;
+    bool doUpdate;
     ofFbo* fbo;
     
     ofTexture *tex;
@@ -32,9 +33,10 @@ public:
     
     BaseState() : isActive(false), modeChanged(false){}
     
-    void setSharedData( SharedData *sharedData)
+    virtual void setSharedData( SharedData *sharedData)
     {
         this->sharedData = sharedData;
+    
     }
     
     virtual void setup()
@@ -57,10 +59,10 @@ public:
     
     virtual void stateExit()
     {
-        
+        doUpdate = false;
     }
     
-    void changeActive( bool bActive )
+    virtual void changeActive( bool bActive )
     {
         if ( isActive != bActive)
         {
@@ -69,24 +71,27 @@ public:
         }
     }
     
-    bool getIsActive()
+    virtual bool getIsActive()
     {
         return isActive;
     }
     
+    virtual bool bdoUpdate()
+    {
+        return doUpdate;
+    }
+    
     virtual void update()
     {
+        if (isActive) doUpdate = true;
+        glDisable(GL_DEPTH_TEST);
         if ( pastActive != isActive)
         {
             modeChanged = true;
         }
         if ( modeChanged )
         {
-            cout << "mode changeed " << isActive << getName() << endl;
-            if ( isActive )
-            {
-                show();
-            }
+            if ( isActive ) show();
             else hide();
         }
         if ( isShowing )
@@ -107,11 +112,8 @@ public:
                 alpha = 0;
                 stateExit();
                 isHiding = false;
-                sharedData->dt.eventName = "showState";
-                ofNotifyEvent(sharedData->event.farmEvent, sharedData->dt, this);
             }
         }
-        sharedData->location.update();
         modeChanged = false;
         pastActive = isActive;
     }

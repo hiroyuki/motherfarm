@@ -14,16 +14,29 @@ class CircleToOutState : public CircleToCenterState
 public:
     CircleToOutState() : CircleToCenterState()
     {
-        
     }
     
-    
-    void stateEnter()
+    virtual void setSharedData( SharedData* sharedData)
     {
+        this->sharedData = sharedData;
+        gui.addToggle("CircleToOutState", isActive);
+    }
+    
+    virtual void setup()
+    {
+
+        CircleToCenterState::setup();
+        toCenter = false;
+        longestLen = sqrt(pow(SVG_WIDTH, 2.f) + pow(SVG_HEIGHT, 2.f));
+    }
+    
+    virtual void stateEnter()
+    {
+        CircleToCenterState::stateEnter();
         toCenter = false;
     }
     
-    string getName()
+    virtual string getName()
     {
         return "CircleToOutState";
     }

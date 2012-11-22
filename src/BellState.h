@@ -145,27 +145,27 @@ public:
         }
         float pastAngle = angle;
         ofPopMatrix();
-        ofPushMatrix();
-        for( int i = 0; i < rects.size(); i++ )
-        {
-            if ( rects[i].color == R_YELLOW)
-            {
-                ofPushMatrix();
-                rects[i].update();
-                rects[i].drawBell(alpha);
-                ofPopMatrix();
-            }
-        }
-        ofPopMatrix();
-        ofPushMatrix();
-        for( int i = 0; i < centers.size(); i++ )
-        {
-            ofPushMatrix();
-                centers[i].update();
-                centers[i].draw();
-            ofPopMatrix();
-        }
-        ofPopMatrix();
+//        ofPushMatrix();
+//        for( int i = 0; i < rects.size(); i++ )
+//        {
+//            if ( rects[i].color == R_YELLOW)
+//            {
+//                ofPushMatrix();
+//                rects[i].update();
+//                rects[i].drawBell(alpha);
+//                ofPopMatrix();
+//            }
+//        }
+//        ofPopMatrix();
+//        ofPushMatrix();
+//        for( int i = 0; i < centers.size(); i++ )
+//        {
+//            ofPushMatrix();
+//                centers[i].update();
+//                centers[i].draw();
+//            ofPopMatrix();
+//        }
+//        ofPopMatrix();
         fbo->end();
     }
     

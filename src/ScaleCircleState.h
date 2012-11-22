@@ -63,9 +63,9 @@ public:
             circles[j].updateImage(longestLen);
         }
         fbo->begin();
-        ofSetColor(250, 250, 250, 240);
+        ofSetColor(250*sharedData->curveB, 250*sharedData->curveB, 250*sharedData->curveB, 240);
         fbo->draw(0, 0);
-        ofSetColor(255, 255, 255);
+        ofSetColor(255*sharedData->curveB, 255*sharedData->curveB, 255*sharedData->curveB);
         //        glLineWidth(3);
         glPointSize(2);
         
